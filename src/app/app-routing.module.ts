@@ -17,7 +17,7 @@ const routes: Routes = [
     path: '',
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home'
+      title: 'Inicio'
     },
     children: [
       {
@@ -69,6 +69,11 @@ const routes: Routes = [
         path: 'pages',
         loadChildren: () =>
           import('./views/pages/pages.module').then((m) => m.PagesModule)
+      },
+      {
+        path: 'administration',
+        loadChildren: () =>
+          import('./views/administration/administration.module').then((m) => m.AdministrationModule)
       },
     ]
   },

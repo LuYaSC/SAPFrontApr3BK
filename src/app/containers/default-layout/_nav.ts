@@ -12,6 +12,66 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
+    name: 'Administracion'
+  },
+  {
+    name: 'Configuracion',
+    url: '/administration',
+    iconComponent: { name: 'cil-speedometer' },
+    badge: {
+      color: 'info',
+      text: 'NEW'
+    },
+    children: [
+      {
+        name: 'Sucursales',
+        url: '/administration/branch-office',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Ciudades',
+        url: '/administration/city',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Tipos de Documentos',
+        url: '/administration/document-type',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Modalidades',
+        url: '/administration/modality',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Operacion de Pagos',
+        url: '/administration/payment-operation',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Tipos de Pagos',
+        url: '/administration/payment-type',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Relaciones',
+        url: '/administration/relationship',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Turnos',
+        url: '/administration/turn',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Salas',
+        url: '/administration/room',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+    ]
+  },
+  {
+    title: true,
     name: 'Theme'
   },
   {
