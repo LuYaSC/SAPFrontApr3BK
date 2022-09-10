@@ -5,25 +5,31 @@
         <c-card-group>
           <c-card class="p-4">
             <c-card-body>
-              <form cForm>
+              <form cForm [formGroup]="form" (ngSubmit)="onSubmit()">
                 <h1>Login</h1>
                 <p class="text-medium-emphasis">Sign In to your account</p>
                 <c-input-group class="mb-3">
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
                   </span>
-                  <input autoComplete="username" cFormControl placeholder="Username" />
+                  <input type="text" formControlName="username" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" autoComplete="username" cFormControl
+                    placeholder="Username" />
+                    <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                      <div *ngIf="f['username'].errors['required']">Username is required</div>
+                      <div *ngIf="f['username'].errors['minlength']">
+                        Username must be at least 6 characters
+                      </div>
+                      <div *ngIf="f['username'].errors['maxlength']">
+                        Username must not exceed 20 characters
+                      </div>
+                    </div>
                 </c-input-group>
                 <c-input-group class="mb-4">
                   <span cInputGroupText>
                     <svg cIcon name="cilLockLocked"></svg>
                   </span>
-                  <input
-                    autoComplete="current-password"
-                    cFormControl
-                    placeholder="Password"
-                    type="password"
-                  />
+                  <input autoComplete="current-password" cFormControl placeholder="Password" type="password" />
                 </c-input-group>
                 <c-row>
                   <c-col xs="6">
@@ -51,6 +57,86 @@
                 <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
                   Register Now!
                 </button>
+              </div>
+            </c-card-body>
+          </c-card>
+          <c-card>
+            <c-card-body>
+              <div class="register-form">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                  <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" formControlName="fullname" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f['fullname'].errors }" />
+                    <div *ngIf="submitted && f['fullname'].errors" class="invalid-feedback">
+                      <div *ngIf="f['fullname'].errors['required']">Fullname is required</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" formControlName="username" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
+                    <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                      <div *ngIf="f['username'].errors['required']">Username is required</div>
+                      <div *ngIf="f['username'].errors['minlength']">
+                        Username must be at least 6 characters
+                      </div>
+                      <div *ngIf="f['username'].errors['maxlength']">
+                        Username must not exceed 20 characters
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" formControlName="email" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
+                    <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                      <div *ngIf="f['email'].errors['required']">Email is required</div>
+                      <div *ngIf="f['email'].errors['email']">Email is invalid</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" formControlName="password" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+                    <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                      <div *ngIf="f['password'].errors['required']">Password is required</div>
+                      <div *ngIf="f['password'].errors['minlength']">
+                        Password must be at least 6 characters
+                      </div>
+                      <div *ngIf="f['password'].errors['maxlength']">
+                        Username must not exceed 40 characters
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" formControlName="confirmPassword" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }" />
+                    <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
+                      <div *ngIf="f['confirmPassword'].errors['required']">
+                        Confirm Password is required
+                      </div>
+                      <div *ngIf="f['confirmPassword'].errors['matching']">
+                        Confirm Password does not match
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group form-check">
+                    <input type="checkbox" formControlName="acceptTerms" class="form-check-input"
+                      [ngClass]="{ 'is-invalid': submitted && f['acceptTerms'].errors }" />
+                    <label for="acceptTerms" class="form-check-label">I have read and agree to the Terms</label>
+                    <div *ngIf="submitted && f['acceptTerms'].errors" class="invalid-feedback">
+                      Accept Terms is required
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="button" (click)="onReset()" class="btn btn-warning float-right">
+                      Reset
+                    </button>
+                  </div>
+                </form>
               </div>
             </c-card-body>
           </c-card>

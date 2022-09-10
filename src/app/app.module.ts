@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { httpInterceptorProviders } from './helpers/http.interceptor';
+import { HttpClientModule } from '@angular/common/http';
 
 import {
   PERFECT_SCROLLBAR_CONFIG,
@@ -46,6 +49,7 @@ import {
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { AdministrationModule } from './views/administration/administration.module';
+import { ValidationsComponent } from './views/shared/validations/validations.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -58,7 +62,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS],
+  declarations: [AppComponent, ...APP_CONTAINERS, ValidationsComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -78,6 +82,7 @@ const APP_CONTAINERS = [
     UtilitiesModule,
     ButtonGroupModule,
     ReactiveFormsModule,
+    FormsModule,
     SidebarModule,
     SharedModule,
     TabsModule,
@@ -86,17 +91,20 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
-    AdministrationModule
+    AdministrationModule,
+    HttpClientModule
   ],
   providers: [
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
+
     },
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
     },
+    httpInterceptorProviders,
     IconSetService,
     Title
   ],
