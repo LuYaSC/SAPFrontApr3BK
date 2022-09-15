@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { LoginDto} from './models/login-dto'
 
 const AUTH_API = 'https://localhost:44360/api/authenticate/';
 
@@ -8,7 +9,6 @@ const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
   }),
-
 };
 
 @Injectable({
@@ -17,14 +17,11 @@ const httpOptions = {
 export class AuthService {
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string): Observable<any> {
+  login(dto: LoginDto): Observable<any> {
     debugger
     return this.http.post(
-      AUTH_API + 'login',
-      {
-        username,
-        password,
-      },
+      AUTH_API + 'Login',
+      dto,
       httpOptions
     );
   }

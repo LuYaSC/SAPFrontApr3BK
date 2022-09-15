@@ -17,6 +17,7 @@
                     placeholder="Username" />
                     <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
                       <div *ngIf="f['username'].errors['required']">Username is required</div>
+                      <div *ngIf="f['username'].errors['email']">Email is invalid</div>
                       <div *ngIf="f['username'].errors['minlength']">
                         Username must be at least 6 characters
                       </div>
@@ -29,19 +30,29 @@
                   <span cInputGroupText>
                     <svg cIcon name="cilLockLocked"></svg>
                   </span>
-                  <input autoComplete="current-password" cFormControl placeholder="Password" type="password" />
+                  <input cFormControl type="password" formControlName="password" class="form-control"  type="password"
+                  [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+                  <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                    <div *ngIf="f['password'].errors['required']">Password is required</div>
+                    <div *ngIf="f['password'].errors['minlength']">
+                      Password must be at least 6 characters
+                    </div>
+                    <div *ngIf="f['password'].errors['maxlength']">
+                      Username must not exceed 40 characters
+                    </div>
+                  </div>
                 </c-input-group>
                 <c-row>
                   <c-col xs="6">
-                    <button cButton class="px-4" color="primary">
+                    <button type="submit" cButton class="px-4" color="primary">
                       Login
                     </button>
                   </c-col>
-                  <c-col class="text-right" xs="6">
+                  <!--<c-col class="text-right" xs="6">
                     <button cButton class="px-0" color="link">
                       Forgot password?
                     </button>
-                  </c-col>
+                  </c-col>-->
                 </c-row>
               </form>
             </c-card-body>
@@ -60,7 +71,7 @@
               </div>
             </c-card-body>
           </c-card>
-          <c-card>
+          <!--<c-card>
             <c-card-body>
               <div class="register-form">
                 <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -139,7 +150,7 @@
                 </form>
               </div>
             </c-card-body>
-          </c-card>
+          </c-card>-->
         </c-card-group>
       </c-col>
     </c-row>
