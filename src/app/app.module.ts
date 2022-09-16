@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,12 +44,14 @@ import {
   SharedModule,
   SidebarModule,
   TabsModule,
+  ToastModule,
   UtilitiesModule,
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { AdministrationModule } from './views/administration/administration.module';
 import { ValidationsComponent } from './views/shared/validations/validations.component';
+import { GlobalAlertsComponent } from './views/shared/global-alerts/global-alerts.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -62,7 +64,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, ValidationsComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, ValidationsComponent, GlobalAlertsComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -92,7 +94,9 @@ const APP_CONTAINERS = [
     ListGroupModule,
     CardModule,
     AdministrationModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule,
+    ToastModule,
   ],
   providers: [
     {
@@ -109,6 +113,7 @@ const APP_CONTAINERS = [
     Title
   ],
   bootstrap: [AppComponent],
+  exports: [GlobalAlertsComponent]
 })
 export class AppModule {
 }

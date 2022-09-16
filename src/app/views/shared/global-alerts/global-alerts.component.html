@@ -1,0 +1,20 @@
+<c-col xs="12">
+  <c-toaster [placement]="position" class="p-3" position="fixed">
+    <c-toast
+      (timer)="1"
+      [visible]="visible"
+      [autohide]="true"
+      >
+      <c-toast-header>
+        <!--<toast-sample-icon></toast-sample-icon>-->
+       Notificacion
+      </c-toast-header>
+      <c-toast-body>
+        <p>{{message}}</p>
+        <c-progress thin>
+          <c-progress-bar [value]="percentage"></c-progress-bar>
+        </c-progress>
+      </c-toast-body>
+    </c-toast>
+  </c-toaster>
+</c-col>

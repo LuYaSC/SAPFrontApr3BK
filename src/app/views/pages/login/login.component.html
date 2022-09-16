@@ -7,7 +7,7 @@
             <c-card-body>
               <form cForm [formGroup]="form" (ngSubmit)="onSubmit()">
                 <h1>Login</h1>
-                <p class="text-medium-emphasis">Sign In to your account</p>
+                <p class="text-medium-emphasis">Ingrese sus credenciales</p>
                 <c-input-group class="mb-3">
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
@@ -15,23 +15,23 @@
                   <input type="text" formControlName="username" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" autoComplete="username" cFormControl
                     placeholder="Username" />
-                    <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
-                      <div *ngIf="f['username'].errors['required']">Username is required</div>
-                      <div *ngIf="f['username'].errors['email']">Email is invalid</div>
-                      <div *ngIf="f['username'].errors['minlength']">
-                        Username must be at least 6 characters
-                      </div>
-                      <div *ngIf="f['username'].errors['maxlength']">
-                        Username must not exceed 20 characters
-                      </div>
+                  <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                    <div *ngIf="f['username'].errors['required']">Username is required</div>
+                    <div *ngIf="f['username'].errors['email']">Email is invalid</div>
+                    <div *ngIf="f['username'].errors['minlength']">
+                      Username must be at least 6 characters
                     </div>
+                    <div *ngIf="f['username'].errors['maxlength']">
+                      Username must not exceed 20 characters
+                    </div>
+                  </div>
                 </c-input-group>
                 <c-input-group class="mb-4">
                   <span cInputGroupText>
                     <svg cIcon name="cilLockLocked"></svg>
                   </span>
-                  <input cFormControl type="password" formControlName="password" class="form-control"  type="password"
-                  [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+                  <input cFormControl type="password" formControlName="password" class="form-control" type="password"
+                    [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
                   <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
                     <div *ngIf="f['password'].errors['required']">Password is required</div>
                     <div *ngIf="f['password'].errors['minlength']">
@@ -57,17 +57,16 @@
               </form>
             </c-card-body>
           </c-card>
-          <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
+          <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-secondary py-5">
             <c-card-body class="text-center">
               <div>
-                <h2>Sign up</h2>
+                <h2>SAP</h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
+                  SISTEMA DE ADMINISTRACION PEQUELANDIA
                 </p>
-                <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
+                <!--<button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
                   Register Now!
-                </button>
+                </button>-->
               </div>
             </c-card-body>
           </c-card>
@@ -154,5 +153,29 @@
         </c-card-group>
       </c-col>
     </c-row>
+    <c-col xs="12">
+      <c-toaster [placement]="position" class="p-3" position="fixed">
+        <c-toast
+          (timer)="onTimerChange($event)"
+          (visibleChange)="onVisibleChange($event)"
+          [visible]="visible"
+          [autohide]="true"
+          >
+          <c-toast-header>
+            <!--<toast-sample-icon></toast-sample-icon>-->
+           Notificacion
+          </c-toast-header>
+          <c-toast-body>
+            <p>{{messageError}}</p>
+            <c-progress thin>
+              <c-progress-bar [value]="percentage"></c-progress-bar>
+            </c-progress>
+          </c-toast-body>
+        </c-toast>
+      </c-toaster>
+
+      <button (click)="toggleToast()" cButton class="m-1">Send a toast</button>
+    </c-col>
   </c-container>
+
 </div>

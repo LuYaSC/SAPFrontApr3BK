@@ -59,6 +59,7 @@ export class ToastersComponent implements OnInit {
   }
 
   addToast() {
+    debugger
     const formValues = this.toasterForm.value;
     const toasterPosition = this.viewChildren.filter(item => item.placement === this.toasterForm.value.position);
     toasterPosition.forEach((item) => {
