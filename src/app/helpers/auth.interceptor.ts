@@ -5,10 +5,11 @@ import {
   HttpHandler,
   HttpRequest,
   HttpErrorResponse,
-  HTTP_INTERCEPTORS
+  HTTP_INTERCEPTORS,
+  HttpResponse
 } from "@angular/common/http";
 import { throwError, Observable, BehaviorSubject, of, finalize } from "rxjs";
-import { catchError, filter, take, switchMap } from "rxjs/operators";
+import { catchError, filter, take, switchMap, map, tap } from "rxjs/operators";
 import { StorageService } from "../services/storage.service";
 
 @Injectable()
@@ -20,6 +21,10 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
     null
   );
+  private service: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
+  res: any;
 
   intercept(
     req: HttpRequest<any>,
@@ -34,7 +39,35 @@ export class AuthInterceptor implements HttpInterceptor {
 
     req = this.addAuthenticationToken(req);
 
+
+
     return next.handle(req).pipe(
+      tap({
+        // Succeeds when there is a response; ignore other events
+        next: (event) => {
+          debugger
+          return (this.res = event instanceof HttpResponse ? event.body.body : '')
+        },
+        // Operation failed; error is an HttpErrorResponse
+        error: (error) => ('failed')
+      }),
+      /*tap(response => {
+        debugger
+        let resValid = response instanceof HttpResponse;
+        this.res = response;
+        console.log("🚀 ~ file: auth.interceptor.ts ~ line 49 ~ AuthInterceptor ~ res", this.res)
+
+        /*if (resValid && this.res !== undefined && this.res.status == 200 && this.res.body.isOk) {
+          console.info('valid' + JSON.stringify(this.res.body));
+          //return this.res;
+        }
+        if (resValid && this.res !== undefined && !this.res.body.isOk) {
+          console.info('no valid  =', this.res.body.mesaage, ';');
+        }
+        let resi = resValid ? this.res.body.body : this.res;
+        console.log("🚀 ~ file: auth.interceptor.ts ~ line 55 ~ AuthInterceptor ~ tap ~ resi", resi)
+        return next.handle(resi);
+      }),*/
       catchError((error: HttpErrorResponse) => {
         debugger
         if (error && error.status === 401) {
@@ -75,7 +108,6 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private addAuthenticationToken(request: HttpRequest<any>): HttpRequest<any> {
-    debugger
     // If we do not have a token yet then we should not set the header.
     // Here we could first retrieve the token from where we store it.
     if (!this.token) {

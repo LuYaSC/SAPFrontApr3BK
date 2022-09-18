@@ -57,7 +57,6 @@ export class StorageService {
   }
 
   public getToken(): string {
-    debugger;
     let token = window.sessionStorage.getItem(TOKEN) || '';
     return token;
   }

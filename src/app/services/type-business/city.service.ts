@@ -17,11 +17,11 @@ export class CityService extends BaseService{
   }
 
   getById(dto: GetTypeByIdDto) {
-    return this.http.post(this.SetRoute('GetById'), dto);
+    return this.http.post<GetTypeResult>(this.SetRoute('GetById'), dto);
   }
 
-  getAll(): Observable<any> {
-    return this.http.get(this.SetRoute('GetAll'));
+  getAll(): Observable<GetTypeResult[]> {
+    return this.http.get<GetTypeResult[]>(this.SetRoute('GetAll'));
   }
 
   create(dto: CreateTypeDto) {

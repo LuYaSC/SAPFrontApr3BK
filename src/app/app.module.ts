@@ -4,7 +4,6 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { httpInterceptorProviders } from './helpers/http.interceptor';
 import { httpInterceptorProviders2 } from './helpers/auth.interceptor';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -112,6 +111,7 @@ const APP_CONTAINERS = [
     },
     //httpInterceptorProviders,
     httpInterceptorProviders2,
+    //httpInterceptorResponse,
     IconSetService,
     Title
   ],
