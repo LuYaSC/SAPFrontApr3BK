@@ -1,7 +1,8 @@
 <c-col xs="12">
   <c-toaster [placement]="position" class="p-3" position="fixed">
     <c-toast
-      (timer)="1"
+      (timer)="onTimerChange($event)"
+      (visibleChange)="onVisibleChange($event)"
       [visible]="visible"
       [autohide]="true"
       >

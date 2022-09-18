@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { httpInterceptorProviders } from './helpers/http.interceptor';
+import { httpInterceptorProviders2 } from './helpers/auth.interceptor';
 import { HttpClientModule } from '@angular/common/http';
 
 import {
@@ -50,8 +51,8 @@ import {
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { AdministrationModule } from './views/administration/administration.module';
-import { ValidationsComponent } from './views/shared/validations/validations.component';
-import { GlobalAlertsComponent } from './views/shared/global-alerts/global-alerts.component';
+import { SharedComModule } from './views/shared-com/shared-com.module';
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -64,7 +65,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, ValidationsComponent, GlobalAlertsComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -97,6 +98,7 @@ const APP_CONTAINERS = [
     HttpClientModule,
     CommonModule,
     ToastModule,
+    SharedComModule
   ],
   providers: [
     {
@@ -108,12 +110,13 @@ const APP_CONTAINERS = [
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
     },
-    httpInterceptorProviders,
+    //httpInterceptorProviders,
+    httpInterceptorProviders2,
     IconSetService,
     Title
   ],
-  bootstrap: [AppComponent],
-  exports: [GlobalAlertsComponent]
+  bootstrap: [AppComponent]
+
 })
 export class AppModule {
 }

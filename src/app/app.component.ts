@@ -30,4 +30,15 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
+  //notifications
+  position = 'top-end';
+  visible = false;
+  percentage = 0;
+  messageError= '';
+
+  toggleToast() {
+    this.visible = !this.visible;
+  }
+
 }

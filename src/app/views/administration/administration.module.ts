@@ -13,17 +13,7 @@ import {
   SharedModule
 } from '@coreui/angular';
 
-// import { DocsComponentsModule } from '@docs-components/docs-components.module';
-
 import { AdministrationRoutingModule } from './administration-routing.module';
-/*import { RangesComponent } from './ranges/ranges.component';
-import { FloatingLabelsComponent } from './floating-labels/floating-labels.component';
-import { FormControlsComponent } from './form-controls/form-controls.component';
-import { SelectComponent } from './select/select.component';
-import { ChecksRadiosComponent } from './checks-radios/checks-radios.component';
-import { InputGroupsComponent } from './input-groups/input-groups.component';
-import { LayoutComponent } from './layout/layout.component';
-import { ValidationComponent } from './validation/validation.component';*/
 import { CityComponent } from './city/city.component';
 import { DocumentTypeComponent } from './document-type/document-type.component';
 import { ModalityComponent } from './modality/modality.component';
@@ -33,18 +23,11 @@ import { RelationshipComponent } from './relationship/relationship.component';
 import { TurnComponent } from './turn/turn.component';
 import { BranchOfficeComponent } from './branch-office/branch-office.component';
 import { RoomComponent } from './room/room.component';
+import { SharedComModule } from './../shared-com/shared-com.module';
 
 
 @NgModule({
   declarations: [
-    /*RangesComponent,
-    FloatingLabelsComponent,
-    FormControlsComponent,
-    SelectComponent,
-    ChecksRadiosComponent,
-    InputGroupsComponent,
-    LayoutComponent,
-    ValidationComponent,*/
     BranchOfficeComponent,
     CityComponent,
     DocumentTypeComponent,
@@ -70,7 +53,8 @@ import { RoomComponent } from './room/room.component';
     ButtonGroupModule,
     DropdownModule,
     SharedModule,
-    ListGroupModule
+    ListGroupModule,
+    SharedComModule
   ]
 })
 export class AdministrationModule {

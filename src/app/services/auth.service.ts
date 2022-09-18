@@ -38,7 +38,13 @@ export class AuthService {
     );
   }
 
-  logout(): Observable<any> {
+  /*logout(): Observable<any> {
     return this.http.post(AUTH_API + 'signout', {}, httpOptions);
   }
+
+  get isLoggedIn(): boolean {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    return user !== null && user.emailVerified !== false ? true : false;
+  }*/
+
 }

@@ -9,6 +9,8 @@ import { navItems } from './_nav';
 export class DefaultLayoutComponent {
 
   public navItems = navItems;
+  visible = false;
+  message = '';
 
   public perfectScrollbarConfig = {
     suppressScrollX: true,

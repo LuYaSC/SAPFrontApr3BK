@@ -11,12 +11,23 @@ export class GlobalAlertsComponent implements OnInit {
 
   position = 'top-end';
   @Input() visible = false;
-  percentage = 0;
-  @Input() message= '';
+  @Input() percentage = 10;
+  @Input() message= 'Not Available Service';
 
   constructor() { }
 
   ngOnInit(): void {
+    this.onTimerChange(this.percentage);
+    this.onVisibleChange(this.visible);
+  }
+
+  onVisibleChange($event: boolean) {
+    this.visible = $event;
+    this.percentage = !this.visible ? 0 : this.percentage;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage = $event * 100;
   }
 
 }

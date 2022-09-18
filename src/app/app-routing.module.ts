@@ -6,11 +6,12 @@ import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
+import { AuthGuard } from './helpers/auth_guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -19,16 +20,17 @@ const routes: Routes = [
     data: {
       title: 'Inicio'
     },
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',
         loadChildren: () =>
-          import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
+          import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
         path: 'theme',
         loadChildren: () =>
-          import('./views/theme/theme.module').then((m) => m.ThemeModule)
+          import('./views/theme/theme.module').then((m) => m.ThemeModule),
       },
       {
         path: 'base',
@@ -98,14 +100,14 @@ const routes: Routes = [
       title: 'Login Page'
     }
   },
-  {
+  /*{
     path: 'register',
     component: RegisterComponent,
     data: {
       title: 'Register Page'
     }
-  },
-  {path: '**', redirectTo: 'dashboard'}
+  },*/
+  { path: '**', redirectTo: 'login' }
 ];
 
 @NgModule({

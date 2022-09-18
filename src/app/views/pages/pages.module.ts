@@ -10,16 +10,13 @@ import { ButtonModule, CardModule, FormModule, GridModule, ProgressModule, Toast
 import { IconModule } from '@coreui/icons-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationsModule } from '../notifications/notifications.module';
-import { AppModule } from 'src/app/app.module';
-
-
+import { SharedComModule } from '../shared-com/shared-com.module';
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
     Page404Component,
     Page500Component,
-
   ],
   imports: [
     CommonModule,
@@ -34,8 +31,8 @@ import { AppModule } from 'src/app/app.module';
     NotificationsModule,
     ToastModule,
     ProgressModule,
-
+    SharedComModule
   ],
 })
-export class PagesModule extends AppModule {
+export class PagesModule {
 }
