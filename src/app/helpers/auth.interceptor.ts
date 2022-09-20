@@ -11,6 +11,7 @@ import {
 import { throwError, Observable, BehaviorSubject, of, finalize } from "rxjs";
 import { catchError, filter, take, switchMap, map, tap } from "rxjs/operators";
 import { StorageService } from "../services/storage.service";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -26,6 +27,23 @@ export class AuthInterceptor implements HttpInterceptor {
   );
   res: any;
 
+  constructor(private router: Router) {
+  }
+
+  /*intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    request = this.addAuthenticationToken(request);
+    return next.handle(request).pipe(
+      filter((event: any) => event instanceof HttpResponse),
+      map((event: HttpResponse<any>) => {
+        debugger
+        return event.clone({ body: event.body.body });
+      })
+    )
+  }*/
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -38,39 +56,34 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     req = this.addAuthenticationToken(req);
-
-
-
     return next.handle(req).pipe(
-      tap({
-        // Succeeds when there is a response; ignore other events
-        next: (event) => {
-          debugger
-          return (this.res = event instanceof HttpResponse ? event.body.body : '')
-        },
-        // Operation failed; error is an HttpErrorResponse
-        error: (error) => ('failed')
+      filter((event: any) => {
+        return event instanceof HttpResponse;
       }),
-      /*tap(response => {
+      map((event: HttpResponse<any>) => {
         debugger
-        let resValid = response instanceof HttpResponse;
-        this.res = response;
-        console.log("🚀 ~ file: auth.interceptor.ts ~ line 49 ~ AuthInterceptor ~ res", this.res)
-
-        /*if (resValid && this.res !== undefined && this.res.status == 200 && this.res.body.isOk) {
-          console.info('valid' + JSON.stringify(this.res.body));
-          //return this.res;
+        if(event.status === 200 && event.status) {
+          if(event.body.isOk) {
+            //La peticion retorno correctamente y solo se retorna el body
+            console.log("🚀 ~ file: auth.interceptor.ts ~ line 70 ~ AuthInterceptor ~ map ~ event.body.body", event.body.body)
+            return event.clone({ body: event.body.body });
+          }
+          else {
+            //Error cuando el servicio response error
+            console.log("🚀 ~ file: auth.interceptor.ts ~ line 73 ~ AuthInterceptor ~ map ~ event.body.message", event.body.message)
+            throw event.body.message;
+          }
+        } else {
+          //Error cuando el servicio fallo
+          throw 'Service Unavailable';
         }
-        if (resValid && this.res !== undefined && !this.res.body.isOk) {
-          console.info('no valid  =', this.res.body.mesaage, ';');
-        }
-        let resi = resValid ? this.res.body.body : this.res;
-        console.log("🚀 ~ file: auth.interceptor.ts ~ line 55 ~ AuthInterceptor ~ tap ~ resi", resi)
-        return next.handle(resi);
-      }),*/
+      }),
       catchError((error: HttpErrorResponse) => {
         debugger
-        if (error && error.status === 401) {
+        if (error && [401, 403].includes(error.status)) {
+          this.storageService.logout();
+          this.router.navigate(["/login"]);
+          location.reload();
           // 401 errors are most likely going to be because we have an expired token that we need to refresh.
           if (this.refreshTokenInProgress) {
             // If refreshTokenInProgress is true, we will wait until refreshTokenSubject has a non-null value
