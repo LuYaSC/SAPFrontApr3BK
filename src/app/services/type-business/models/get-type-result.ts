@@ -7,4 +7,8 @@ export class GetTypeResult {
   userCreation: string;
   userModification: string;
   isDeleted: boolean;
+
+  constructor(values: Object = {}) {
+    Object.assign(this, values);
+  }
 }

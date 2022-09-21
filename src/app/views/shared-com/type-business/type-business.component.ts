@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {CityService} from '../../../services/type-business/city.service';
-import {GetTypeResult} from '../../../services/type-business/models/get-type-result';
+import { CityService } from '../../../services/type-business/city.service';
+import { GetTypeResult } from '../../../services/type-business/models/get-type-result';
 
 @Component({
   selector: 'app-type-business',
@@ -9,15 +9,15 @@ import {GetTypeResult} from '../../../services/type-business/models/get-type-res
 })
 export class TypeBusinessComponent implements OnInit {
 
-  @Input() listTypes :  GetTypeResult[] = [];
+  @Input() listTypes: GetTypeResult[] = [];
+  @Input() typeName: string = '';
   constructor(private cityService: CityService) { }
 
   ngOnInit(): void {
-    debugger
     this.cityService.getAll().subscribe({
       next: (resp: GetTypeResult[]) => {
         debugger;
-
+        this.listTypes = resp;
       },
       error: (error: any) => {
         debugger
@@ -27,6 +27,7 @@ export class TypeBusinessComponent implements OnInit {
     });
   }
 
+  selectUser($event: GetTypeResult) {
 
-
+  }
 }

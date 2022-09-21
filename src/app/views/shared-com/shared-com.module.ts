@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
+  BadgeModule,
   ButtonGroupModule,
   ButtonModule,
   CardModule,
@@ -12,18 +13,21 @@ import {
   ListGroupModule,
   ProgressModule,
   SharedModule,
+  TableModule,
   ToastModule
 } from '@coreui/angular';
 import { GlobalAlertsComponent } from './global-alerts/global-alerts.component';
 import { ValidationsComponent } from './validations/validations.component';
 import { TypeBusinessComponent } from './type-business/type-business.component';
+import { SelectParametersComponent } from './select-parameters/select-parameters.component';
 
 
 @NgModule({
   declarations: [
     GlobalAlertsComponent,
     ValidationsComponent,
-    TypeBusinessComponent
+    TypeBusinessComponent,
+    SelectParametersComponent
 
   ],
   imports: [
@@ -41,7 +45,9 @@ import { TypeBusinessComponent } from './type-business/type-business.component';
     SharedModule,
     ListGroupModule,
     ToastModule,
-    ProgressModule
+    ProgressModule,
+    TableModule,
+    BadgeModule,
   ],
   exports: [GlobalAlertsComponent,
     ValidationsComponent,

@@ -48,7 +48,6 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    debugger
     if (!req.headers.has("Content-Type")) {
       req = req.clone({
         headers: req.headers.set("Content-Type", "application/json")
@@ -61,8 +60,7 @@ export class AuthInterceptor implements HttpInterceptor {
         return event instanceof HttpResponse;
       }),
       map((event: HttpResponse<any>) => {
-        debugger
-        if(event.status === 200 && event.status) {
+        if(event.status === 200 && event.ok) {
           if(event.body.isOk) {
             //La peticion retorno correctamente y solo se retorna el body
             console.log("🚀 ~ file: auth.interceptor.ts ~ line 70 ~ AuthInterceptor ~ map ~ event.body.body", event.body.body)
