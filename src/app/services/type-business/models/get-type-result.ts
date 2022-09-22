@@ -2,6 +2,7 @@ export class GetTypeResult {
 
   id: number;
   description: string;
+  initial: string;
   dateCreation: string;
   dateModification: string;
   userCreation: string;

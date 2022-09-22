@@ -15,6 +15,10 @@ export class BaseService {
   constructor() {
   }
 
+  public AssingService(nameService: string) {
+    this.controller = nameService;
+  }
+
   public SetRoute(method: string): string {
     return this.AUTH_API + this.controller + '/' + method;
   }

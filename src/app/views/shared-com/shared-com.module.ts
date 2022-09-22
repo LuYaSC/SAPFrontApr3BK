@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
+  AlertModule,
   BadgeModule,
   ButtonGroupModule,
   ButtonModule,
@@ -11,6 +12,7 @@ import {
   FormModule,
   GridModule,
   ListGroupModule,
+  ModalModule,
   ProgressModule,
   SharedModule,
   TableModule,
@@ -48,6 +50,8 @@ import { SelectParametersComponent } from './select-parameters/select-parameters
     ProgressModule,
     TableModule,
     BadgeModule,
+    ModalModule,
+    AlertModule
   ],
   exports: [GlobalAlertsComponent,
     ValidationsComponent,

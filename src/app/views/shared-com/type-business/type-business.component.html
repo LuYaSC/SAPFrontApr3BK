@@ -1,5 +1,5 @@
 <c-row ngPreserveWhitespaces>
-  <c-col xs="12">
+  <!--<c-col xs="12">
   </c-col>
   <c-col xs="6">
     <c-card class="mb-4">
@@ -8,12 +8,6 @@
       </c-card-header>
       <c-card-body>
         <app-select-parameters [parameterList]="listTypes" (onRowChange)="selectUser($event)"></app-select-parameters>
-        <!--<select aria-label="Default select example" cSelect>
-            <option>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>-->
       </c-card-body>
     </c-card>
   </c-col>
@@ -24,29 +18,26 @@
       </c-card-header>
       <c-card-body>
         <app-select-parameters [parameterList]="listTypes" (onRowChange)="selectUser($event)"></app-select-parameters>
-        <!--<select aria-label="Default select example" cSelect>
-            <option>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>-->
+
       </c-card-body>
     </c-card>
-  </c-col>
+  </c-col>-->
 
   <c-col xs="12">
     <c-card class="mb-4">
       <c-card-header>
-        <strong>Angular Table</strong> <small>Basic example</small>
+        <strong>{{typeName}}</strong> <small>100 registros encontrados</small>
       </c-card-header>
       <c-card-body>
         <p class="text-medium-emphasis small">
-          Servicio para administrar parametros del sistema, modulo de MODULE, para crear un nuevo registro presione: <code>Crear Registro</code>
+          Servicio para administrar parametros del sistema, modulo de {{typeName.toUpperCase()}}, para crear un nuevo registro presione:
+          <code>Crear Registro</code>
         </p>
-        <div class="d-grid gap-2 col-6 mx-auto">
-          <button cButton color="primary">Crear Registro</button>
+        <div class="d-grid gap-2 col-3 mx-auto" align="left">
+          <button cButton color="primary" (click)="openModal()" *ngTemplateOutlet="liveDemo">Crear
+            Registro</button>
         </div>
-        <table cTable>
+        <table cTable *ngIf="isVisible">
           <thead>
             <tr>
               <th scope="col">Nombre</th>
@@ -69,7 +60,7 @@
               <td>{{row.dateCreation | date:'medium' }}</td>
               <td>{{row.dateModification | date:'medium'}}</td>
               <td>
-                <button color='warning' cButton class="me-1" shape="rounded-pill">
+                <button color='warning' cButton class="me-1" shape="rounded-pill" (click)="editRow(row)">
                   Editar
                 </button>
               </td>
@@ -84,6 +75,66 @@
       </c-card-body>
     </c-card>
   </c-col>
-
-
 </c-row>
+
+<c-alert color="info" *ngIf="!isVisible">{{message}}</c-alert>
+
+<app-global-alerts *ngIf="visible" [visible]="visible" [message]="message"></app-global-alerts>
+
+<ng-template #liveDemo>
+  <button (click)="openModal()" cButton>Crear Registro</button>
+  <c-modal id="liveDemoModal" [visible]="liveDemoVisible" (visibleChange)="handleLiveDemoChange($event)">
+    <c-modal-header>
+      <h5 cModalTitle>{{actionRow === 0 ? 'Crear' : 'Actualizar'}} Registro</h5>
+      <button (click)="closeModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <c-col xs="12">
+        <c-card class="mb-4">
+          <c-card-body>
+            <form cForm [formGroup]="form">
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlInput1">Nombre</label>
+                <input type="text" formControlName="name" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" autoComplete="name" cFormControl
+                  placeholder="Nombre" />
+                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                  <div *ngIf="f['name'].errors['required']">name is required</div>
+                  <div *ngIf="f['name'].errors['email']">Email is invalid</div>
+                  <div *ngIf="f['name'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['name'].errors['maxlength']">
+                    name must not exceed 20 characters
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label cLabel for="exampleFormControlTextarea1">Iniciales</label>
+                <input type="text" formControlName="initial" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['initial'].errors }" autoComplete="initial" cFormControl
+                  placeholder="Iniciales" />
+                <div *ngIf="submitted && f['initial'].errors" class="invalid-feedback">
+                  <div *ngIf="f['initial'].errors['required']">name is required</div>
+                  <div *ngIf="f['initial'].errors['email']">Email is invalid</div>
+                  <div *ngIf="f['initial'].errors['minlength']">
+                    Iniciales must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['initial'].errors['maxlength']">
+                    Iniciales must not exceed 20 characters
+                  </div>
+                </div>
+              </div>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="closeModal()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" (click)="createOrUpdate()">Save changes</button>
+    </c-modal-footer>
+  </c-modal>
+</ng-template>

@@ -2,18 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseService } from '../utils/base.service';
-import { CreateTypeDto } from './models/create-type-dto';
+import { CreateUpdateTypeBusinessDto } from './models/create-update-type-business-dto';
 import { GetTypeByIdDto } from './models/get-type-by-id-dto';
 import { GetTypeResult } from './models/get-type-result';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CityService extends BaseService{
+export class TypeBusinessService extends BaseService{
 
   constructor(private http: HttpClient) {
     super();
-    this.controller = 'city';
   }
 
   getById(dto: GetTypeByIdDto) {
@@ -24,12 +23,12 @@ export class CityService extends BaseService{
     return this.http.get<GetTypeResult[]>(this.SetRoute('GetAll'));
   }
 
-  create(dto: CreateTypeDto) {
-    return this.http.post(this.SetRoute('Create'), dto);
+  create(dto: CreateUpdateTypeBusinessDto) {
+    return this.http.post<string>(this.SetRoute('Create'), dto);
   }
 
-  update(dto: GetTypeByIdDto) {
-    return this.http.post(this.SetRoute('Update'), dto);
+  update(dto: CreateUpdateTypeBusinessDto) {
+    return this.http.post<string>(this.SetRoute('Update'), dto);
   }
 
 }
