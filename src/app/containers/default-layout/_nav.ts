@@ -10,6 +10,7 @@ export const navItems: INavData[] = [
       text: 'NEW'
     }
   },
+
   {
     title: true,
     name: 'Administracion'
@@ -70,6 +71,38 @@ export const navItems: INavData[] = [
       },
     ]
   },
+
+  {
+    title: true,
+    name: 'Estructuras'
+  },
+  {
+    name: 'Configuracion',
+    url: '/structures',
+    iconComponent: { name: 'cil-trash' },
+    badge: {
+      color: 'info',
+      text: 'NEW'
+    },
+    children: [
+      {
+        name: 'Ninos',
+        url: '/structures/kids',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Padres',
+        url: '/structures/parents',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Collaboradores',
+        url: '/structures/collaborators',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+    ]
+  },
+
   {
     title: true,
     name: 'Theme'

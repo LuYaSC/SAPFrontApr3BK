@@ -5,7 +5,6 @@ import { DefaultLayoutComponent } from './containers';
 import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
-import { RegisterComponent } from './views/pages/register/register.component';
 import { AuthGuard } from './helpers/auth_guard';
 
 const routes: Routes = [
@@ -76,6 +75,11 @@ const routes: Routes = [
         path: 'administration',
         loadChildren: () =>
           import('./views/administration/administration.module').then((m) => m.AdministrationModule)
+      },
+      {
+        path: 'structures',
+        loadChildren: () =>
+          import('./views/structures/structures.module').then((m) => m.StructuresModule)
       },
     ]
   },

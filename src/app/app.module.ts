@@ -51,6 +51,7 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { AdministrationModule } from './views/administration/administration.module';
 import { SharedComModule } from './views/shared-com/shared-com.module';
+import {StructuresModule} from './views/structures/structures.module';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -97,7 +98,8 @@ const APP_CONTAINERS = [
     HttpClientModule,
     CommonModule,
     ToastModule,
-    SharedComModule
+    SharedComModule,
+    StructuresModule
   ],
   providers: [
     {
