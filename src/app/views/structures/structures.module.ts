@@ -33,6 +33,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedComModule } from '../shared-com/shared-com.module';
 import { IconModule } from '@coreui/icons-angular';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { IconModule } from '@coreui/icons-angular';
     SharedComModule,
     FormsModule,
     ModalModule,
-    AlertModule
+    AlertModule,
+    BsDatepickerModule,
   ],
 })
 export class StructuresModule { }

@@ -69,6 +69,16 @@ export const navItems: INavData[] = [
         url: '/administration/room',
         iconComponent: { name: 'cil-speedometer' },
       },
+      {
+        name: 'Sexo',
+        url: '/administration/sex-type',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Sangre',
+        url: '/administration/blood-type',
+        iconComponent: { name: 'cil-speedometer' },
+      }
     ]
   },
 

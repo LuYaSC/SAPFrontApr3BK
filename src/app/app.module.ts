@@ -52,6 +52,8 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { AdministrationModule } from './views/administration/administration.module';
 import { SharedComModule } from './views/shared-com/shared-com.module';
 import {StructuresModule} from './views/structures/structures.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -99,7 +101,10 @@ const APP_CONTAINERS = [
     CommonModule,
     ToastModule,
     SharedComModule,
-    StructuresModule
+    StructuresModule,
+    NgbModule,
+    BsDatepickerModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [
     {

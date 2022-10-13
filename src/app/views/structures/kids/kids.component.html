@@ -27,7 +27,7 @@
   <c-col xs="12">
     <c-card class="mb-3">
       <c-card-header ngPreserveWhitespaces>
-        <strong>Angular Tabs</strong> <small>pills</small>
+        <strong>Seguimiento y Control de Ninos</strong> <small></small>
       </c-card-header>
       <c-card-body>
         <c-nav variant="pills">
@@ -40,28 +40,24 @@
           <c-nav-item>
             <a [cTabContent]="tabContent3" [routerLink] [tabPaneIdx]="1" cNavLink>
               <svg cIcon class="me-2" name="cilUser"></svg>
-              Creacion
+              Gestion
             </a>
           </c-nav-item>
-          <c-nav-item>
+          <!--<c-nav-item>
             <a [cTabContent]="tabContent3" [routerLink] [tabPaneIdx]="2" cNavLink>
               <svg cIcon class="me-2" name="cilCode"></svg>
               Contact
             </a>
-          </c-nav-item>
+          </c-nav-item>-->
         </c-nav>
         <c-tab-content #tabContent3="cTabContent" cRounded="bottom" [activeTabPaneIdx]="0">
           <c-tab-pane aria-labelledby="docs-code-preview" class="p-3 preview" role="tabpanel">
             <strong>{{typeName}}</strong> <small>100 registros encontrados</small>
             <p class="text-medium-emphasis small">
               Servicio para administrar parametros del sistema, modulo de {{typeName.toUpperCase()}}, para crear
-              un nuevo registro presione:
-              <code>Crear Registro</code>
+              un nuevo registro ingrese a:
+              <code>Gestion</code>
             </p>
-            <div class="d-grid gap-2 col-3 mx-auto" align="left">
-              <button cButton color="primary" (click)="openModal()" *ngTemplateOutlet="liveDemo">Crear
-                Registro</button>
-            </div>
             <table cTable *ngIf="isVisible">
               <thead>
                 <tr>
@@ -105,28 +101,45 @@
           </c-tab-pane>
           <c-tab-pane aria-labelledby="docs-code-preview" class="p-3 preview" role="tabpanel">
             <form cForm class="row g-3">
+              <c-col lg="6">
+                <label cLabel for="inputEmail4">Fecha</label>
+                    <input class="form-control"
+                           placeholder="Datepicker"
+                           ngModel
+                           bsDatepicker
+                           [bsConfig]="bsConfig"
+                           >
+              </c-col>
               <c-col [md]="6">
-                <label cLabel for="inputEmail4">Email</label>
+                <label cLabel for="inputEmail4">Nombre</label>
                 <input cFormControl id="inputEmail4" type="email" />
               </c-col>
               <c-col [md]="6">
-                <label cLabel for="inputPassword4">Password</label>
+                <label cLabel for="inputPassword4">Apellido Paterno</label>
+                <input cFormControl id="inputPassword4" type="password" />
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel for="inputEmail4">Apellido Materno</label>
+                <input cFormControl id="inputEmail4" type="email" />
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel for="inputPassword4">Sexo</label>
                 <input cFormControl id="inputPassword4" type="password" />
               </c-col>
               <c-col [xs]="12">
-                <label cLabel for="inputAddress">Address</label>
+                <label cLabel for="inputAddress">Fecha de Nacimiento</label>
                 <input cFormControl id="inputAddress" placeholder="1234 Main St" />
               </c-col>
               <c-col [xs]="12">
-                <label cLabel for="inputAddress2">Address 2</label>
+                <label cLabel for="inputAddress2">Lugar de Nacimiento</label>
                 <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
               </c-col>
               <c-col [md]="6">
-                <label cLabel for="inputCity">City</label>
+                <label cLabel for="inputCity">Tipo de Sangre</label>
                 <input cFormControl id="inputCity" />
               </c-col>
               <c-col [md]="4">
-                <label cLabel for="inputState">State</label>
+                <label cLabel for="inputState">Nro de Documento</label>
                 <select cSelect id="inputState">
                   <option>Choose...</option>
                   <option>...</option>
@@ -159,7 +172,6 @@
 </c-row>
 
 <c-alert color="info" *ngIf="!isVisible">{{message}}</c-alert>
-
 <app-global-alerts *ngIf="visible" [visible]="visible" [message]="message"></app-global-alerts>
 
 <ng-template #liveDemo>

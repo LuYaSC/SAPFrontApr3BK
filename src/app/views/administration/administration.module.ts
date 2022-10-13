@@ -24,6 +24,8 @@ import { TurnComponent } from './turn/turn.component';
 import { BranchOfficeComponent } from './branch-office/branch-office.component';
 import { RoomComponent } from './room/room.component';
 import { SharedComModule } from './../shared-com/shared-com.module';
+import { SexTypeComponent } from './sex-type/sex-type.component';
+import { BloodTypeComponent } from './blood-type/blood-type.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { SharedComModule } from './../shared-com/shared-com.module';
     PaymentTypeComponent,
     RelationshipComponent,
     TurnComponent,
-    RoomComponent
+    RoomComponent,
+    SexTypeComponent,
+    BloodTypeComponent
 
   ],
   imports: [

@@ -8,7 +8,6 @@ import { BaseService } from '../utils/base.service';
 })
 export class CollaboratorService extends BaseService
 {
-
   constructor(private http: HttpClient) {
     super();
   }

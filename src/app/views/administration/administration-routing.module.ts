@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BloodTypeComponent } from './blood-type/blood-type.component';
 import { BranchOfficeComponent } from './branch-office/branch-office.component';
 
 import { CityComponent } from './city/city.component';
@@ -9,6 +10,7 @@ import { PaymentOperationComponent } from './payment-operation/payment-operation
 import { PaymentTypeComponent } from './payment-type/payment-type.component';
 import { RelationshipComponent } from './relationship/relationship.component';
 import { RoomComponent } from './room/room.component';
+import { SexTypeComponent } from './sex-type/sex-type.component';
 import { TurnComponent } from './turn/turn.component';
 
 
@@ -85,6 +87,20 @@ const routes: Routes = [
         component: RoomComponent,
         data: {
           title: 'Salas'
+        }
+      },
+      {
+        path: 'sex-type',
+        component: SexTypeComponent,
+        data: {
+          title: 'Sexo'
+        }
+      },
+      {
+        path: 'blood-type',
+        component: BloodTypeComponent,
+        data: {
+          title: 'Sangre'
         }
       }
     ]

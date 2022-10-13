@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit, ViewChild, HostListener } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CreateUpdateTypeBusinessDto } from 'src/app/services/type-business/models/create-update-type-business-dto';
 import { KidService } from 'src/app/services/kid/kid.service';
 import { KidsResult } from 'src/app/services/kid/models/kids-result';
+import { BsDatepickerConfig, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-kids',
@@ -17,6 +18,7 @@ export class KidsComponent implements OnInit {
   form: FormGroup = new FormGroup({
     name: new FormControl(''),
     initial: new FormControl(''),
+    dateYMD: new UntypedFormControl(new Date()),
   });
   submitted = false;
   actionRow: number = 0;
@@ -28,7 +30,23 @@ export class KidsComponent implements OnInit {
     { name: 'Profile 02', id: 'tab-02' },
     { name: 'Contact 03', id: 'tab-03' }
   ];
-  constructor(private service: KidService, private formBuilder: FormBuilder) { }
+  currentDate = new Date();
+  @ViewChild(BsDatepickerDirective, { static: false }) datepicker?: BsDatepickerDirective;
+  @HostListener('window:scroll')
+  onScrollEvent() {
+    this.datepicker?.hide();
+  }
+  bsConfig?: Partial<BsDatepickerConfig>;
+  minDate: Date;
+  maxDate: Date;
+  colorTheme = 'theme-dark-blue';
+  constructor(private service: KidService, private formBuilder: FormBuilder) {
+    this.minDate = new Date();
+    this.maxDate = new Date();
+    this.minDate.setDate(this.minDate.getDate() - 1);
+    this.maxDate.setDate(this.maxDate.getDate() + 7);
+    this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group(
