@@ -10,6 +10,7 @@ export class SelectParametersComponent implements OnInit {
 
   @Input() title: string;
   @Input() disabled: boolean = false;
+  @Input() enableAllOptions: boolean = false;
   @Input() parameterList: GetTypeResult[];
   row: any;
   parameter: GetTypeResult;
@@ -19,7 +20,7 @@ export class SelectParametersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.disabled) {
+    if (!this.enableAllOptions) {
       this.row = this.parameterList[0];
       this.onRowChange.emit(this.row);
     } else {

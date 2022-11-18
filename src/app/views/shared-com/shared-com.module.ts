@@ -53,9 +53,13 @@ import { SelectParametersComponent } from './select-parameters/select-parameters
     ModalModule,
     AlertModule
   ],
-  exports: [GlobalAlertsComponent,
+  exports:
+  [
+    GlobalAlertsComponent,
     ValidationsComponent,
-    TypeBusinessComponent]
+    TypeBusinessComponent,
+    SelectParametersComponent
+  ]
 })
 export class SharedComModule {
 }

@@ -36,7 +36,6 @@ export class TypeBusinessComponent implements OnInit {
             Validators.required,
             Validators.minLength(3),
             Validators.maxLength(20),
-            //Validators.email
           ]
         ],
         initial: [

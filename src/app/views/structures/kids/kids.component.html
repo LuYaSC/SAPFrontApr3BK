@@ -100,70 +100,119 @@
             </table>
           </c-tab-pane>
           <c-tab-pane aria-labelledby="docs-code-preview" class="p-3 preview" role="tabpanel">
-            <form cForm class="row g-3">
-              <c-col lg="6">
-                <label cLabel for="inputEmail4">Fecha</label>
+            <form cForm class="row g-3" [formGroup]="form">
+              <c-col [md]="6">
+                <label cLabel>Fecha de Nacimiento</label>
                     <input class="form-control"
-                           placeholder="Datepicker"
+                           placeholder="Ingrese Fecha"
                            ngModel
                            bsDatepicker
                            [bsConfig]="bsConfig"
+                           formControlName="bornDate"
                            >
               </c-col>
               <c-col [md]="6">
-                <label cLabel for="inputEmail4">Nombre</label>
-                <input cFormControl id="inputEmail4" type="email" />
+                <label cLabel for="nameLabel">Nombre</label>
+                <input type="text" formControlName="name" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" autoComplete="name" cFormControl
+                  placeholder="Ingrese Nombre" />
+                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                  <div *ngIf="f['name'].errors['required']">name is required</div>
+                  <div *ngIf="f['name'].errors['email']">Email is invalid</div>
+                  <div *ngIf="f['name'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['name'].errors['maxlength']">
+                    name must not exceed 20 characters
+                  </div>
+                </div>
               </c-col>
               <c-col [md]="6">
-                <label cLabel for="inputPassword4">Apellido Paterno</label>
-                <input cFormControl id="inputPassword4" type="password" />
+                <label cLabel for="lastNameLabel">Apellido Paterno</label>
+                <input type="text" formControlName="lastName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }" autoComplete="lastName" cFormControl
+                  placeholder="Ingrese Apellido Paterno" />
+                <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
+                  <div *ngIf="f['lastName'].errors['required']">Last Name is required</div>
+                  <div *ngIf="f['lastName'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['lastName'].errors['maxlength']">
+                    name must not exceed 20 characters
+                  </div>
+                </div>
               </c-col>
               <c-col [md]="6">
-                <label cLabel for="inputEmail4">Apellido Materno</label>
-                <input cFormControl id="inputEmail4" type="email" />
+                <label cLabel for="secondLastNameLabel">Apellido Materno</label>
+                <input type="text" formControlName="secondLastName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['secondLastName'].errors }" autoComplete="secondLastName" cFormControl
+                  placeholder="Ingrese Apellido Materno" />
+                <div *ngIf="submitted && f['secondLastName'].errors" class="invalid-feedback">
+                  <div *ngIf="f['secondLastName'].errors['required']">Last Name is required</div>
+                  <div *ngIf="f['secondLastName'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['secondLastName'].errors['maxlength']">
+                    name must not exceed 20 characters
+                  </div>
+                </div>
+              </c-col>
+              <c-col [md]="6" *ngIf="isVisibleSex">
+                <label cLabel>Sexo</label>
+                <app-select-parameters [parameterList]="listSexs" ></app-select-parameters>
+              </c-col>
+              <c-col [md]="6" *ngIf="isVisibleBlood">
+                <label cLabel>Tipo de Sangre</label>
+                <app-select-parameters [parameterList]="listBloods" ></app-select-parameters>
+              </c-col>
+              <c-col [md]="6" *ngIf="isVisibleDocumentType">
+                <label cLabel>Tipo de Documento</label>
+                <app-select-parameters [parameterList]="listDocumentTypes" ></app-select-parameters>
               </c-col>
               <c-col [md]="6">
-                <label cLabel for="inputPassword4">Sexo</label>
-                <input cFormControl id="inputPassword4" type="password" />
-              </c-col>
-              <c-col [xs]="12">
-                <label cLabel for="inputAddress">Fecha de Nacimiento</label>
-                <input cFormControl id="inputAddress" placeholder="1234 Main St" />
-              </c-col>
-              <c-col [xs]="12">
-                <label cLabel for="inputAddress2">Lugar de Nacimiento</label>
-                <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
+                <label cLabel for="documentNumberLabel">Numero de Documento</label>
+                <input type="text" formControlName="documentNumber" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['documentNumber'].errors }" autoComplete="documentNumber" cFormControl
+                  placeholder="Ingrese Numero de Documento" />
+                <div *ngIf="submitted && f['documentNumber'].errors" class="invalid-feedback">
+                  <div *ngIf="f['documentNumber'].errors['required']">Last Name is required</div>
+                  <div *ngIf="f['documentNumber'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['documentNumber'].errors['maxlength']">
+                    name must not exceed 20 characters
+                  </div>
+                </div>
               </c-col>
               <c-col [md]="6">
-                <label cLabel for="inputCity">Tipo de Sangre</label>
-                <input cFormControl id="inputCity" />
+                <label cLabel for="placeBornLabel">Lugar de Nacimiento</label>
+                <input type="text" formControlName="placeBorn" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['placeBorn'].errors }" autoComplete="placeBorn" cFormControl
+                  placeholder="Ingrese Lugar de Nacimiento" />
+                <div *ngIf="submitted && f['placeBorn'].errors" class="invalid-feedback">
+                  <div *ngIf="f['placeBorn'].errors['required']">Last Name is required</div>
+                  <div *ngIf="f['placeBorn'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['placeBorn'].errors['maxlength']">
+                    name must not exceed 20 characters
+                  </div>
+                </div>
               </c-col>
-              <c-col [md]="4">
-                <label cLabel for="inputState">Nro de Documento</label>
-                <select cSelect id="inputState">
-                  <option>Choose...</option>
-                  <option>...</option>
-                </select>
-              </c-col>
-              <c-col [md]="2">
-                <label cLabel for="inputZip">Zip</label>
-                <input cFormControl id="inputZip" />
+              <c-col [md]="6">
+                <label cLabel>Fecha de Inicio en el Centro</label>
+                    <input class="form-control"
+                           placeholder="Ingrese Fecha"
+                           ngModel
+                           bsDatepicker
+                           [bsConfig]="bsConfig"
+                           formControlName="startDate"
+                           >
               </c-col>
               <c-col [xs]="12">
-                <c-form-check>
-                  <input cFormCheckInput id="gridCheck" name="gridCheck" type="checkbox" />
-                  <label cFormCheckLabel for="gridCheck">Check me out</label>
-                </c-form-check>
-              </c-col>
-              <c-col [xs]="12">
-                <button cButton type="submit">Sign in</button>
+                <button cButton type="submit" (click)="createOrUpdate()">Registrar</button>
               </c-col>
             </form>
-          </c-tab-pane>
-          <c-tab-pane aria-labelledby="docs-code-preview" class="p-3 preview" role="tabpanel">
-            This is some placeholder content the <strong>Contact</strong> tab's associated content. Clicking another
-            tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the
-            content visibility and styling. You can use it with tabs, pills, and any other .nav-powered navigation.
           </c-tab-pane>
         </c-tab-content>
       </c-card-body>

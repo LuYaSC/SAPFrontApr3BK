@@ -4,6 +4,9 @@ import { CreateUpdateTypeBusinessDto } from 'src/app/services/type-business/mode
 import { KidService } from 'src/app/services/kid/kid.service';
 import { KidsResult } from 'src/app/services/kid/models/kids-result';
 import { BsDatepickerConfig, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
+import { TypeBusinessService } from 'src/app/services/type-business/type-business.service';
+import { GetTypeResult } from 'src/app/services/type-business/models/get-type-result';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-kids',
@@ -40,7 +43,13 @@ export class KidsComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
   colorTheme = 'theme-dark-blue';
-  constructor(private service: KidService, private formBuilder: FormBuilder) {
+  listSexs: GetTypeResult[];
+  isVisibleSex: boolean;
+  listBloods: GetTypeResult[];
+  isVisibleBlood: boolean;
+  listDocumentTypes: GetTypeResult[];
+  isVisibleDocumentType: boolean;
+  constructor(private service: KidService, private parameterService: TypeBusinessService, private formBuilder: FormBuilder) {
     this.minDate = new Date();
     this.maxDate = new Date();
     this.minDate.setDate(this.minDate.getDate() - 1);
@@ -52,21 +61,75 @@ export class KidsComponent implements OnInit {
     this.form = this.formBuilder.group(
       {
         id: [],
+        bornDate: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(10),
+          ]
+        ],
+        startDate: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(10),
+          ]
+        ],
         name: [
           '',
           [
             Validators.required,
             Validators.minLength(3),
             Validators.maxLength(20),
-            //Validators.email
           ]
         ],
-        initial: [
+        lastName: [
           '',
           [
             Validators.required,
-            Validators.minLength(2),
-            Validators.maxLength(5),
+            Validators.minLength(3),
+            Validators.maxLength(20),
+          ]
+        ],
+        secondLastName: [
+          '',
+          [
+            Validators.minLength(3),
+            Validators.maxLength(20),
+          ]
+        ],
+        sex: [
+          '',
+          [
+            Validators.required,
+          ]
+        ],
+        blood: [
+          '',
+          [
+            Validators.required,
+          ]
+        ],
+        documentType: [
+          '',
+          [
+            Validators.required,
+          ]
+        ],
+        documentNumber: [
+          '',
+          [
+            Validators.minLength(5),
+            Validators.maxLength(10),
+          ]
+        ],
+        placeBorn: [
+          '',
+          [
+            Validators.minLength(5),
+            Validators.maxLength(30),
           ]
         ],
       },
@@ -80,16 +143,41 @@ export class KidsComponent implements OnInit {
     this.isVisible = false;
     this.service.getAll().subscribe({
       next: (resp: KidsResult[]) => {
-        debugger;
         this.listTypes = resp;
         this.isVisible = true;
       },
       error: (error: any) => {
-        debugger
         this.message = error;
         this.visible = true;
       }
     });
+    this.GetServiceParametersList('sextype').subscribe(res => {
+      this.listSexs = res[0];
+      this.isVisibleSex = res[1];
+    });
+    this.GetServiceParametersList('bloodtype').subscribe(res => {
+      this.listBloods = res[0];
+      this.isVisibleBlood = res[1];
+    });
+    this.GetServiceParametersList('documenttype').subscribe(res => {
+      this.listDocumentTypes = res[0];
+      this.isVisibleDocumentType = res[1];
+    });
+  }
+
+  GetServiceParametersList(service: string): Observable<[GetTypeResult[], boolean]> {
+    var subject = new Subject<[GetTypeResult[], boolean]>();
+    this.parameterService.AssingService(service);
+    this.parameterService.getAll().subscribe({
+      next: (resp: GetTypeResult[]) => {
+        subject.next([resp, true]);
+      },
+      error: (error: any) => {
+        //this.message = error;
+        //this.visible = true;
+      }
+    });
+    return subject.asObservable();
   }
 
   cleanForm() {
@@ -120,12 +208,13 @@ export class KidsComponent implements OnInit {
   }
 
   createOrUpdate() {
+    debugger
     this.submitted = true;
-    this.isVisible = false;
     this.visible = false;
     if (this.form.invalid) {
       return;
     }
+    this.isVisible = false;
     debugger
     let dto = new CreateUpdateTypeBusinessDto({
       id: this.form.get("id").value,

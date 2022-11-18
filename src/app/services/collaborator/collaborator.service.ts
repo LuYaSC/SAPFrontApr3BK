@@ -12,9 +12,9 @@ export class CollaboratorService extends BaseService
     super();
   }
 
-  /*getById(dto: GetTypeByIdDto) {
-    return this.http.post<GetTypeResult>(this.SetRoute('GetById'), dto);
-  }*/
+  // getById(dto: GetTypeByIdDto) {
+  //  return this.http.post<GetTypeResult>(this.SetRoute('GetById'), dto);
+  //}
 
   getAll(): Observable<any[]> {
     return this.http.get<any[]>(this.SetRoute('GetAllCollaborators'));

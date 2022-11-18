@@ -1,5 +1,5 @@
 <select class="form-control" [(ngModel)]="row" (ngModelChange)="selectParameter()" >
-  <option value="0" [disabled]="disabled">All</option>
+  <option *ngIf="enableAllOptions" value="0">ALL</option>
   <option *ngFor="let row of parameterList" [ngValue]="row">
     {{row.description}}
   </option>
