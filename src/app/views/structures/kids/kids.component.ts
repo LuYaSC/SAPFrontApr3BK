@@ -1,12 +1,13 @@
 import { Component, Input, OnInit, ViewChild, HostListener } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { CreateUpdateTypeBusinessDto } from 'src/app/services/type-business/models/create-update-type-business-dto';
 import { KidService } from 'src/app/services/kid/kid.service';
 import { KidsResult } from 'src/app/services/kid/models/kids-result';
+import { KidByIdDto } from 'src/app/services/kid/models/kid-by-id-dto';
 import { BsDatepickerConfig, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 import { TypeBusinessService } from 'src/app/services/type-business/type-business.service';
 import { GetTypeResult } from 'src/app/services/type-business/models/get-type-result';
 import { Observable, Subject } from 'rxjs';
+import { CreateKidDto } from 'src/app/services/kid/models/create-kid-dto';
 
 @Component({
   selector: 'app-kids',
@@ -23,6 +24,7 @@ export class KidsComponent implements OnInit {
     initial: new FormControl(''),
     dateYMD: new UntypedFormControl(new Date()),
   });
+  tabindex: number = 0;
   submitted = false;
   actionRow: number = 0;
   isVisible: boolean = false;
@@ -49,6 +51,7 @@ export class KidsComponent implements OnInit {
   isVisibleBlood: boolean;
   listDocumentTypes: GetTypeResult[];
   isVisibleDocumentType: boolean;
+  saveKid: CreateKidDto = new CreateKidDto();
   constructor(private service: KidService, private parameterService: TypeBusinessService, private formBuilder: FormBuilder) {
     this.minDate = new Date();
     this.maxDate = new Date();
@@ -65,7 +68,7 @@ export class KidsComponent implements OnInit {
           '',
           [
             Validators.required,
-            Validators.minLength(3),
+            Validators.minLength(6),
             Validators.maxLength(10),
           ]
         ],
@@ -73,7 +76,7 @@ export class KidsComponent implements OnInit {
           '',
           [
             Validators.required,
-            Validators.minLength(3),
+            Validators.minLength(6),
             Validators.maxLength(10),
           ]
         ],
@@ -85,7 +88,7 @@ export class KidsComponent implements OnInit {
             Validators.maxLength(20),
           ]
         ],
-        lastName: [
+        firstLastName: [
           '',
           [
             Validators.required,
@@ -100,27 +103,10 @@ export class KidsComponent implements OnInit {
             Validators.maxLength(20),
           ]
         ],
-        sex: [
-          '',
-          [
-            Validators.required,
-          ]
-        ],
-        blood: [
-          '',
-          [
-            Validators.required,
-          ]
-        ],
-        documentType: [
-          '',
-          [
-            Validators.required,
-          ]
-        ],
         documentNumber: [
           '',
           [
+            Validators.required,
             Validators.minLength(5),
             Validators.maxLength(10),
           ]
@@ -128,29 +114,35 @@ export class KidsComponent implements OnInit {
         placeBorn: [
           '',
           [
+            Validators.required,
             Validators.minLength(5),
             Validators.maxLength(30),
           ]
         ],
       },
     );
-    this.form.value as CreateUpdateTypeBusinessDto;
+    this.form.value as CreateKidDto;
     this.service.AssingService('Kid');
-    this.getParameters();
+    this.getListKids();
+  }
+
+  changeTab(event: any): void {
+    this.tabindex = event;
+  }
+
+  onSelectedSex(event: GetTypeResult) {
+    this.saveKid.sexTypeId = event.id;
+  }
+
+  onSelectedBlood(event: GetTypeResult) {
+    this.saveKid.bloodTypeId = event.id;
+  }
+
+  onSelectedDocumentType(event: GetTypeResult) {
+    this.saveKid.documentTypeId = event.id;
   }
 
   getParameters() {
-    this.isVisible = false;
-    this.service.getAll().subscribe({
-      next: (resp: KidsResult[]) => {
-        this.listTypes = resp;
-        this.isVisible = true;
-      },
-      error: (error: any) => {
-        this.message = error;
-        this.visible = true;
-      }
-    });
     this.GetServiceParametersList('sextype').subscribe(res => {
       this.listSexs = res[0];
       this.isVisibleSex = res[1];
@@ -165,6 +157,21 @@ export class KidsComponent implements OnInit {
     });
   }
 
+  getListKids() {
+    this.isVisible = false;
+    this.form.reset();
+    this.service.getAll().subscribe({
+      next: (resp: KidsResult[]) => {
+        this.listTypes = resp;
+        this.isVisible = true;
+      },
+      error: (error: any) => {
+        this.message = error;
+        this.visible = true;
+      }
+    });
+  }
+
   GetServiceParametersList(service: string): Observable<[GetTypeResult[], boolean]> {
     var subject = new Subject<[GetTypeResult[], boolean]>();
     this.parameterService.AssingService(service);
@@ -173,29 +180,35 @@ export class KidsComponent implements OnInit {
         subject.next([resp, true]);
       },
       error: (error: any) => {
-        //this.message = error;
-        //this.visible = true;
+        this.notification(error);
       }
     });
     return subject.asObservable();
   }
 
   cleanForm() {
+    this.changeTab(0);
+    this.submitted = false;
     this.form.reset();
-  }
-
-  openModal() {
-    debugger;
-    this.cleanForm();
-    this.actionRow = 0;
-    this.liveDemoVisible = !this.liveDemoVisible;
+    this.getParameters();
   }
 
   editRow(row: KidsResult) {
     debugger
+    this.changeTab(1);
     this.actionRow = 1;
-    //this.form.setValue({ id: row.id, name: row.description, initial: row.initial });
-    console.log("🚀 ~ file: type-business.component.ts ~ line 68 ~ TypeBusinessComponent ~ changes ~ aux", this.form)
+    debugger
+    this.saveKid.id = row.id;
+    this.form.setValue({
+      id: row.id,
+      name: row.name,
+      firstLastName: row.firstLastName,
+      secondLastName: row.secondLastName,
+      bornDate: new Date(row.bornDate),
+      startDate: new Date(row.startDate),
+      placeBorn: row.placeBorn,
+      documentNumber: row.documentNumber,
+    });
     this.liveDemoVisible = !this.liveDemoVisible;
   }
 
@@ -208,7 +221,6 @@ export class KidsComponent implements OnInit {
   }
 
   createOrUpdate() {
-    debugger
     this.submitted = true;
     this.visible = false;
     if (this.form.invalid) {
@@ -216,34 +228,35 @@ export class KidsComponent implements OnInit {
     }
     this.isVisible = false;
     debugger
-    let dto = new CreateUpdateTypeBusinessDto({
-      id: this.form.get("id").value,
-      description: this.form.get("name").value,
-      initial: this.form.get("initial").value
-    });
+    this.saveKid.name = this.form.get("name").value;
+    this.saveKid.firstLastName = this.form.get("firstLastName").value;
+    this.saveKid.secondLastName = this.form.get("secondLastName").value;
+    this.saveKid.bornDate = this.form.get("bornDate").value;
+    this.saveKid.startDate = this.form.get("startDate").value;
+    this.saveKid.placeBorn = this.form.get("placeBorn").value;
+    this.saveKid.documentNumber = this.form.get("documentNumber").value;
     if (this.actionRow === 0) {
-      /*this.service.create(dto).subscribe({
+      this.service.create(this.saveKid).subscribe({
         next: (resp: string) => {
-          this.getParameters();
+          debugger
+          this.cleanForm();
           this.notification(resp);
-          this.closeModal();
         },
         error: (error: string) => {
           this.notification(error);
         }
-      });*/
+      });
     }
     else {
-      /*this.service.update(dto).subscribe({
+      this.service.update(this.saveKid).subscribe({
         next: (resp: string) => {
-          this.getParameters();
+          this.cleanForm();
           this.notification(resp);
-          this.closeModal();
         },
         error: (error: string) => {
-         this.notification(error);
+          this.notification(error);
         }
-      });*/
+      });
     }
   }
 
@@ -251,10 +264,17 @@ export class KidsComponent implements OnInit {
     return this.form.controls;
   }
 
-  closeModal() {
+  enableOrDisable(row: KidsResult) {
     debugger
-    this.cleanForm();
-    this.liveDemoVisible = !this.liveDemoVisible;
+    this.service.activateOrDeactivate(new KidByIdDto({ id: row.id, isDeleted: !row.isDeleted })).subscribe({
+      next: (resp: string) => {
+        this.cleanForm();
+        this.notification(resp);
+      },
+      error: (error: string) => {
+        this.notification(error);
+      }
+    });
   }
 
   notification(message: string) {

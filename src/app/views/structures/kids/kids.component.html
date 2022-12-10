@@ -1,29 +1,4 @@
 <c-row ngPreserveWhitespaces>
-  <!--<c-col xs="12">
-  </c-col>
-  <c-col xs="6">
-    <c-card class="mb-4">
-      <c-card-header>
-        <strong>Angular Select</strong> <small>Default</small>
-      </c-card-header>
-      <c-card-body>
-        <app-select-parameters [parameterList]="listTypes" (onRowChange)="selectUser($event)"></app-select-parameters>
-      </c-card-body>
-    </c-card>
-  </c-col>
-  <c-col xs="6">
-    <c-card class="mb-4">
-      <c-card-header>
-        <strong>Angular Select</strong> <small>Default 2</small>
-      </c-card-header>
-      <c-card-body>
-        <app-select-parameters [parameterList]="listTypes" (onRowChange)="selectUser($event)"></app-select-parameters>
-
-      </c-card-body>
-    </c-card>
-  </c-col>-->
-
-
   <c-col xs="12">
     <c-card class="mb-3">
       <c-card-header ngPreserveWhitespaces>
@@ -32,13 +7,25 @@
       <c-card-body>
         <c-nav variant="pills">
           <c-nav-item>
-            <a [cTabContent]="tabContent3" [routerLink] [tabPaneIdx]="0" cNavLink (click)="getParameters()">
+            <a
+              [cTabContent]="tabContent3"
+              [routerLink]
+              [tabPaneIdx]="0"
+              cNavLink
+              (click)="getListKids()"
+            >
               <svg cIcon class="me-2" name="cilHome"></svg>
               Busqueda
             </a>
           </c-nav-item>
           <c-nav-item>
-            <a [cTabContent]="tabContent3" [routerLink] [tabPaneIdx]="1" cNavLink>
+            <a
+              [cTabContent]="tabContent3"
+              [routerLink]
+              [tabPaneIdx]="1"
+              cNavLink
+              (click)="getParameters()"
+            >
               <svg cIcon class="me-2" name="cilUser"></svg>
               Gestion
             </a>
@@ -50,12 +37,22 @@
             </a>
           </c-nav-item>-->
         </c-nav>
-        <c-tab-content #tabContent3="cTabContent" cRounded="bottom" [activeTabPaneIdx]="0">
-          <c-tab-pane aria-labelledby="docs-code-preview" class="p-3 preview" role="tabpanel">
-            <strong>{{typeName}}</strong> <small>100 registros encontrados</small>
+        <c-tab-content
+          #tabContent3="cTabContent"
+          cRounded="bottom"
+          (activeTabPaneIdxChange)="changeTab($event)"
+          [activeTabPaneIdx]="tabindex"
+        >
+          <c-tab-pane
+            aria-labelledby="docs-code-preview"
+            class="p-3 preview"
+            role="tabpanel"
+          >
+            <strong>{{ typeName }}</strong>
+            <small>{{ this.listTypes.length }}</small> registros encontrados
             <p class="text-medium-emphasis small">
-              Servicio para administrar parametros del sistema, modulo de {{typeName.toUpperCase()}}, para crear
-              un nuevo registro ingrese a:
+              Administracion del modulo de ni;os, si desea crear un nuevo
+              registro, presione:
               <code>Gestion</code>
             </p>
             <table cTable *ngIf="isVisible">
@@ -65,8 +62,8 @@
                   <th scope="col">Estado</th>
                   <th scope="col">Fecha de Nacimiento</th>
                   <th scope="col">Edad</th>
-                  <th scope="col">Creado por: </th>
-                  <th scope="col">Creado en: </th>
+                  <th scope="col">Creado por:</th>
+                  <th scope="col">Creado en:</th>
                   <th scope="col">Modificado en:</th>
                   <th scope="col">Acciones</th>
                   <th scope="col"></th>
@@ -74,51 +71,98 @@
               </thead>
               <tbody>
                 <tr *ngFor="let row of listTypes">
-                  <td>{{row.name}} {{row.firstLastName}} {{row.secondLastName}}</td>
                   <td>
-                    <c-badge class="me-1" color="{{row.isPlanified ? 'danger' : 'success'}}">{{(row.isPlanified ?
-                      'INACTIVO' :
-                      'ACTIVO')}}</c-badge>
+                    {{ row.name }} {{ row.firstLastName }}
+                    {{ row.secondLastName }}
                   </td>
-                  <td>{{row.bornDate | date:'medium' }}</td>
-                  <td>{{row.age }}</td>
-                  <td>{{row.userCreation}}</td>
-                  <td>{{row.dateCreation | date:'medium' }}</td>
-                  <td>{{row.dateModification | date:'medium'}}</td>
                   <td>
-                    <button color='warning' cButton class="me-1" shape="rounded-pill" (click)="editRow(row)">
+                    <c-badge
+                      class="me-1"
+                      color="{{ row.isDeleted ? 'danger' : 'success' }}"
+                      >{{ row.isDeleted ? "INACTIVO" : "ACTIVO" }}</c-badge
+                    >
+                  </td>
+                  <td>{{ row.bornDate | date: "yyyy/MM/dd" }}</td>
+                  <td>{{ row.age }}</td>
+                  <td>{{ row.userCreation }}</td>
+                  <td>{{ row.dateCreation | date: "yyyy/MM/dd hh:mm:ss" }}</td>
+                  <td>{{ row.dateModification | date: "yyyy/MM/dd hh:mm:ss" }}</td>
+                  <td>
+                    <button
+                      color="warning"
+                      cButton
+                      class="me-1"
+                      shape="rounded-pill"
+                      (click)="editRow(row)"
+                      disabled="{{ row.isDeleted }}"
+                    >
                       Editar
                     </button>
                   </td>
                   <td>
-                    <button color='danger' cButton class="me-1" shape="rounded-pill">
-                      Eliminar
+                    <button
+                      color="danger"
+                      cButton
+                      class="me-1"
+                      shape="rounded-pill"
+                      (click)="enableOrDisable(row)"
+                    >
+                      {{ row.isDeleted ? "Habilitar" : "Deshabilitar" }}
                     </button>
                   </td>
                 </tr>
               </tbody>
             </table>
           </c-tab-pane>
-          <c-tab-pane aria-labelledby="docs-code-preview" class="p-3 preview" role="tabpanel">
+          <c-tab-pane
+            aria-labelledby="docs-code-preview"
+            class="p-3 preview"
+            role="tabpanel"
+          >
             <form cForm class="row g-3" [formGroup]="form">
               <c-col [md]="6">
                 <label cLabel>Fecha de Nacimiento</label>
-                    <input class="form-control"
-                           placeholder="Ingrese Fecha"
-                           ngModel
-                           bsDatepicker
-                           [bsConfig]="bsConfig"
-                           formControlName="bornDate"
-                           >
+                <input
+                  class="form-control"
+                  placeholder="Ingrese Fecha"
+                  ngModel
+                  bsDatepicker
+                  [bsConfig]="bsConfig"
+                  formControlName="bornDate"
+                  cFormControl
+                  [ngClass]="{
+                    'is-invalid': submitted && f['bornDate'].errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && f['bornDate'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['bornDate'].errors['required']">required</div>
+                  <div *ngIf="f['bornDate'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['bornDate'].errors['maxlength']">
+                    name must not exceed 20 characters
+                  </div>
+                </div>
               </c-col>
               <c-col [md]="6">
                 <label cLabel for="nameLabel">Nombre</label>
-                <input type="text" formControlName="name" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" autoComplete="name" cFormControl
-                  placeholder="Ingrese Nombre" />
-                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                  <div *ngIf="f['name'].errors['required']">name is required</div>
-                  <div *ngIf="f['name'].errors['email']">Email is invalid</div>
+                <input
+                  type="text"
+                  formControlName="name"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+                  autoComplete="name"
+                  cFormControl
+                  placeholder="Ingrese Nombre"
+                />
+                <div
+                  *ngIf="submitted && f['name'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['name'].errors['required']">required</div>
                   <div *ngIf="f['name'].errors['minlength']">
                     name must be at least 6 characters
                   </div>
@@ -129,26 +173,52 @@
               </c-col>
               <c-col [md]="6">
                 <label cLabel for="lastNameLabel">Apellido Paterno</label>
-                <input type="text" formControlName="lastName" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }" autoComplete="lastName" cFormControl
-                  placeholder="Ingrese Apellido Paterno" />
-                <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
-                  <div *ngIf="f['lastName'].errors['required']">Last Name is required</div>
-                  <div *ngIf="f['lastName'].errors['minlength']">
+                <input
+                  type="text"
+                  formControlName="firstLastName"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['firstLastName'].errors
+                  }"
+                  autoComplete="firstLastName"
+                  cFormControl
+                  placeholder="Ingrese Apellido Paterno"
+                />
+                <div
+                  *ngIf="submitted && f['firstLastName'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['firstLastName'].errors['required']">
+                    required
+                  </div>
+                  <div *ngIf="f['firstLastName'].errors['minlength']">
                     name must be at least 6 characters
                   </div>
-                  <div *ngIf="f['lastName'].errors['maxlength']">
+                  <div *ngIf="f['firstLastName'].errors['maxlength']">
                     name must not exceed 20 characters
                   </div>
                 </div>
               </c-col>
               <c-col [md]="6">
                 <label cLabel for="secondLastNameLabel">Apellido Materno</label>
-                <input type="text" formControlName="secondLastName" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f['secondLastName'].errors }" autoComplete="secondLastName" cFormControl
-                  placeholder="Ingrese Apellido Materno" />
-                <div *ngIf="submitted && f['secondLastName'].errors" class="invalid-feedback">
-                  <div *ngIf="f['secondLastName'].errors['required']">Last Name is required</div>
+                <input
+                  type="text"
+                  formControlName="secondLastName"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['secondLastName'].errors
+                  }"
+                  autoComplete="secondLastName"
+                  cFormControl
+                  placeholder="Ingrese Apellido Materno"
+                />
+                <div
+                  *ngIf="submitted && f['secondLastName'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['secondLastName'].errors['required']">
+                    required
+                  </div>
                   <div *ngIf="f['secondLastName'].errors['minlength']">
                     name must be at least 6 characters
                   </div>
@@ -159,23 +229,47 @@
               </c-col>
               <c-col [md]="6" *ngIf="isVisibleSex">
                 <label cLabel>Sexo</label>
-                <app-select-parameters [parameterList]="listSexs" ></app-select-parameters>
+                <app-select-parameters
+                  [parameterList]="listSexs"
+                  (onRowChange)="onSelectedSex($event)"
+                ></app-select-parameters>
               </c-col>
               <c-col [md]="6" *ngIf="isVisibleBlood">
                 <label cLabel>Tipo de Sangre</label>
-                <app-select-parameters [parameterList]="listBloods" ></app-select-parameters>
+                <app-select-parameters
+                  [parameterList]="listBloods"
+                  (onRowChange)="onSelectedBlood($event)"
+                ></app-select-parameters>
               </c-col>
               <c-col [md]="6" *ngIf="isVisibleDocumentType">
                 <label cLabel>Tipo de Documento</label>
-                <app-select-parameters [parameterList]="listDocumentTypes" ></app-select-parameters>
+                <app-select-parameters
+                  [parameterList]="listDocumentTypes"
+                  (onRowChange)="onSelectedDocumentType($event)"
+                ></app-select-parameters>
               </c-col>
               <c-col [md]="6">
-                <label cLabel for="documentNumberLabel">Numero de Documento</label>
-                <input type="text" formControlName="documentNumber" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f['documentNumber'].errors }" autoComplete="documentNumber" cFormControl
-                  placeholder="Ingrese Numero de Documento" />
-                <div *ngIf="submitted && f['documentNumber'].errors" class="invalid-feedback">
-                  <div *ngIf="f['documentNumber'].errors['required']">Last Name is required</div>
+                <label cLabel for="documentNumberLabel"
+                  >Numero de Documento</label
+                >
+                <input
+                  type="text"
+                  formControlName="documentNumber"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['documentNumber'].errors
+                  }"
+                  autoComplete="documentNumber"
+                  cFormControl
+                  placeholder="Ingrese Numero de Documento"
+                />
+                <div
+                  *ngIf="submitted && f['documentNumber'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['documentNumber'].errors['required']">
+                    required
+                  </div>
                   <div *ngIf="f['documentNumber'].errors['minlength']">
                     name must be at least 6 characters
                   </div>
@@ -186,11 +280,22 @@
               </c-col>
               <c-col [md]="6">
                 <label cLabel for="placeBornLabel">Lugar de Nacimiento</label>
-                <input type="text" formControlName="placeBorn" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f['placeBorn'].errors }" autoComplete="placeBorn" cFormControl
-                  placeholder="Ingrese Lugar de Nacimiento" />
-                <div *ngIf="submitted && f['placeBorn'].errors" class="invalid-feedback">
-                  <div *ngIf="f['placeBorn'].errors['required']">Last Name is required</div>
+                <input
+                  type="text"
+                  formControlName="placeBorn"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['placeBorn'].errors
+                  }"
+                  autoComplete="placeBorn"
+                  cFormControl
+                  placeholder="Ingrese Lugar de Nacimiento"
+                />
+                <div
+                  *ngIf="submitted && f['placeBorn'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['placeBorn'].errors['required']">required</div>
                   <div *ngIf="f['placeBorn'].errors['minlength']">
                     name must be at least 6 characters
                   </div>
@@ -201,16 +306,35 @@
               </c-col>
               <c-col [md]="6">
                 <label cLabel>Fecha de Inicio en el Centro</label>
-                    <input class="form-control"
-                           placeholder="Ingrese Fecha"
-                           ngModel
-                           bsDatepicker
-                           [bsConfig]="bsConfig"
-                           formControlName="startDate"
-                           >
+                <input
+                  class="form-control"
+                  placeholder="Ingrese Fecha"
+                  ngModel
+                  bsDatepicker
+                  [bsConfig]="bsConfig"
+                  formControlName="startDate"
+                  cFormControl
+                  [ngClass]="{
+                    'is-invalid': submitted && f['startDate'].errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && f['startDate'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['startDate'].errors['required']">required</div>
+                  <div *ngIf="f['startDate'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['startDate'].errors['maxlength']">
+                    name must not exceed 10 characters
+                  </div>
+                </div>
               </c-col>
               <c-col [xs]="12">
-                <button cButton type="submit" (click)="createOrUpdate()">Registrar</button>
+                <button cButton type="submit" (click)="createOrUpdate()">
+                  {{ this.actionRow === 0 ? "Registrar" : "Actualizar" }}
+                </button>
               </c-col>
             </form>
           </c-tab-pane>
@@ -220,63 +344,9 @@
   </c-col>
 </c-row>
 
-<c-alert color="info" *ngIf="!isVisible">{{message}}</c-alert>
-<app-global-alerts *ngIf="visible" [visible]="visible" [message]="message"></app-global-alerts>
-
-<ng-template #liveDemo>
-  <button (click)="openModal()" cButton>Crear Registro</button>
-  <c-modal id="liveDemoModal" [visible]="liveDemoVisible" (visibleChange)="handleLiveDemoChange($event)">
-    <c-modal-header>
-      <h5 cModalTitle>{{actionRow === 0 ? 'Crear' : 'Actualizar'}} Registro</h5>
-      <button (click)="closeModal()" cButtonClose></button>
-    </c-modal-header>
-    <c-modal-body>
-      <c-col xs="12">
-        <c-card class="mb-4">
-          <c-card-body>
-            <form cForm [formGroup]="form">
-              <div class="mb-3">
-                <label cLabel for="exampleFormControlInput1">Nombre</label>
-                <input type="text" formControlName="name" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" autoComplete="name" cFormControl
-                  placeholder="Nombre" />
-                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                  <div *ngIf="f['name'].errors['required']">name is required</div>
-                  <div *ngIf="f['name'].errors['email']">Email is invalid</div>
-                  <div *ngIf="f['name'].errors['minlength']">
-                    name must be at least 6 characters
-                  </div>
-                  <div *ngIf="f['name'].errors['maxlength']">
-                    name must not exceed 20 characters
-                  </div>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label cLabel for="exampleFormControlTextarea1">Iniciales</label>
-                <input type="text" formControlName="initial" class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f['initial'].errors }" autoComplete="initial" cFormControl
-                  placeholder="Iniciales" />
-                <div *ngIf="submitted && f['initial'].errors" class="invalid-feedback">
-                  <div *ngIf="f['initial'].errors['required']">name is required</div>
-                  <div *ngIf="f['initial'].errors['email']">Email is invalid</div>
-                  <div *ngIf="f['initial'].errors['minlength']">
-                    Iniciales must be at least 6 characters
-                  </div>
-                  <div *ngIf="f['initial'].errors['maxlength']">
-                    Iniciales must not exceed 20 characters
-                  </div>
-                </div>
-              </div>
-            </form>
-          </c-card-body>
-        </c-card>
-      </c-col>
-    </c-modal-body>
-    <c-modal-footer>
-      <button (click)="closeModal()" cButton color="secondary">
-        Close
-      </button>
-      <button cButton color="primary" (click)="createOrUpdate()">Save changes</button>
-    </c-modal-footer>
-  </c-modal>
-</ng-template>
+<c-alert color="info" *ngIf="!isVisible">{{ message }}</c-alert>
+<app-global-alerts
+  *ngIf="visible"
+  [visible]="visible"
+  [message]="message"
+></app-global-alerts>

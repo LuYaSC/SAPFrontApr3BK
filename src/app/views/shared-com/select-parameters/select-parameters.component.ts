@@ -12,6 +12,7 @@ export class SelectParametersComponent implements OnInit {
   @Input() disabled: boolean = false;
   @Input() enableAllOptions: boolean = false;
   @Input() parameterList: GetTypeResult[];
+  @Input() selectedValue: GetTypeResult;
   row: any;
   parameter: GetTypeResult;
   @Output() onRowChange = new EventEmitter<GetTypeResult>();
@@ -26,6 +27,12 @@ export class SelectParametersComponent implements OnInit {
     } else {
       this.row = 0;
     }
+    debugger
+    if(this.selectedValue !==  undefined && this.selectedValue !== null) {
+      this.row = this.selectedValue;
+      this.onRowChange.emit(this.row);
+    }
+
   }
 
   selectParameter() {

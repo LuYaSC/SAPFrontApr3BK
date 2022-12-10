@@ -4,7 +4,7 @@ export class KidsResult {
   firstLastName: string;
   secondLastName: string | null;
   sex: string;
-  bornDate: string | null;
+  bornDate: Date | null;
   age: string;
   startDate: Date;
   endDate: Date | null;
@@ -26,4 +26,5 @@ export class KidsResult {
   userModification: string;
   dateCreation: Date;
   dateModification: Date;
+  isDeleted: boolean;
 }
