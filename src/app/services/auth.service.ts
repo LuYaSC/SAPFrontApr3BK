@@ -18,7 +18,6 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(dto: LoginDto): Observable<any> {
-    debugger
     return this.http.post(
       AUTH_API + 'Login',
       dto,

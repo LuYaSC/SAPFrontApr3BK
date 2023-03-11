@@ -12,6 +12,7 @@ import { RelationshipComponent } from './relationship/relationship.component';
 import { RoomComponent } from './room/room.component';
 import { SexTypeComponent } from './sex-type/sex-type.component';
 import { TurnComponent } from './turn/turn.component';
+import { MaritalStatusComponent } from './marital-status/marital-status.component';
 
 
 const routes: Routes = [
@@ -101,6 +102,13 @@ const routes: Routes = [
         component: BloodTypeComponent,
         data: {
           title: 'Sangre'
+        }
+      },
+      {
+        path: 'marital-status',
+        component: MaritalStatusComponent,
+        data: {
+          title: 'Estado Civil'
         }
       }
     ]

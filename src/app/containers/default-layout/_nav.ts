@@ -78,6 +78,11 @@ export const navItems: INavData[] = [
         name: 'Sangre',
         url: '/administration/blood-type',
         iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Estado Civil',
+        url: '/administration/marital-status',
+        iconComponent: { name: 'cil-speedometer' },
       }
     ]
   },

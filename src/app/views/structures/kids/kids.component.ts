@@ -8,6 +8,7 @@ import { TypeBusinessService } from 'src/app/services/type-business/type-busines
 import { GetTypeResult } from 'src/app/services/type-business/models/get-type-result';
 import { Observable, Subject } from 'rxjs';
 import { CreateKidDto } from 'src/app/services/kid/models/create-kid-dto';
+import { SpinnerService } from 'src/app/helpers/spinner.service';
 
 @Component({
   selector: 'app-kids',
@@ -52,7 +53,9 @@ export class KidsComponent implements OnInit {
   listDocumentTypes: GetTypeResult[];
   isVisibleDocumentType: boolean;
   saveKid: CreateKidDto = new CreateKidDto();
-  constructor(private service: KidService, private parameterService: TypeBusinessService, private formBuilder: FormBuilder) {
+  showSpinner = false;
+
+  constructor(private service: KidService, private parameterService: TypeBusinessService, private formBuilder: FormBuilder, private spinnerService: SpinnerService) {
     this.minDate = new Date();
     this.maxDate = new Date();
     this.minDate.setDate(this.minDate.getDate() - 1);
@@ -168,6 +171,9 @@ export class KidsComponent implements OnInit {
       error: (error: any) => {
         this.message = error;
         this.visible = true;
+      },
+      complete: () => {
+        this.spinnerService.hide(); // Oculta el spinner al recibir la respuesta
       }
     });
   }
@@ -194,10 +200,9 @@ export class KidsComponent implements OnInit {
   }
 
   editRow(row: KidsResult) {
-    debugger
+    this.getParameters();
     this.changeTab(1);
     this.actionRow = 1;
-    debugger
     this.saveKid.id = row.id;
     this.form.setValue({
       id: row.id,
@@ -227,7 +232,6 @@ export class KidsComponent implements OnInit {
       return;
     }
     this.isVisible = false;
-    debugger
     this.saveKid.name = this.form.get("name").value;
     this.saveKid.firstLastName = this.form.get("firstLastName").value;
     this.saveKid.secondLastName = this.form.get("secondLastName").value;
@@ -238,7 +242,6 @@ export class KidsComponent implements OnInit {
     if (this.actionRow === 0) {
       this.service.create(this.saveKid).subscribe({
         next: (resp: string) => {
-          debugger
           this.cleanForm();
           this.notification(resp);
         },
@@ -265,7 +268,6 @@ export class KidsComponent implements OnInit {
   }
 
   enableOrDisable(row: KidsResult) {
-    debugger
     this.service.activateOrDeactivate(new KidByIdDto({ id: row.id, isDeleted: !row.isDeleted })).subscribe({
       next: (resp: string) => {
         this.cleanForm();

@@ -41,6 +41,7 @@
           <thead>
             <tr>
               <th scope="col">Nombre</th>
+              <th scope="col" *ngIf="haveInitials">Iniciales</th>
               <th scope="col">Estado</th>
               <th scope="col">Creado por: </th>
               <th scope="col">Creado en: </th>
@@ -52,6 +53,7 @@
           <tbody>
             <tr *ngFor="let row of listTypes">
               <td>{{row.description}}</td>
+              <td *ngIf="haveInitials">{{row.initial}}</td>
               <td>
                 <c-badge class="me-1" color="{{row.isDeleted ? 'danger' : 'success'}}">{{(row.isDeleted ? 'INACTIVO' :
                   'ACTIVO')}}</c-badge>
@@ -109,7 +111,7 @@
                   </div>
                 </div>
               </div>
-              <div class="mb-3">
+              <div class="mb-3" *ngIf="haveInitials">
                 <label cLabel for="exampleFormControlTextarea1">Iniciales</label>
                 <input type="text" formControlName="initial" class="form-control"
                   [ngClass]="{ 'is-invalid': submitted && f['initial'].errors }" autoComplete="initial" cFormControl

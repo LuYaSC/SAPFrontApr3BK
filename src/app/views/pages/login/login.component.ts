@@ -77,7 +77,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    debugger
     this.submitted = true;
     this.visible = false;
     if (this.form.invalid) {
@@ -86,7 +85,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.form.value)
       .subscribe({
         next: (resp: LoginResponse) => {
-          debugger;
           if (resp.isValid) {
             this.storageService.saveUser(resp);
             this.message = 'Welcome: ' + this.storageService.getUser();
@@ -98,7 +96,6 @@ export class LoginComponent implements OnInit {
           }
         },
         error: (error) => {
-          debugger
           this.message = 'Not Available Service: ' + error.message;
           this.visible = true;
         }

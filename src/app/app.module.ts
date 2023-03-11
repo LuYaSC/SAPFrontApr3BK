@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { httpInterceptorProviders2 } from './helpers/auth.interceptor';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import {
   PERFECT_SCROLLBAR_CONFIG,
@@ -54,6 +54,7 @@ import { SharedComModule } from './views/shared-com/shared-com.module';
 import {StructuresModule} from './views/structures/structures.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { SpinnerInterceptor } from './helpers/spinner-interceptor';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -116,6 +117,7 @@ const APP_CONTAINERS = [
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
     },
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
     //httpInterceptorProviders,
     httpInterceptorProviders2,
     //httpInterceptorResponse,

@@ -62,12 +62,10 @@ export class CollaboratorsComponent implements OnInit {
     this.isVisible = false;
     this.service.getAll().subscribe({
       next: (resp: any[]) => {
-        debugger;
         this.listTypes = resp;
         this.isVisible = true;
       },
       error: (error: any) => {
-        debugger
         this.message = error;
         this.visible = true;
       }

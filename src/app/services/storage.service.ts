@@ -21,7 +21,6 @@ export class StorageService {
   }
 
   public saveUser(user: LoginResponse): void {
-    debugger
     let decode: TokenDecodeDto = jwt_decode(user.token);
     window.sessionStorage.setItem(USER_NAME, decode.userName);
     window.sessionStorage.setItem(TOKEN, user.token);
@@ -32,7 +31,6 @@ export class StorageService {
   }
 
   public logout() {
-    debugger;
     window.sessionStorage.clear();
     window.sessionStorage.removeItem(USER_NAME);
     window.sessionStorage.removeItem(EXPIRATION_DATE);
@@ -41,7 +39,6 @@ export class StorageService {
   }
 
   public validateExpiration(): boolean {
-    debugger
     let expirationDate = Number(window.sessionStorage.getItem(EXPIRATION_DATE));
     let actualDate = new Date().getTime();
     if (actualDate > expirationDate) {

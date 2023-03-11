@@ -22,7 +22,6 @@ export class DefaultHeaderComponent extends HeaderComponent {
   }
 
   public logout() {
-    debugger
     this.storageService.logout();
     this.router.navigate(["/login"]);
   }

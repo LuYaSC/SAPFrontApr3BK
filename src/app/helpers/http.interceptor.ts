@@ -8,7 +8,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log("🚀 ~ file: http.interceptor.ts ~ line 10 ~ HttpRequestInterceptor ~ intercept ~ next", next)
     console.log("🚀 ~ file: http.interceptor.ts ~ line 10 ~ HttpRequestInterceptor ~ intercept ~ req", req)
-    debugger
 
     req = req.clone({
       withCredentials: true,

@@ -14,6 +14,7 @@ export class TypeBusinessComponent implements OnInit {
   @Input() listTypes: GetTypeResult[] = [];
   @Input() typeName: string = '';
   @Input() nameService: string = '';
+  @Input() haveInitials: boolean = true;
   public liveDemoVisible = false;
   form: FormGroup = new FormGroup({
     name: new FormControl(''),
@@ -23,6 +24,7 @@ export class TypeBusinessComponent implements OnInit {
   actionRow: number = 0;
   isVisible: boolean = false;
   visible: boolean = false;
+
   message: string = '';
   constructor(private service: TypeBusinessService, private formBuilder: FormBuilder) { }
 
@@ -41,7 +43,6 @@ export class TypeBusinessComponent implements OnInit {
         initial: [
           '',
           [
-            Validators.required,
             Validators.minLength(2),
             Validators.maxLength(5),
           ]
@@ -57,12 +58,10 @@ export class TypeBusinessComponent implements OnInit {
     this.isVisible = false;
     this.service.getAll().subscribe({
       next: (resp: GetTypeResult[]) => {
-        debugger;
         this.listTypes = resp;
         this.isVisible = true;
       },
       error: (error: any) => {
-        debugger
         this.message = error;
         this.visible = true;
       }
@@ -74,14 +73,12 @@ export class TypeBusinessComponent implements OnInit {
   }
 
   openModal() {
-    debugger;
     this.cleanForm();
     this.actionRow = 0;
     this.liveDemoVisible = !this.liveDemoVisible;
   }
 
   editRow(row: GetTypeResult) {
-    debugger
     this.actionRow = 1;
     this.form.setValue({ id: row.id, name: row.description, initial: row.initial });
     console.log("🚀 ~ file: type-business.component.ts ~ line 68 ~ TypeBusinessComponent ~ changes ~ aux", this.form)
@@ -103,7 +100,6 @@ export class TypeBusinessComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    debugger
     let dto = new CreateUpdateTypeBusinessDto({
       id: this.form.get("id").value,
       description: this.form.get("name").value,
@@ -140,7 +136,6 @@ export class TypeBusinessComponent implements OnInit {
   }
 
   closeModal() {
-    debugger
     this.cleanForm();
     this.liveDemoVisible = !this.liveDemoVisible;
   }
