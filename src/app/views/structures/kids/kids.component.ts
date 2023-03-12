@@ -48,10 +48,13 @@ export class KidsComponent implements OnInit {
   colorTheme = 'theme-dark-blue';
   listSexs: GetTypeResult[];
   isVisibleSex: boolean;
+  selectedSex: GetTypeResult;
   listBloods: GetTypeResult[];
   isVisibleBlood: boolean;
+  selectedBlood: GetTypeResult;
   listDocumentTypes: GetTypeResult[];
   isVisibleDocumentType: boolean;
+  selectedDocumentType: GetTypeResult;
   saveKid: CreateKidDto = new CreateKidDto();
   showSpinner = false;
 
@@ -127,6 +130,7 @@ export class KidsComponent implements OnInit {
     this.form.value as CreateKidDto;
     this.service.AssingService('Kid');
     this.getListKids();
+    this.getParameters();
   }
 
   changeTab(event: any): void {
@@ -200,9 +204,10 @@ export class KidsComponent implements OnInit {
   }
 
   editRow(row: KidsResult) {
-    this.getParameters();
-    this.changeTab(1);
     this.actionRow = 1;
+    this.selectedSex = this.listSexs.find((x) => x.description === row.sex);
+    this.selectedBlood = this.listBloods.find((x) => x.description === row.bloodType);
+    this.selectedDocumentType = this.listDocumentTypes.find((x) => x.description === row.documentType);
     this.saveKid.id = row.id;
     this.form.setValue({
       id: row.id,
@@ -215,6 +220,7 @@ export class KidsComponent implements OnInit {
       documentNumber: row.documentNumber,
     });
     this.liveDemoVisible = !this.liveDemoVisible;
+    this.changeTab(1);
   }
 
   toggleLiveDemo() {
@@ -243,6 +249,7 @@ export class KidsComponent implements OnInit {
       this.service.create(this.saveKid).subscribe({
         next: (resp: string) => {
           this.cleanForm();
+          this.getListKids();
           this.notification(resp);
         },
         error: (error: string) => {
@@ -254,6 +261,7 @@ export class KidsComponent implements OnInit {
       this.service.update(this.saveKid).subscribe({
         next: (resp: string) => {
           this.cleanForm();
+          this.getListKids();
           this.notification(resp);
         },
         error: (error: string) => {

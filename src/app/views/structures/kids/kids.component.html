@@ -231,6 +231,7 @@
                 <label cLabel>Sexo</label>
                 <app-select-parameters
                   [parameterList]="listSexs"
+                  [selectedValue]="selectedSex"
                   (onRowChange)="onSelectedSex($event)"
                 ></app-select-parameters>
               </c-col>
@@ -238,6 +239,7 @@
                 <label cLabel>Tipo de Sangre</label>
                 <app-select-parameters
                   [parameterList]="listBloods"
+                  [selectedValue]="selectedBlood"
                   (onRowChange)="onSelectedBlood($event)"
                 ></app-select-parameters>
               </c-col>
@@ -245,6 +247,7 @@
                 <label cLabel>Tipo de Documento</label>
                 <app-select-parameters
                   [parameterList]="listDocumentTypes"
+                  [selectedValue]="selectedDocumentType"
                   (onRowChange)="onSelectedDocumentType($event)"
                 ></app-select-parameters>
               </c-col>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { GetTypeResult } from 'src/app/services/type-business/models/get-type-result';
 
 @Component({
@@ -17,26 +17,39 @@ export class SelectParametersComponent implements OnInit {
   parameter: GetTypeResult;
   @Output() onRowChange = new EventEmitter<GetTypeResult>();
 
-  constructor() {
-  }
+  constructor() { }
 
   ngOnInit(): void {
+    this.initializeRow();
+  }
+
+  ngOnChanges(changes: any) {
+    if (changes.selectedValue && !changes.selectedValue.firstChange) {
+      this.row = this.selectedValue;
+      this.onRowChange.emit(this.row);
+    }
+
+    if (changes.enableAllOptions && !changes.enableAllOptions.firstChange) {
+      this.initializeRow();
+    }
+  }
+
+  selectParameter() {
+    this.parameter = this.row === "0" ? new GetTypeResult({ code: 0, name: "All" }) : this.row;
+    this.onRowChange.emit(this.parameter);
+  }
+
+  private initializeRow() {
     if (!this.enableAllOptions) {
       this.row = this.parameterList[0];
       this.onRowChange.emit(this.row);
     } else {
       this.row = 0;
     }
-    debugger
-    if(this.selectedValue !==  undefined && this.selectedValue !== null) {
+
+    if (this.selectedValue !== undefined && this.selectedValue !== null) {
       this.row = this.selectedValue;
       this.onRowChange.emit(this.row);
     }
-
-  }
-
-  selectParameter() {
-    this.parameter = this.row === "0" ? new GetTypeResult({ code: 0, name: "All" }) : this.row;
-    this.onRowChange.emit(this.parameter);
   }
 }

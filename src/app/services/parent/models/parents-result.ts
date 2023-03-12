@@ -15,4 +15,5 @@ export class ParentsResult {
   public dateCreation: Date;
   public dateModification: Date;
   public maritalStatus: string;
+  public documentType: string;
 }

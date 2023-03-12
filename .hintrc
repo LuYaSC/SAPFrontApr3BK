@@ -6,7 +6,8 @@
     "axe/forms": [
       "default",
       {
-        "autocomplete-valid": "off"
+        "autocomplete-valid": "off",
+        "select-name": "off"
       }
     ],
     "axe/name-role-value": [

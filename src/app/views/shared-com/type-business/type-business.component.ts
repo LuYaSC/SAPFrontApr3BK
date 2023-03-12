@@ -125,7 +125,7 @@ export class TypeBusinessComponent implements OnInit {
           this.closeModal();
         },
         error: (error: string) => {
-         this.notification(error);
+          this.notification(error);
         }
       });
     }
