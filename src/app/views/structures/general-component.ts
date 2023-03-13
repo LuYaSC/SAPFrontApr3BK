@@ -21,6 +21,12 @@ export class GeneralComponent {
   public listMaritalStatus: GetTypeResult[];
   public isVisibleMaritalStatus: boolean;
   public selectedMaritalStatus: GetTypeResult;
+  public listBranchOfficeStatus: GetTypeResult[];
+  public isVisibleBranchOfficeStatus: boolean;
+  public selectedBranchOfficeStatus: GetTypeResult;
+  public listCityStatus: GetTypeResult[];
+  public isVisibleCityStatus: boolean;
+  public selectedCityStatus: GetTypeResult;
   tabindex: number = 0;
   submitted = false;
   actionRow: number = 0;
@@ -52,21 +58,22 @@ export class GeneralComponent {
     this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
   }
 
-  getParameters(sexType: boolean = true, bloodType: boolean = true, documentType: boolean = true, maritalStatus: boolean = true) {
+  getParameters(sexType: boolean = true, bloodType: boolean = true, documentType: boolean = true, maritalStatus: boolean = true,
+    branchOffice: boolean = true, city: boolean = true) {
     if (sexType) {
-      this.GetServiceParametersList('sextype').subscribe(res => {
+      this.GetServiceParametersList('sexType').subscribe(res => {
         this.listSexs = res[0];
         this.isVisibleSex = res[1];
       });
     }
     if (bloodType) {
-      this.GetServiceParametersList('bloodtype').subscribe(res => {
+      this.GetServiceParametersList('bloodType').subscribe(res => {
         this.listBloods = res[0];
         this.isVisibleBlood = res[1];
       });
     }
     if (documentType) {
-      this.GetServiceParametersList('documenttype').subscribe(res => {
+      this.GetServiceParametersList('documentType').subscribe(res => {
         this.listDocumentTypes = res[0];
         this.isVisibleDocumentType = res[1];
       });
@@ -75,6 +82,18 @@ export class GeneralComponent {
       this.GetServiceParametersList('maritalStatus').subscribe(res => {
         this.listMaritalStatus = res[0];
         this.isVisibleMaritalStatus = res[1];
+      });
+    }
+    if (branchOffice) {
+      this.GetServiceParametersList('branchOffice').subscribe(res => {
+        this.listBranchOfficeStatus = res[0];
+        this.isVisibleBranchOfficeStatus = res[1];
+      });
+    }
+    if (city) {
+      this.GetServiceParametersList('city').subscribe(res => {
+        this.listCityStatus = res[0];
+        this.isVisibleCityStatus = res[1];
       });
     }
   }

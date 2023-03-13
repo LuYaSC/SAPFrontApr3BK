@@ -22,6 +22,8 @@ import { GlobalAlertsComponent } from './global-alerts/global-alerts.component';
 import { ValidationsComponent } from './validations/validations.component';
 import { TypeBusinessComponent } from './type-business/type-business.component';
 import { SelectParametersComponent } from './select-parameters/select-parameters.component';
+import { SelectRolesComponent } from './select-roles/select-roles.component';
+import { SelectMultipleRolesComponent } from './select-multiple-roles/select-multiple-roles.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { SelectParametersComponent } from './select-parameters/select-parameters
     GlobalAlertsComponent,
     ValidationsComponent,
     TypeBusinessComponent,
-    SelectParametersComponent
+    SelectParametersComponent,
+    SelectRolesComponent,
+    SelectMultipleRolesComponent
 
   ],
   imports: [
@@ -58,7 +62,9 @@ import { SelectParametersComponent } from './select-parameters/select-parameters
     GlobalAlertsComponent,
     ValidationsComponent,
     TypeBusinessComponent,
-    SelectParametersComponent
+    SelectParametersComponent,
+    SelectRolesComponent,
+    SelectMultipleRolesComponent
   ]
 })
 export class SharedComModule {

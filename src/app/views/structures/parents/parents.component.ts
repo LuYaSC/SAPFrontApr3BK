@@ -1,15 +1,14 @@
-import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
 import { ParentService } from './../../../services/parent/parent.service';
 import { GetTypeResult } from 'src/app/services/type-business/models/get-type-result';
-import { Observable, Subject } from 'rxjs';
 import { KidByIdDto } from 'src/app/services/kid/models/kid-by-id-dto';
 import { CreateParentDto } from 'src/app/services/parent/models/create-parent-dto';
 import { TypeBusinessService } from 'src/app/services/type-business/type-business.service';
 import { ParentsResult } from 'src/app/services/parent/models/parents-result';
-import { BsDatepickerConfig, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 import { SpinnerService } from 'src/app/helpers/spinner.service';
 import {GeneralComponent} from './../general-component';
+import {PARENT_FORM_VALIDATORS} from './../form-validators.const';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-parents',
@@ -30,64 +29,7 @@ export class ParentsComponent extends GeneralComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group(
-      {
-        id: [],
-        name: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(20),
-          ]
-        ],
-        firstLastName: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(20),
-          ]
-        ],
-        secondLastName: [
-          '',
-          [
-            Validators.minLength(3),
-            Validators.maxLength(20),
-          ]
-        ],
-        address: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(10),
-            Validators.maxLength(50),
-          ]
-        ],
-        documentNumber: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(5),
-            Validators.maxLength(10),
-          ]
-        ],
-        placeBorn: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(5),
-            Validators.maxLength(30),
-          ]
-        ],
-        phoneNumber: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.maxLength(8),
-          ]
-        ],
-      },
+      PARENT_FORM_VALIDATORS
     );
     this.form.value as CreateParentDto;
     this.service.AssingService('Parent');

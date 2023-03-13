@@ -1,140 +1,46 @@
-import { Component, Input, OnInit, ViewChild, HostListener } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
 import { KidService } from 'src/app/services/kid/kid.service';
 import { KidsResult } from 'src/app/services/kid/models/kids-result';
 import { KidByIdDto } from 'src/app/services/kid/models/kid-by-id-dto';
-import { BsDatepickerConfig, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 import { TypeBusinessService } from 'src/app/services/type-business/type-business.service';
 import { GetTypeResult } from 'src/app/services/type-business/models/get-type-result';
-import { Observable, Subject } from 'rxjs';
 import { CreateKidDto } from 'src/app/services/kid/models/create-kid-dto';
 import { SpinnerService } from 'src/app/helpers/spinner.service';
+import { KID_FORM_VALIDATORS } from '../form-validators.const';
+import { GeneralComponent } from '../general-component';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-kids',
   templateUrl: './kids.component.html',
   styleUrls: ['./kids.component.scss']
 })
-export class KidsComponent implements OnInit {
+export class KidsComponent extends GeneralComponent implements OnInit {
   @Input() listTypes: KidsResult[] = [];
   @Input() typeName: string = '';
   @Input() nameService: string = '';
   public liveDemoVisible = false;
-  form: FormGroup = new FormGroup({
-    name: new FormControl(''),
-    initial: new FormControl(''),
-    dateYMD: new UntypedFormControl(new Date()),
-  });
-  tabindex: number = 0;
-  submitted = false;
-  actionRow: number = 0;
-  isVisible: boolean = false;
-  visible: boolean = false;
-  message: string = '';
   public panes = [
     { name: 'Home 01', id: 'tab-01' },
     { name: 'Profile 02', id: 'tab-02' },
     { name: 'Contact 03', id: 'tab-03' }
   ];
-  currentDate = new Date();
-  @ViewChild(BsDatepickerDirective, { static: false }) datepicker?: BsDatepickerDirective;
-  @HostListener('window:scroll')
-  onScrollEvent() {
-    this.datepicker?.hide();
-  }
-  bsConfig?: Partial<BsDatepickerConfig>;
-  minDate: Date;
-  maxDate: Date;
-  colorTheme = 'theme-dark-blue';
-  listSexs: GetTypeResult[];
-  isVisibleSex: boolean;
-  selectedSex: GetTypeResult;
-  listBloods: GetTypeResult[];
-  isVisibleBlood: boolean;
-  selectedBlood: GetTypeResult;
-  listDocumentTypes: GetTypeResult[];
-  isVisibleDocumentType: boolean;
-  selectedDocumentType: GetTypeResult;
   saveKid: CreateKidDto = new CreateKidDto();
-  showSpinner = false;
 
-  constructor(private service: KidService, private parameterService: TypeBusinessService, private formBuilder: FormBuilder, private spinnerService: SpinnerService) {
-    this.minDate = new Date();
-    this.maxDate = new Date();
-    this.minDate.setDate(this.minDate.getDate() - 1);
-    this.maxDate.setDate(this.maxDate.getDate() + 7);
-    this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
+
+  constructor(private service: KidService, parameterService: TypeBusinessService, private formBuilder: FormBuilder,
+    private spinnerService: SpinnerService) {
+    super(parameterService);
   }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group(
-      {
-        id: [],
-        bornDate: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(10),
-          ]
-        ],
-        startDate: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(10),
-          ]
-        ],
-        name: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(20),
-          ]
-        ],
-        firstLastName: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(20),
-          ]
-        ],
-        secondLastName: [
-          '',
-          [
-            Validators.minLength(3),
-            Validators.maxLength(20),
-          ]
-        ],
-        documentNumber: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(5),
-            Validators.maxLength(10),
-          ]
-        ],
-        placeBorn: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(5),
-            Validators.maxLength(30),
-          ]
-        ],
-      },
+      KID_FORM_VALIDATORS
     );
     this.form.value as CreateKidDto;
     this.service.AssingService('Kid');
     this.getListKids();
-    this.getParameters();
-  }
-
-  changeTab(event: any): void {
-    this.tabindex = event;
+    this.getParameters(true, true, true, false, false);
   }
 
   onSelectedSex(event: GetTypeResult) {
@@ -147,21 +53,6 @@ export class KidsComponent implements OnInit {
 
   onSelectedDocumentType(event: GetTypeResult) {
     this.saveKid.documentTypeId = event.id;
-  }
-
-  getParameters() {
-    this.GetServiceParametersList('sextype').subscribe(res => {
-      this.listSexs = res[0];
-      this.isVisibleSex = res[1];
-    });
-    this.GetServiceParametersList('bloodtype').subscribe(res => {
-      this.listBloods = res[0];
-      this.isVisibleBlood = res[1];
-    });
-    this.GetServiceParametersList('documenttype').subscribe(res => {
-      this.listDocumentTypes = res[0];
-      this.isVisibleDocumentType = res[1];
-    });
   }
 
   getListKids() {
@@ -180,27 +71,6 @@ export class KidsComponent implements OnInit {
         this.spinnerService.hide(); // Oculta el spinner al recibir la respuesta
       }
     });
-  }
-
-  GetServiceParametersList(service: string): Observable<[GetTypeResult[], boolean]> {
-    var subject = new Subject<[GetTypeResult[], boolean]>();
-    this.parameterService.AssingService(service);
-    this.parameterService.getAll().subscribe({
-      next: (resp: GetTypeResult[]) => {
-        subject.next([resp, true]);
-      },
-      error: (error: any) => {
-        this.notification(error);
-      }
-    });
-    return subject.asObservable();
-  }
-
-  cleanForm() {
-    this.changeTab(0);
-    this.submitted = false;
-    this.form.reset();
-    this.getParameters();
   }
 
   editRow(row: KidsResult) {
@@ -271,10 +141,6 @@ export class KidsComponent implements OnInit {
     }
   }
 
-  get f(): { [key: string]: AbstractControl } {
-    return this.form.controls;
-  }
-
   enableOrDisable(row: KidsResult) {
     this.service.activateOrDeactivate(new KidByIdDto({ id: row.id, isDeleted: !row.isDeleted })).subscribe({
       next: (resp: string) => {
@@ -285,10 +151,5 @@ export class KidsComponent implements OnInit {
         this.notification(error);
       }
     });
-  }
-
-  notification(message: string) {
-    this.message = message;
-    this.visible = true;
   }
 }
