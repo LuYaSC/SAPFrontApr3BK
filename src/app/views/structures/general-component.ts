@@ -1,4 +1,4 @@
-import { Directive, HostListener, ViewChild } from '@angular/core';
+import { Directive, HostListener, Input, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
 import { BsDatepickerConfig, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 import { Observable, Subject } from 'rxjs';
@@ -49,6 +49,9 @@ export class GeneralComponent {
   maxDate: Date;
   colorTheme = 'theme-dark-blue';
   showSpinner = false;
+  itemsPerPage: number = 10;
+  currentPage: number = 1;
+  @Input() listTypes: any[] = [];
 
   constructor(private parameterService: TypeBusinessService) {
     this.minDate = new Date();
@@ -56,6 +59,17 @@ export class GeneralComponent {
     this.minDate.setDate(this.minDate.getDate() - 1);
     this.maxDate.setDate(this.maxDate.getDate() + 7);
     this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
+  }
+
+  onPageChange(pageNumber: number): void {
+    this.currentPage = pageNumber;
+  }
+
+  visibleItems(): any[] {
+    const firstIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const lastIndex = Math.min(this.listTypes.length, firstIndex + this.itemsPerPage);
+
+    return this.listTypes.slice(firstIndex, lastIndex);
   }
 
   getParameters(sexType: boolean = true, bloodType: boolean = true, documentType: boolean = true, maritalStatus: boolean = true,

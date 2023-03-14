@@ -6,8 +6,8 @@ import { CreateParentDto } from 'src/app/services/parent/models/create-parent-dt
 import { TypeBusinessService } from 'src/app/services/type-business/type-business.service';
 import { ParentsResult } from 'src/app/services/parent/models/parents-result';
 import { SpinnerService } from 'src/app/helpers/spinner.service';
-import {GeneralComponent} from './../general-component';
-import {PARENT_FORM_VALIDATORS} from './../form-validators.const';
+import { GeneralComponent } from './../general-component';
+import { PARENT_FORM_VALIDATORS } from './../form-validators.const';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -16,7 +16,6 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./parents.component.scss']
 })
 export class ParentsComponent extends GeneralComponent implements OnInit {
-  @Input() listTypes: ParentsResult[] = [];
   @Input() typeName: string = '';
   @Input() nameService: string = '';
   public liveDemoVisible = false;

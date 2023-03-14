@@ -24,6 +24,8 @@ import { TypeBusinessComponent } from './type-business/type-business.component';
 import { SelectParametersComponent } from './select-parameters/select-parameters.component';
 import { SelectRolesComponent } from './select-roles/select-roles.component';
 import { SelectMultipleRolesComponent } from './select-multiple-roles/select-multiple-roles.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { IconModule } from '@coreui/icons-angular';
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import { SelectMultipleRolesComponent } from './select-multiple-roles/select-mul
     TypeBusinessComponent,
     SelectParametersComponent,
     SelectRolesComponent,
-    SelectMultipleRolesComponent
+    SelectMultipleRolesComponent,
+    PaginationComponent
 
   ],
   imports: [
@@ -55,17 +58,19 @@ import { SelectMultipleRolesComponent } from './select-multiple-roles/select-mul
     TableModule,
     BadgeModule,
     ModalModule,
-    AlertModule
+    AlertModule,
+    IconModule,
   ],
   exports:
-  [
-    GlobalAlertsComponent,
-    ValidationsComponent,
-    TypeBusinessComponent,
-    SelectParametersComponent,
-    SelectRolesComponent,
-    SelectMultipleRolesComponent
-  ]
+    [
+      GlobalAlertsComponent,
+      ValidationsComponent,
+      TypeBusinessComponent,
+      SelectParametersComponent,
+      SelectRolesComponent,
+      SelectMultipleRolesComponent,
+      PaginationComponent
+    ]
 })
 export class SharedComModule {
 }

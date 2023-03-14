@@ -51,7 +51,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let row of listTypes">
+            <tr *ngFor="let row of visibleItems()">
               <td>{{row.description}}</td>
               <td *ngIf="haveInitials">{{row.initial}}</td>
               <td>
@@ -62,17 +62,41 @@
               <td>{{row.dateCreation | date:'medium' }}</td>
               <td>{{row.dateModification | date:'medium'}}</td>
               <td>
-                <button color='warning' cButton class="me-1" shape="rounded-pill" (click)="editRow(row)">
-                  Editar
+                <button
+                  color="warning"
+                  cButton
+                  class="me-1"
+                  shape="rounded-pill"
+                  (click)="editRow(row)"
+                  disabled="{{ row.isDeleted }}"
+                >
+                  <svg cIcon class="me-2" name="cil-pencil"></svg>
                 </button>
               </td>
               <td>
-                <button color='danger' cButton class="me-1" shape="rounded-pill">
-                  Eliminar
+                <button
+                  color="{{ row.isDeleted ? 'success' : 'danger' }}"
+                  cButton
+                  class="me-1"
+                  shape="rounded-pill"
+                  (click)="enableOrDisable(row)"
+                >
+                  <svg
+                    cIcon
+                    class="me-2"
+                    [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"
+                  ></svg>
                 </button>
               </td>
             </tr>
           </tbody>
+          <br>
+          <app-pagination
+          [totalItems]="listTypes.length"
+          [itemsPerPage]="itemsPerPage"
+          [currentPage]="currentPage"
+          (pageChanged)="onPageChange($event)"
+        ></app-pagination>
         </table>
       </c-card-body>
     </c-card>

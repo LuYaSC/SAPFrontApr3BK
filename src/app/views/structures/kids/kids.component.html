@@ -70,7 +70,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let row of listTypes">
+                <tr *ngFor="let row of visibleItems()">
                   <td>
                     {{ row.name }} {{ row.firstLastName }}
                     {{ row.secondLastName }}
@@ -82,11 +82,13 @@
                       >{{ row.isDeleted ? "INACTIVO" : "ACTIVO" }}</c-badge
                     >
                   </td>
-                  <td>{{ row.bornDate | date: "yyyy/MM/dd" }}</td>
+                  <td>{{ row.bornDate | date : "yyyy/MM/dd" }}</td>
                   <td>{{ row.age }}</td>
                   <td>{{ row.userCreation }}</td>
-                  <td>{{ row.dateCreation | date: "yyyy/MM/dd hh:mm:ss" }}</td>
-                  <td>{{ row.dateModification | date: "yyyy/MM/dd hh:mm:ss" }}</td>
+                  <td>{{ row.dateCreation | date : "yyyy/MM/dd hh:mm:ss" }}</td>
+                  <td>
+                    {{ row.dateModification | date : "yyyy/MM/dd hh:mm:ss" }}
+                  </td>
                   <td>
                     <button
                       color="warning"
@@ -96,22 +98,33 @@
                       (click)="editRow(row)"
                       disabled="{{ row.isDeleted }}"
                     >
-                      Editar
+                      <svg cIcon class="me-2" name="cil-pencil"></svg>
                     </button>
                   </td>
                   <td>
                     <button
-                      color="danger"
+                      color="{{ row.isDeleted ? 'success' : 'danger' }}"
                       cButton
                       class="me-1"
                       shape="rounded-pill"
                       (click)="enableOrDisable(row)"
                     >
-                      {{ row.isDeleted ? "Habilitar" : "Deshabilitar" }}
+                      <svg
+                        cIcon
+                        class="me-2"
+                        [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"
+                      ></svg>
                     </button>
                   </td>
                 </tr>
               </tbody>
+              <br />
+              <app-pagination
+                [totalItems]="listTypes.length"
+                [itemsPerPage]="itemsPerPage"
+                [currentPage]="currentPage"
+                (pageChanged)="onPageChange($event)"
+              ></app-pagination>
             </table>
           </c-tab-pane>
           <c-tab-pane
@@ -353,4 +366,3 @@
   [visible]="visible"
   [message]="message"
 ></app-global-alerts>
-

@@ -16,15 +16,9 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./kids.component.scss']
 })
 export class KidsComponent extends GeneralComponent implements OnInit {
-  @Input() listTypes: KidsResult[] = [];
   @Input() typeName: string = '';
   @Input() nameService: string = '';
   public liveDemoVisible = false;
-  public panes = [
-    { name: 'Home 01', id: 'tab-01' },
-    { name: 'Profile 02', id: 'tab-02' },
-    { name: 'Contact 03', id: 'tab-03' }
-  ];
   saveKid: CreateKidDto = new CreateKidDto();
 
 
@@ -68,7 +62,7 @@ export class KidsComponent extends GeneralComponent implements OnInit {
         this.visible = true;
       },
       complete: () => {
-        this.spinnerService.hide(); // Oculta el spinner al recibir la respuesta
+        this.spinnerService.hide();
       }
     });
   }

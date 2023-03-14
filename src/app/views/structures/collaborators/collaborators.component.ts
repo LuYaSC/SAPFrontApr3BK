@@ -17,7 +17,6 @@ import { RolesResult } from 'src/app/services/roles/models/roles-result';
   styleUrls: ['./collaborators.component.scss']
 })
 export class CollaboratorsComponent extends GeneralComponent implements OnInit {
-  @Input() listTypes: CollaboratorsResult[] = [];
   @Input() typeName: string = '';
   @Input() nameService: string = '';
   public liveDemoVisible = false;
@@ -38,7 +37,7 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
     );
     this.form.value as CreateCollaboratorDto;
     this.service.AssingService('Collaborator');
-    this.getListParents();
+    this.getListCollaborators();
     this.getParameters();
     this.rolesService.getAll().subscribe({
       next: (resp: RolesResult[]) => {
@@ -76,15 +75,15 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
   }
 
   onSelectedRoles(event: RolesResult) {
+    this.saveCollaborator.roles = [];
     this.saveCollaborator.roles.push(event?.id);
   }
 
   onSelectedRoles2(event: RolesResult[]) {
-    debugger
     event.forEach(x => this.saveCollaborator.roles.push(x.id));
   }
 
-  getListParents() {
+  getListCollaborators() {
     this.isVisible = false;
     this.form.reset();
     this.service.getAll().subscribe({
@@ -102,6 +101,7 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
     });
   }
 
+
   editRow(row: CollaboratorsResult) {
     this.actionRow = 1;
     this.selectedSex = this.listSexs.find((x) => x.description === row.sex);
@@ -109,7 +109,6 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
     this.selectedDocumentType = this.listDocumentTypes.find((x) => x.description === row.documentType);
     this.selectedDocumentType = this.listDocumentTypes.find((x) => x.description === row.documentType);
     this.saveCollaborator.id = row.id;
-    debugger
     this.form.setValue({
       id: row.id,
       name: row.name,
@@ -120,7 +119,7 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
       documentNumber: row.documentNumber,
       bornDate: new Date(row.bornDate),
       startDate: new Date(row.startDate),
-      endDate: new Date(row.endDate),
+      endDate: row.endDate === null ? row.endDate : new Date(row.endDate),
       email: row.email
     });
     this.liveDemoVisible = !this.liveDemoVisible;
@@ -157,7 +156,7 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
       this.service.create(this.saveCollaborator).subscribe({
         next: (resp: string) => {
           this.cleanForm();
-          this.getListParents();
+          this.getListCollaborators();
           this.notification(resp);
         },
         error: (error: string) => {
@@ -169,7 +168,7 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
       this.service.update(this.saveCollaborator).subscribe({
         next: (resp: string) => {
           this.cleanForm();
-          this.getListParents();
+          this.getListCollaborators();
           this.notification(resp);
         },
         error: (error: string) => {

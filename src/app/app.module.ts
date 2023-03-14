@@ -51,7 +51,7 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { AdministrationModule } from './views/administration/administration.module';
 import { SharedComModule } from './views/shared-com/shared-com.module';
-import {StructuresModule} from './views/structures/structures.module';
+import { StructuresModule } from './views/structures/structures.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SpinnerInterceptor } from './helpers/spinner-interceptor';
@@ -118,9 +118,7 @@ const APP_CONTAINERS = [
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
     },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
-    //httpInterceptorProviders,
     httpInterceptorProviders2,
-    //httpInterceptorResponse,
     IconSetService,
     Title
   ],

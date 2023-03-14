@@ -24,8 +24,10 @@ export class TypeBusinessComponent implements OnInit {
   actionRow: number = 0;
   isVisible: boolean = false;
   visible: boolean = false;
-
   message: string = '';
+  itemsPerPage: number = 10;
+  currentPage: number = 1;
+
   constructor(private service: TypeBusinessService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -71,6 +73,19 @@ export class TypeBusinessComponent implements OnInit {
   cleanForm() {
     this.form.reset();
   }
+  enableOrDisable(row: GetTypeResult){
+
+  }
+
+  onPageChange(pageNumber: number): void {
+    this.currentPage = pageNumber;
+  }
+
+  visibleItems(): any[] {
+    const firstIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const lastIndex = Math.min(this.listTypes.length, firstIndex + this.itemsPerPage);
+    return this.listTypes.slice(firstIndex, lastIndex);
+  }
 
   openModal() {
     this.cleanForm();
@@ -81,7 +96,6 @@ export class TypeBusinessComponent implements OnInit {
   editRow(row: GetTypeResult) {
     this.actionRow = 1;
     this.form.setValue({ id: row.id, name: row.description, initial: row.initial });
-    console.log("🚀 ~ file: type-business.component.ts ~ line 68 ~ TypeBusinessComponent ~ changes ~ aux", this.form)
     this.liveDemoVisible = !this.liveDemoVisible;
   }
 

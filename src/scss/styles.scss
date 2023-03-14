@@ -24,3 +24,16 @@ $enable-rtl: true;
 
 // If you want to add something do it here
 @import "custom";
+
+button svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease-in-out;
+  transform-style: preserve-3d;
+  perspective: 100px;
+}
+
+button:hover svg {
+  transform: rotate3d(1, 1, 0, 180deg) translateZ(4px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

@@ -12,7 +12,7 @@
               [routerLink]
               [tabPaneIdx]="0"
               cNavLink
-              (click)="getListParents()"
+              (click)="getListCollaborators()"
             >
               <svg cIcon class="me-2" name="cilHome"></svg>
               Busqueda
@@ -70,7 +70,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let row of listTypes">
+                <tr *ngFor="let row of visibleItems()">
                   <td>
                     {{ row.name }} {{ row.firstLastName }}
                     {{ row.secondLastName }}
@@ -89,8 +89,10 @@
                     >
                   </td>
                   <td>{{ row.userCreation }}</td>
-                  <td>{{ row.dateCreation | date: "yyyy/MM/dd hh:mm:ss" }}</td>
-                  <td>{{ row.dateModification | date: "yyyy/MM/dd hh:mm:ss" }}</td>
+                  <td>{{ row.dateCreation | date : "yyyy/MM/dd hh:mm:ss" }}</td>
+                  <td>
+                    {{ row.dateModification | date : "yyyy/MM/dd hh:mm:ss" }}
+                  </td>
                   <td>
                     <button
                       color="warning"
@@ -100,22 +102,29 @@
                       (click)="editRow(row)"
                       disabled="{{ row.isDeleted }}"
                     >
-                      Editar
+                      <svg cIcon class="me-2" name="cil-pencil"></svg>
                     </button>
                   </td>
                   <td>
                     <button
-                      color="danger"
+                      color="{{row.isDeleted ? 'success' : 'danger'}}"
                       cButton
                       class="me-1"
                       shape="rounded-pill"
                       (click)="enableOrDisable(row)"
                     >
-                      {{ row.isDeleted ? "Habilitar" : "Deshabilitar" }}
+                    <svg cIcon class="me-2" [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"></svg>
                     </button>
                   </td>
                 </tr>
               </tbody>
+              <br>
+              <app-pagination
+              [totalItems]="listTypes.length"
+              [itemsPerPage]="itemsPerPage"
+              [currentPage]="currentPage"
+              (pageChanged)="onPageChange($event)"
+            ></app-pagination>
             </table>
           </c-tab-pane>
           <c-tab-pane
@@ -248,9 +257,7 @@
                   *ngIf="submitted && f['address'].errors"
                   class="invalid-feedback"
                 >
-                  <div *ngIf="f['address'].errors['required']">
-                    required
-                  </div>
+                  <div *ngIf="f['address'].errors['required']">required</div>
                   <div *ngIf="f['address'].errors['minlength']">
                     name must be at least 6 characters
                   </div>
@@ -346,7 +353,9 @@
                   *ngIf="submitted && f['phoneNumber'].errors"
                   class="invalid-feedback"
                 >
-                  <div *ngIf="f['phoneNumber'].errors['required']">required</div>
+                  <div *ngIf="f['phoneNumber'].errors['required']">
+                    required
+                  </div>
                   <div *ngIf="f['phoneNumber'].errors['minlength']">
                     name must be at least 8 characters
                   </div>
@@ -425,9 +434,7 @@
                   *ngIf="submitted && f['email'].errors"
                   class="invalid-feedback"
                 >
-                  <div *ngIf="f['email'].errors['required']">
-                    required
-                  </div>
+                  <div *ngIf="f['email'].errors['required']">required</div>
                   <div *ngIf="f['email'].errors['minlength']">
                     name must be at least 6 characters
                   </div>
@@ -444,14 +451,14 @@
                   (onRowChange)="onSelectedRoles($event)"
                 ></app-select-roles>
               </c-col>
-              <c-col [md]="6" *ngIf="isVisibleRoles">
+              <!--<c-col [md]="6" *ngIf="isVisibleRoles">
                 <label cLabel>Roles</label>
                 <app-select-multiple-roles
                   [parameterList]="listRoles"
                   [selectedValues]="listRoles"
                   (onRowChange)="onSelectedRoles2(listRoles)"
                 ></app-select-multiple-roles>
-              </c-col>
+              </c-col>-->
               <c-col [xs]="12">
                 <button cButton type="submit" (click)="createOrUpdate()">
                   {{ this.actionRow === 0 ? "Registrar" : "Actualizar" }}
@@ -471,4 +478,3 @@
   [visible]="visible"
   [message]="message"
 ></app-global-alerts>
-
