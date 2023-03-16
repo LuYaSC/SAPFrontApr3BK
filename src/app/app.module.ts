@@ -106,6 +106,7 @@ const APP_CONTAINERS = [
     NgbModule,
     BsDatepickerModule.forRoot(),
     BrowserAnimationsModule
+
   ],
   providers: [
     {

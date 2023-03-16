@@ -72,7 +72,17 @@ const routes: Routes = [
           import('./views/pages/pages.module').then((m) => m.PagesModule)
       },
       {
-        path: 'administration',
+        path: 'administration-garden',
+        loadChildren: () =>
+          import('./views/administration/administration.module').then((m) => m.AdministrationModule)
+      },
+      {
+        path: 'administration-client',
+        loadChildren: () =>
+          import('./views/administration/administration.module').then((m) => m.AdministrationModule)
+      },
+      {
+        path: 'administration-payment',
         loadChildren: () =>
           import('./views/administration/administration.module').then((m) => m.AdministrationModule)
       },

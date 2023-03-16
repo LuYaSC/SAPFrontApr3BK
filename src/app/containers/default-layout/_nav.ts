@@ -13,80 +13,109 @@ export const navItems: INavData[] = [
 
   {
     title: true,
-    name: 'Administracion'
+    name: 'Modulo de Administracion de Centros'
   },
   {
-    name: 'Configuracion',
-    url: '/administration',
-    iconComponent: { name: 'cil-trash' },
+    name: 'Parametros',
+    url: '/administration-garden',
+    iconComponent: { name: 'cil-settings' },
     badge: {
       color: 'info',
       text: 'NEW'
     },
     children: [
       {
-        name: 'Sucursales',
-        url: '/administration/branch-office',
-        iconComponent: { name: 'cil-speedometer' },
-      },
-      {
         name: 'Ciudades',
-        url: '/administration/city',
-        iconComponent: { name: 'cil-speedometer' },
+        url: '/administration-garden/city',
+        iconComponent: { name: 'cil-settings' },
       },
       {
-        name: 'Tipos de Documentos',
-        url: '/administration/document-type',
-        iconComponent: { name: 'cil-speedometer' },
-      },
-      {
-        name: 'Modalidades',
-        url: '/administration/modality',
-        iconComponent: { name: 'cil-speedometer' },
-      },
-      {
-        name: 'Operacion de Pagos',
-        url: '/administration/payment-operation',
-        iconComponent: { name: 'cil-speedometer' },
-      },
-      {
-        name: 'Tipos de Pagos',
-        url: '/administration/payment-type',
-        iconComponent: { name: 'cil-speedometer' },
-      },
-      {
-        name: 'Relaciones',
-        url: '/administration/relationship',
-        iconComponent: { name: 'cil-speedometer' },
-      },
-      {
-        name: 'Turnos',
-        url: '/administration/turn',
-        iconComponent: { name: 'cil-speedometer' },
+        name: 'Sucursales',
+        url: '/administration-garden/branch-office',
+        iconComponent: { name: 'cil-settings' },
       },
       {
         name: 'Salas',
-        url: '/administration/room',
-        iconComponent: { name: 'cil-speedometer' },
+        url: '/administration-garden/room',
+        iconComponent: { name: 'cil-settings' },
       },
       {
-        name: 'Sexo',
-        url: '/administration/sex-type',
-        iconComponent: { name: 'cil-speedometer' },
+        name: 'Turnos',
+        url: '/administration-garden/turn',
+        iconComponent: { name: 'cil-settings' },
       },
       {
-        name: 'Sangre',
-        url: '/administration/blood-type',
-        iconComponent: { name: 'cil-speedometer' },
+        name: 'Modalidades',
+        url: '/administration-garden/modality',
+        iconComponent: { name: 'cil-settings' },
+      },
+    ]
+  },
+  {
+    title: true,
+    name: 'Modulo de Administracion de Clientes'
+  },
+  {
+    name: 'Parametros',
+    url: '/administration-client',
+    iconComponent: { name: 'cil-settings' },
+    badge: {
+      color: 'info',
+      text: 'NEW'
+    },
+    children: [
+      {
+        name: 'Tipos de Documentos',
+        url: '/administration-client/document-type',
+        iconComponent: { name: 'cil-settings' },
+      },
+      {
+        name: 'Parentezco',
+        url: '/administration-client/relationship',
+        iconComponent: { name: 'cil-settings' },
+      },
+      {
+        name: 'Genero',
+        url: '/administration-client/sex-type',
+        iconComponent: { name: 'cil-settings' },
+      },
+      {
+        name: 'Tipo de Sangre',
+        url: '/administration-client/blood-type',
+        iconComponent: { name: 'cil-settings' },
       },
       {
         name: 'Estado Civil',
-        url: '/administration/marital-status',
-        iconComponent: { name: 'cil-speedometer' },
+        url: '/administration-client/marital-status',
+        iconComponent: { name: 'cil-settings' },
       }
     ]
   },
-
+  {
+    title: true,
+    name: 'Modulo de Pagos'
+  },
+  {
+    name: 'Parametros',
+    url: '/administration-payment',
+    iconComponent: { name: 'cil-settings' },
+    badge: {
+      color: 'info',
+      text: 'NEW'
+    },
+    children: [
+      {
+        name: 'Estado de Pagos',
+        url: '/administration-payment/payment-operation',
+        iconComponent: { name: 'cil-settings' },
+      },
+      {
+        name: 'Tipos de Pagos',
+        url: '/administration-payment/payment-type',
+        iconComponent: { name: 'cil-settings' },
+      },
+    ]
+  },
   {
     title: true,
     name: 'Estructuras'
