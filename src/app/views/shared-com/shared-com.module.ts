@@ -26,6 +26,7 @@ import { SelectRolesComponent } from './select-roles/select-roles.component';
 import { SelectMultipleRolesComponent } from './select-multiple-roles/select-multiple-roles.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { IconModule } from '@coreui/icons-angular';
+import { DirectivesModule } from '../../helpers/directives/directives.module';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { IconModule } from '@coreui/icons-angular';
     ModalModule,
     AlertModule,
     IconModule,
+    DirectivesModule
   ],
   exports:
     [

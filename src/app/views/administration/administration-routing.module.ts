@@ -13,6 +13,7 @@ import { RoomComponent } from './room/room.component';
 import { SexTypeComponent } from './sex-type/sex-type.component';
 import { TurnComponent } from './turn/turn.component';
 import { MaritalStatusComponent } from './marital-status/marital-status.component';
+import { AuditPaymentTypeComponent } from './audit-payment-type/audit-payment-type.component';
 
 
 const routes: Routes = [
@@ -109,6 +110,13 @@ const routes: Routes = [
         component: MaritalStatusComponent,
         data: {
           title: 'Estado Civil'
+        }
+      },
+      {
+        path: 'audit-payment-type',
+        component: AuditPaymentTypeComponent,
+        data: {
+          title: 'Tipo de Registro de Pagos'
         }
       }
     ]

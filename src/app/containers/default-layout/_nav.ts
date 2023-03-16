@@ -114,6 +114,11 @@ export const navItems: INavData[] = [
         url: '/administration-payment/payment-type',
         iconComponent: { name: 'cil-settings' },
       },
+      {
+        name: 'Tipos de Registro Pagos',
+        url: '/administration-payment/audit-payment-type',
+        iconComponent: { name: 'cil-settings' },
+      },
     ]
   },
   {

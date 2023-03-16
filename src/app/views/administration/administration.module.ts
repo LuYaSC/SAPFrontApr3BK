@@ -27,6 +27,7 @@ import { SharedComModule } from './../shared-com/shared-com.module';
 import { SexTypeComponent } from './sex-type/sex-type.component';
 import { BloodTypeComponent } from './blood-type/blood-type.component';
 import { MaritalStatusComponent } from './marital-status/marital-status.component';
+import { AuditPaymentTypeComponent } from './audit-payment-type/audit-payment-type.component';
 
 
 @NgModule({
@@ -42,8 +43,8 @@ import { MaritalStatusComponent } from './marital-status/marital-status.componen
     RoomComponent,
     SexTypeComponent,
     BloodTypeComponent,
-    MaritalStatusComponent
-
+    MaritalStatusComponent,
+    AuditPaymentTypeComponent
   ],
   imports: [
     CommonModule,

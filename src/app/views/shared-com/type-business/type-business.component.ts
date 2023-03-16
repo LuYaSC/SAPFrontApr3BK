@@ -38,8 +38,8 @@ export class TypeBusinessComponent implements OnInit {
           '',
           [
             Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(20),
+            Validators.minLength(5),
+            Validators.maxLength(50),
           ]
         ],
         initial: [
@@ -95,7 +95,8 @@ export class TypeBusinessComponent implements OnInit {
 
   editRow(row: GetTypeResult) {
     this.actionRow = 1;
-    this.form.setValue({ id: row.id, name: row.description, initial: row.initial });
+    let initial = (row.initial === undefined || row.initial === null) ? '' : row.initial;
+    this.form.setValue({ id: row.id, name: row.description, initial: initial });
     this.liveDemoVisible = !this.liveDemoVisible;
   }
 
