@@ -24,26 +24,84 @@
   </c-col>-->
 
   <c-col xs="12">
-    <c-card class="mb-4">
-      <c-card-header>
-        <strong>{{ typeName }}</strong> <small>100 registros encontrados</small>
+    <c-card class="mb-12">
+      <c-card-header class="mb-3">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-12">
+              <div class="d-flex align-items-center w-100">
+                <strong class="d-inline-block w-100 text-truncate">{{
+                  typeName.toUpperCase()
+                }}</strong>
+              </div>
+              <div class="row">
+                <small class="text-success ml-3 d-inline-block"
+                  >{{ totalItemsCount }} registros encontrados</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-10 d-flex justify-content-end">
+            <button
+              cButton
+              type="button"
+              class="btn btn-primary"
+              (click)="openModal()"
+              *ngTemplateOutlet="liveDemo"
+            >
+              <i class="fas fa-plus-circle mr-2"></i>
+              Crear registro
+            </button>
+          </div>
+        </div>
       </c-card-header>
       <c-card-body>
-        <p class="text-medium-emphasis small">
-          Servicio para administrar parametros del sistema, modulo de
-          {{ typeName.toUpperCase() }}, para crear un nuevo registro presione:
-          <code>Crear Registro</code>
-        </p>
-        <div class="d-grid gap-2 col-3 mx-auto" align="left">
-          <button
-            cButton
-            color="primary"
-            (click)="openModal()"
-            *ngTemplateOutlet="liveDemo"
-          >
-            Crear Registro
-          </button>
-        </div>
+        <form cForm class="row g-3" [formGroup]="formSearch">
+          <c-col [md]="6">
+            <label cLabel for="nameLabel">Nombre</label>
+            <input
+              type="text"
+              formControlName="name"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+              autoComplete="name"
+              cFormControl
+              placeholder="Ingrese Nombre"
+            />
+            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+              <div *ngIf="f['name'].errors['required']">required</div>
+              <div *ngIf="f['name'].errors['minlength']">
+                name must be at least 6 characters
+              </div>
+              <div *ngIf="f['name'].errors['maxlength']">
+                name must not exceed 20 characters
+              </div>
+            </div>
+          </c-col>
+          <c-col [md]="6">
+            <label cLabel for="statusLabel">Estado</label>
+            <div class="custom-select">
+              <select class="form-control" id="select-search-status" formControlName="statusSelected">
+                <option value="" selected>Todos</option>
+                <option value="activo">Activo</option>
+                <option value="inactivo">Inactivo</option>
+              </select>
+            </div>
+            <div *ngIf="submitted && f['statusSelected'].errors" class="invalid-feedback">
+              <div *ngIf="f['statusSelected'].errors['required']">Campo es Requerido (*)</div>
+            </div>
+          </c-col>
+
+          <c-col [xs]="12">
+            <div class="d-flex justify-content-end">
+              <button cButton type="submit" (click)="createOrUpdate()">
+                Buscar
+              </button>
+            </div>
+          </c-col>
+        </form>
+
         <table cTable *ngIf="isVisible">
           <thead>
             <tr>
@@ -170,9 +228,7 @@
                 </div>
               </div>
               <div class="mb-3" *ngIf="haveInitials">
-                <label cLabel for="labelInitials"
-                  >Iniciales</label
-                >
+                <label cLabel for="labelInitials">Iniciales</label>
                 <input
                   type="text"
                   appOnlyLetters

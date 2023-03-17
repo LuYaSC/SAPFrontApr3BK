@@ -20,6 +20,10 @@ export class TypeBusinessComponent implements OnInit {
     name: new FormControl(''),
     initial: new FormControl(''),
   });
+  formSearch: FormGroup = new FormGroup({
+    name: new FormControl(''),
+    statusSelected: new FormControl(''),
+  });
   submitted = false;
   actionRow: number = 0;
   isVisible: boolean = false;
@@ -27,6 +31,7 @@ export class TypeBusinessComponent implements OnInit {
   message: string = '';
   itemsPerPage: number = 10;
   currentPage: number = 1;
+  totalItemsCount: number = 0;
 
   constructor(private service: TypeBusinessService, private formBuilder: FormBuilder) { }
 
@@ -51,9 +56,32 @@ export class TypeBusinessComponent implements OnInit {
         ],
       },
     );
+    this.formSearch = this.formBuilder.group(
+      {
+        name: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(5),
+            Validators.maxLength(50),
+          ]
+        ],
+        statusSelected: [
+          '',
+          [
+            Validators.required,
+          ]
+        ],
+      },
+    );
     this.form.value as CreateUpdateTypeBusinessDto;
+    this.formSearch.value as any;
     this.service.AssingService(this.nameService);
     this.getParameters();
+  }
+
+  onSelectedStatus() {
+
   }
 
   getParameters() {
@@ -61,6 +89,7 @@ export class TypeBusinessComponent implements OnInit {
     this.service.getAll().subscribe({
       next: (resp: GetTypeResult[]) => {
         this.listTypes = resp;
+        this.totalItemsCount = resp.length;
         this.isVisible = true;
       },
       error: (error: any) => {
@@ -72,9 +101,6 @@ export class TypeBusinessComponent implements OnInit {
 
   cleanForm() {
     this.form.reset();
-  }
-  enableOrDisable(row: GetTypeResult){
-
   }
 
   onPageChange(pageNumber: number): void {
@@ -144,6 +170,24 @@ export class TypeBusinessComponent implements OnInit {
         }
       });
     }
+  }
+
+  enableOrDisable(row: GetTypeResult) {
+    let dto = new CreateUpdateTypeBusinessDto({
+      id: row.id,
+      description: row.description,
+      initial: row.initial === null ? '' : row.initial,
+      isDisabled: !row.isDeleted
+    });
+    this.service.update(dto).subscribe({
+      next: (resp: string) => {
+        this.getParameters();
+        this.notification(resp);
+      },
+      error: (error: string) => {
+        this.notification(error);
+      }
+    });
   }
 
   get f(): { [key: string]: AbstractControl } {

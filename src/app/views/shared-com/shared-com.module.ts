@@ -27,6 +27,7 @@ import { SelectMultipleRolesComponent } from './select-multiple-roles/select-mul
 import { PaginationComponent } from './pagination/pagination.component';
 import { IconModule } from '@coreui/icons-angular';
 import { DirectivesModule } from '../../helpers/directives/directives.module';
+import { SelectorGenericComponent } from './selector-generic/selector-generic.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { DirectivesModule } from '../../helpers/directives/directives.module';
     SelectParametersComponent,
     SelectRolesComponent,
     SelectMultipleRolesComponent,
-    PaginationComponent
+    PaginationComponent,
+    SelectorGenericComponent
 
   ],
   imports: [
@@ -71,7 +73,8 @@ import { DirectivesModule } from '../../helpers/directives/directives.module';
       SelectParametersComponent,
       SelectRolesComponent,
       SelectMultipleRolesComponent,
-      PaginationComponent
+      PaginationComponent,
+      SelectorGenericComponent
     ]
 })
 export class SharedComModule {

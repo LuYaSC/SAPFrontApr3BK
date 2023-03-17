@@ -1,6 +1,8 @@
-<select class="form-control" [(ngModel)]="row" (ngModelChange)="selectParameter()" >
-  <option *ngIf="enableAllOptions" value="0">ALL</option>
-  <option *ngFor="let row of parameterList" [ngValue]="row">
-    {{row.description}}
-  </option>
-</select>
+<div class="custom-select">
+  <select class="form-control" [(ngModel)]="row" (ngModelChange)="selectParameter()">
+    <option *ngIf="enableAllOptions" value="0">ALL</option>
+    <option *ngFor="let row of parameterList" [ngValue]="row">
+      {{row.description}}
+    </option>
+  </select>
+</div>
