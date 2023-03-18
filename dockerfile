@@ -14,7 +14,7 @@ RUN npm ci
 COPY . .
 
 # Construir el proyecto Angular en modo de producción
-RUN npm run build -- --prod --output-path=dist
+RUN npm run build --prod
 
 # Utilizar una imagen oficial de NGINX para servir la aplicación
 FROM nginx:1.21
@@ -23,7 +23,7 @@ FROM nginx:1.21
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copiar los archivos de la aplicación construida a la imagen de NGINX
-COPY --from=0 /app/dist /usr/share/nginx/html
+COPY --from=0 /app/dist/coreui-free-angular-admin-template /usr/share/nginx/html
 
 # Exponer el puerto 80 para que el contenedor sea accesible
 EXPOSE 80
