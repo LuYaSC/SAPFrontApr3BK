@@ -1,60 +1,13 @@
 <c-row ngPreserveWhitespaces>
-  <!--<c-col xs="12">
-  </c-col>
-  <c-col xs="6">
-    <c-card class="mb-4">
-      <c-card-header>
-        <strong>Angular Select</strong> <small>Default</small>
-      </c-card-header>
-      <c-card-body>
-        <app-select-parameters [parameterList]="listTypes" (onRowChange)="selectUser($event)"></app-select-parameters>
-      </c-card-body>
-    </c-card>
-  </c-col>
-  <c-col xs="6">
-    <c-card class="mb-4">
-      <c-card-header>
-        <strong>Angular Select</strong> <small>Default 2</small>
-      </c-card-header>
-      <c-card-body>
-        <app-select-parameters [parameterList]="listTypes" (onRowChange)="selectUser($event)"></app-select-parameters>
-
-      </c-card-body>
-    </c-card>
-  </c-col>-->
-
   <c-col xs="12">
     <c-card class="mb-12">
-      <c-card-header class="mb-3">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-md-12">
-              <div class="d-flex align-items-center w-100">
-                <strong class="d-inline-block w-100 text-truncate">{{
-                  typeName.toUpperCase()
-                }}</strong>
-              </div>
-              <div class="row">
-                <small class="text-success ml-3 d-inline-block"
-                  >{{ totalItemsCount }} registros encontrados</small
-                >
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-10 d-flex justify-content-end">
-            <button
-              cButton
-              type="button"
-              class="btn btn-primary"
-              (click)="openModal()"
-              *ngTemplateOutlet="liveDemo"
-            >
-              <i class="fas fa-plus-circle mr-2"></i>
-              Crear registro
-            </button>
-          </div>
-        </div>
+      <c-card-header ngPreserveWhitespaces>
+        <strong
+          >{{ typeName.toUpperCase() }}
+          <small class="text-success"
+            >({{ totalItemsCount }} registros encontrados)</small
+          ></strong
+        >
       </c-card-header>
       <c-card-body>
         <form cForm class="row g-3" [formGroup]="formSearch">
@@ -64,44 +17,52 @@
               type="text"
               formControlName="name"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
               autoComplete="name"
               cFormControl
               placeholder="Ingrese Nombre"
             />
-            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-              <div *ngIf="f['name'].errors['required']">required</div>
-              <div *ngIf="f['name'].errors['minlength']">
-                name must be at least 6 characters
-              </div>
-              <div *ngIf="f['name'].errors['maxlength']">
-                name must not exceed 20 characters
-              </div>
-            </div>
           </c-col>
           <c-col [md]="6">
             <label cLabel for="statusLabel">Estado</label>
             <div class="custom-select">
-              <select class="form-control" id="select-search-status" formControlName="statusSelected">
+              <select
+                class="form-control"
+                id="select-search-status"
+                formControlName="statusSelected"
+              >
                 <option value="" selected>Todos</option>
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
               </select>
             </div>
-            <div *ngIf="submitted && f['statusSelected'].errors" class="invalid-feedback">
-              <div *ngIf="f['statusSelected'].errors['required']">Campo es Requerido (*)</div>
-            </div>
           </c-col>
-
           <c-col [xs]="12">
             <div class="d-flex justify-content-end">
-              <button cButton type="submit" (click)="createOrUpdate()">
-                Buscar
+              <button
+                cButton
+                type="submit"
+                class="btn-info"
+                (click)="openModal()"
+                style="margin: 0 8px"
+                *ngTemplateOutlet="liveDemo"
+              >
+                <i class="cil-plus"></i> Crear registro
+              </button>
+              <button
+                cButton
+                type="submit"
+                class="btn-warning"
+                (click)="filterSearch(true)"
+                style="margin: 0 8px"
+              >
+                <i class="cil-x-circle"></i> Limpiar
+              </button>
+              <button cButton type="submit" (click)="filterSearch(false)">
+                <i class="cil-magnifying-glass"></i> Buscar
               </button>
             </div>
           </c-col>
         </form>
-
         <table cTable *ngIf="isVisible">
           <thead>
             <tr>
@@ -180,7 +141,9 @@
 ></app-global-alerts>
 
 <ng-template #liveDemo>
-  <button (click)="openModal()" cButton>Crear Registro</button>
+  <button (click)="openModal()" cButton class="btn-success">
+    <i class="cil-plus"></i> Crear registro
+  </button>
   <c-modal
     id="liveDemoModal"
     [visible]="liveDemoVisible"
@@ -258,9 +221,22 @@
       </c-col>
     </c-modal-body>
     <c-modal-footer>
-      <button (click)="closeModal()" cButton color="secondary">Cerrar</button>
-      <button cButton color="primary" (click)="createOrUpdate()">
-        Guardar
+      <button
+        (click)="closeModal()"
+        cButton
+        color="danger"
+        style="color: white"
+      >
+        <i class="cil-x"></i> Cerrar
+      </button>
+
+      <button
+        cButton
+        color="success"
+        (click)="createOrUpdate()"
+        style="color: white"
+      >
+        <i class="cil-save"></i> Guardar
       </button>
     </c-modal-footer>
   </c-modal>

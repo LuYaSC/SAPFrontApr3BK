@@ -32,6 +32,7 @@ export class TypeBusinessComponent implements OnInit {
   itemsPerPage: number = 10;
   currentPage: number = 1;
   totalItemsCount: number = 0;
+  listTemp: GetTypeResult[];
 
   constructor(private service: TypeBusinessService, private formBuilder: FormBuilder) { }
 
@@ -60,17 +61,11 @@ export class TypeBusinessComponent implements OnInit {
       {
         name: [
           '',
-          [
-            Validators.required,
-            Validators.minLength(5),
-            Validators.maxLength(50),
-          ]
+          []
         ],
         statusSelected: [
           '',
-          [
-            Validators.required,
-          ]
+          []
         ],
       },
     );
@@ -80,8 +75,20 @@ export class TypeBusinessComponent implements OnInit {
     this.getParameters();
   }
 
-  onSelectedStatus() {
+  filterSearch(clean: boolean) {
+    let nameSearch = this.formSearch.get("name").value;
+    let statusSearch = this.formSearch.get("statusSelected").value;
 
+    if (clean || (nameSearch === '' && statusSearch === '')) {
+      this.formSearch.setValue({ name: '', statusSelected: '' });
+      this.getParameters();
+    }
+    else {
+      let statusBool = statusSearch === '1';
+      this.listTypes = this.listTemp.filter(x => x.description.includes(nameSearch?.toUpperCase()) && x.isDeleted === !statusBool);
+      this.onPageChange(1);
+      this.visibleItems();
+    }
   }
 
   getParameters() {
@@ -89,6 +96,7 @@ export class TypeBusinessComponent implements OnInit {
     this.service.getAll().subscribe({
       next: (resp: GetTypeResult[]) => {
         this.listTypes = resp;
+        this.listTemp = resp;
         this.totalItemsCount = resp.length;
         this.isVisible = true;
       },
@@ -136,11 +144,11 @@ export class TypeBusinessComponent implements OnInit {
 
   createOrUpdate() {
     this.submitted = true;
-    this.isVisible = false;
-    this.visible = false;
     if (this.form.invalid) {
       return;
     }
+    this.isVisible = false;
+    this.visible = false;
     let dto = new CreateUpdateTypeBusinessDto({
       id: this.form.get("id").value,
       description: this.form.get("name").value,
