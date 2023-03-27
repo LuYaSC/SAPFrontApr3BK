@@ -27,6 +27,9 @@ export class GeneralComponent {
   public listCityStatus: GetTypeResult[];
   public isVisibleCityStatus: boolean;
   public selectedCityStatus: GetTypeResult;
+  public listRelationStatus: GetTypeResult[];
+  public isVisibleRelationStatus: boolean;
+  public selectedRelationStatus: GetTypeResult;
   tabindex: number = 0;
   submitted = false;
   actionRow: number = 0;
@@ -73,7 +76,7 @@ export class GeneralComponent {
   }
 
   getParameters(sexType: boolean = true, bloodType: boolean = true, documentType: boolean = true, maritalStatus: boolean = true,
-    branchOffice: boolean = true, city: boolean = true) {
+    branchOffice: boolean = true, city: boolean = true, relation = false) {
     if (sexType) {
       this.GetServiceParametersList('sexType').subscribe(res => {
         this.listSexs = res[0];
@@ -110,6 +113,12 @@ export class GeneralComponent {
         this.isVisibleCityStatus = res[1];
       });
     }
+    if (relation) {
+      this.GetServiceParametersList('relationship').subscribe(res => {
+        this.listRelationStatus = res[0];
+        this.isVisibleRelationStatus = res[1];
+      });
+    }
   }
 
   GetServiceParametersList(service: string): Observable<[GetTypeResult[], boolean]> {
@@ -135,7 +144,7 @@ export class GeneralComponent {
     return this.form.controls;
   }
 
-  changeTab(event: any): void {
+  public changeTab(event: any): void {
     this.tabindex = event;
   }
 

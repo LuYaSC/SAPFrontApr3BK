@@ -34,12 +34,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedComModule } from '../shared-com/shared-com.module';
 import { IconModule } from '@coreui/icons-angular';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TutorAssignationComponent } from './tutor-assignation/tutor-assignation.component';
+import { RoomAssignationComponent } from './room-assignation/room-assignation.component';
 
 @NgModule({
   declarations: [
     ParentsComponent,
     KidsComponent,
-    CollaboratorsComponent
+    CollaboratorsComponent,
+    TutorAssignationComponent,
+    RoomAssignationComponent
   ],
   imports: [
     StructuresRoutingModule,

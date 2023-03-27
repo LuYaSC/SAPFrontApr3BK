@@ -149,6 +149,16 @@ export const navItems: INavData[] = [
         url: '/structures/collaborators',
         iconComponent: { name: 'cil-speedometer' },
       },
+      {
+        name: 'Asignacion Tutores',
+        url: '/structures/tutor-assignation',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Asignacion Salas',
+        url: '/structures/room-assignation',
+        iconComponent: { name: 'cil-speedometer' },
+      },
     ]
   },
 

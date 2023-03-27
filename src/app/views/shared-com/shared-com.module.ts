@@ -28,6 +28,7 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { IconModule } from '@coreui/icons-angular';
 import { DirectivesModule } from '../../helpers/directives/directives.module';
 import { SelectorGenericComponent } from './selector-generic/selector-generic.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { SelectorGenericComponent } from './selector-generic/selector-generic.co
     ModalModule,
     AlertModule,
     IconModule,
-    DirectivesModule
+    DirectivesModule,
+    Ng2SearchPipeModule
   ],
   exports:
     [

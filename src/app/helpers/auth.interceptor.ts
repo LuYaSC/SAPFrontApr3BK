@@ -63,12 +63,10 @@ export class AuthInterceptor implements HttpInterceptor {
         if(event.status === 200 && event.ok) {
           if(event.body.isOk) {
             //La peticion retorno correctamente y solo se retorna el body
-            console.log("🚀 ~ file: auth.interceptor.ts ~ line 70 ~ AuthInterceptor ~ map ~ event.body.body", event.body.body)
             return event.clone({ body: event.body.body });
           }
           else {
             //Error cuando el servicio response error
-            console.log("🚀 ~ file: auth.interceptor.ts ~ line 73 ~ AuthInterceptor ~ map ~ event.body.message", event.body.message)
             throw event.body.message;
           }
         } else {

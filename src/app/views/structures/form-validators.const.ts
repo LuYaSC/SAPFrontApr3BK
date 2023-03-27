@@ -204,6 +204,17 @@ export const COLLABORATOR_FORM_VALIDATORS: any =
   ],
 };
 
-
+export const TUTOR_ASSIGNED: any =
+{
+  id: [],
+  observations: [
+    '',
+    [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(50),
+    ]
+  ],
+};
 
 

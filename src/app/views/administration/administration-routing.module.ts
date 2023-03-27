@@ -118,7 +118,7 @@ const routes: Routes = [
         data: {
           title: 'Tipo de Registro de Pagos'
         }
-      }
+      },
     ]
   }
 ];

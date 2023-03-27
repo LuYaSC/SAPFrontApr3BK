@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { KidsComponent } from './kids/kids.component';
 import { ParentsComponent } from './parents/parents.component';
 import { CollaboratorsComponent } from './collaborators/collaborators.component'
+import { TutorAssignationComponent } from './tutor-assignation/tutor-assignation.component';
+import { RoomAssignationComponent } from './room-assignation/room-assignation.component';
 
 const routes: Routes = [
   {
@@ -26,6 +28,20 @@ const routes: Routes = [
       title: 'Parents'
     }
   },
+  {
+    path: 'tutor-assignation',
+    component: TutorAssignationComponent,
+    data: {
+      title: 'Asignacion de tutores'
+    }
+  },
+  {
+    path: 'room-assignation',
+    component: RoomAssignationComponent,
+    data: {
+      title: 'Asignacion de Salas'
+    }
+  }
 ];
 
 @NgModule({

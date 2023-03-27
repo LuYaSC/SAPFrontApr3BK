@@ -1,0 +1,229 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-3">
+      <c-card-header ngPreserveWhitespaces>
+        <strong>Seguimiento y Control de Ninos</strong> <small></small>
+      </c-card-header>
+      <c-card-body>
+        <c-nav variant="pills">
+          <c-nav-item>
+            <a
+              [cTabContent]="tabContent3"
+              [routerLink]
+              [tabPaneIdx]="0"
+              cNavLink
+              (click)="getListTutors()"
+            >
+              <svg cIcon class="me-2" name="cilHome"></svg>
+              Busqueda
+            </a>
+          </c-nav-item>
+          <c-nav-item>
+            <a
+              [cTabContent]="tabContent3"
+              [routerLink]
+              [tabPaneIdx]="1"
+              cNavLink
+              (click)="getParameters()"
+            >
+              <svg cIcon class="me-2" name="cilUser"></svg>
+              Gestion
+            </a>
+          </c-nav-item>
+          <!--<c-nav-item>
+            <a [cTabContent]="tabContent3" [routerLink] [tabPaneIdx]="2" cNavLink>
+              <svg cIcon class="me-2" name="cilCode"></svg>
+              Contact
+            </a>
+          </c-nav-item>-->
+        </c-nav>
+        <c-tab-content
+          #tabContent3="cTabContent"
+          cRounded="bottom"
+          (activeTabPaneIdxChange)="changeTab($event)"
+          [activeTabPaneIdx]="tabindex"
+        >
+          <c-tab-pane
+            aria-labelledby="docs-code-preview"
+            class="p-3 preview"
+            role="tabpanel"
+          >
+            <strong>{{ typeName }}</strong>
+            <small>{{ this.listTypes.length }}</small> registros encontrados
+            <p class="text-medium-emphasis small">
+              Administracion del modulo de ni;os, si desea crear un nuevo
+              registro, presione:
+              <code>Gestion</code>
+            </p>
+            <table cTable *ngIf="isVisible">
+              <thead>
+                <tr>
+                  <th scope="col">Nino</th>
+                  <th scope="col">Padre</th>
+                  <th scope="col">Parentezco</th>
+                  <th scope="col">Observaciones</th>
+                  <th scope="col">Auth. Recojo</th>
+                  <th scope="col">Creado por</th>
+                  <th scope="col">Creado en</th>
+                  <th scope="col">Modificado por</th>
+                  <th scope="col">Modificado en</th>
+                  <th scope="col">Acciones</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of visibleItems()">
+                  <td>
+                    {{ row.kidName }}
+                  </td>
+                  <td>
+                    {{ row.parentName }}
+                  </td>
+                  <td>
+                    {{ row.relation }}
+                  </td>
+                  <td>
+                    {{ row.observations }}
+                  </td>
+                  <td>
+                    <c-badge
+                      class="me-1"
+                      color="{{ row.isAuthorized ? 'success' : 'danger' }}"
+                      >{{
+                        row.isAuthorized ? "AUTORIZADO" : "NO AUTORIZADO"
+                      }}</c-badge
+                    >
+                  </td>
+                  <td>{{ row.userCreation }}</td>
+                  <td>{{ row.dateCreation | date : "yyyy/MM/dd hh:mm:ss" }}</td>
+                  <td>{{ row.userModification }}</td>
+                  <td>
+                    {{ row.dateModification | date : "yyyy/MM/dd hh:mm:ss" }}
+                  </td>
+                  <td>
+                    <button
+                      color="warning"
+                      cButton
+                      class="me-1"
+                      shape="rounded-pill"
+                      (click)="editRow(row)"
+                      disabled="{{ row.isDeleted }}"
+                    >
+                      <svg cIcon class="me-2" name="cil-pencil"></svg>
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      color="{{ row.isDeleted ? 'success' : 'danger' }}"
+                      cButton
+                      class="me-1"
+                      shape="rounded-pill"
+                      (click)="enableOrDisable(row)"
+                    >
+                      <svg
+                        cIcon
+                        class="me-2"
+                        [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"
+                      ></svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+              <br />
+              <app-pagination
+                [totalItems]="listTypes.length"
+                [itemsPerPage]="itemsPerPage"
+                [currentPage]="currentPage"
+                (pageChanged)="onPageChange($event)"
+              ></app-pagination>
+            </table>
+          </c-tab-pane>
+          <c-tab-pane
+            aria-labelledby="docs-code-preview"
+            class="p-3 preview"
+            role="tabpanel"
+          >
+            <form cForm class="row g-3" [formGroup]="form">
+              <c-col [md]="6"
+                >
+                <label cLabel>Ninos
+                </label>
+                <app-selector-generic
+                  [parameterList]="kidsList"
+                  [selectedValue]="kidSelected"
+                  (onRowChange)="onSelectedKid($event)"
+                ></app-selector-generic
+              ></c-col>
+              <c-col [md]="6"
+                >
+                <label cLabel>Tutor a Asignar
+                </label>
+                <app-selector-generic
+                  [parameterList]="parentsList"
+                  [selectedValue]="parentSelected"
+                  (onRowChange)="onSelectedParent($event)"
+                ></app-selector-generic
+              ></c-col>
+              <c-col [md]="6" *ngIf="isVisibleRelationStatus">
+                <label cLabel>Parentezco</label>
+                <app-select-parameters
+                  [parameterList]="listRelationStatus"
+                  [selectedValue]="selectedRelationStatus"
+                  (onRowChange)="onSelectedRelation($event)"
+                ></app-select-parameters>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel for="nameLabel">Observaciones</label>
+                <input
+                  type="text"
+                  formControlName="observations"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['observations'].errors }"
+                  autoComplete="name"
+                  cFormControl
+                  placeholder="Ingrese Observaciones"
+                />
+                <div
+                  *ngIf="submitted && f['observations'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['observations'].errors['required']">required</div>
+                  <div *ngIf="f['observations'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['observations'].errors['maxlength']">
+                    name must not exceed 50 characters
+                  </div>
+                </div>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel>Autorización para Recoger</label>
+                <div>
+                  <label>
+                    <input type="radio" name="isAuthorized" [ngModelOptions]="{standalone: true}"  [(ngModel)]="isAuthorized" value="true"> Sí
+                  </label>
+                  <label>
+                    <input type="radio" name="isAuthorized" [ngModelOptions]="{standalone: true}" [(ngModel)]="isAuthorized" value="false"> No
+                  </label>
+                </div>
+              </c-col>
+
+              <c-col [xs]="12">
+                <button cButton type="submit" (click)="createOrUpdate()">
+                  {{ this.actionRow === 0 ? "Registrar" : "Actualizar" }}
+                </button>
+              </c-col>
+            </form>
+          </c-tab-pane>
+        </c-tab-content>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<c-alert color="info" *ngIf="!isVisible">{{ message }}</c-alert>
+<app-global-alerts
+  *ngIf="visible"
+  [visible]="visible"
+  [message]="message"
+></app-global-alerts>
