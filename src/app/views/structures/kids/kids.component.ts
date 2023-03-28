@@ -34,7 +34,7 @@ export class KidsComponent extends GeneralComponent implements OnInit {
     this.form.value as CreateKidDto;
     this.service.AssingService('Kid');
     this.getListKids();
-    this.getParameters(true, true, true, false, false);
+    this.getParameters({bloodType: true, documentType: true, sexType: true});
   }
 
   onSelectedSex(event: GetTypeResult) {

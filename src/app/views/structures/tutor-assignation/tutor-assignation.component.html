@@ -2,7 +2,7 @@
   <c-col xs="12">
     <c-card class="mb-3">
       <c-card-header ngPreserveWhitespaces>
-        <strong>Seguimiento y Control de Ninos</strong> <small></small>
+        <strong>Asignacion de Tutores</strong> <small></small>
       </c-card-header>
       <c-card-body>
         <c-nav variant="pills">
@@ -24,7 +24,7 @@
               [routerLink]
               [tabPaneIdx]="1"
               cNavLink
-              (click)="getParameters()"
+              (click)="getParametersTutors()"
             >
               <svg cIcon class="me-2" name="cilUser"></svg>
               Gestion
@@ -51,10 +51,46 @@
             <strong>{{ typeName }}</strong>
             <small>{{ this.listTypes.length }}</small> registros encontrados
             <p class="text-medium-emphasis small">
-              Administracion del modulo de ni;os, si desea crear un nuevo
+              Asignacion de Tutores - Ninos, si desea crear un nuevo
               registro, presione:
               <code>Gestion</code>
             </p>
+            <form cForm class="row g-3" [formGroup]="formSearch">
+              <c-col [md]="6" *ngIf="isVisibleKid">
+                <label cLabel>Ninos </label>
+                <app-selector-generic
+                  *ngIf="isVisibleKid"
+                  [parameterList]="kidsList"
+                  [enableAllOptions]="true"
+                  (onRowChange)="onSelectedKidFilter($event)"
+                ></app-selector-generic
+              ></c-col>
+              <c-col [md]="6">
+                <label cLabel>Tutor a Asignar </label>
+                <app-selector-generic
+                  *ngIf="isVisibleParent"
+                  [parameterList]="parentsList"
+                  [enableAllOptions]="true"
+                  (onRowChange)="onSelectedParentFilter($event)"
+                ></app-selector-generic
+              ></c-col>
+              <c-col [xs]="12">
+                <div class="d-flex justify-content-end">
+                  <button
+                    cButton
+                    type="submit"
+                    class="btn-warning"
+                    (click)="filterSearch(true)"
+                    style="margin: 0 8px"
+                  >
+                    <i class="cil-x-circle"></i> Limpiar
+                  </button>
+                  <button cButton type="submit" (click)="filterSearch(false)">
+                    <i class="cil-magnifying-glass"></i> Buscar
+                  </button>
+                </div>
+              </c-col>
+            </form>
             <table cTable *ngIf="isVisible">
               <thead>
                 <tr>
@@ -67,6 +103,7 @@
                   <th scope="col">Creado en</th>
                   <th scope="col">Modificado por</th>
                   <th scope="col">Modificado en</th>
+                  <th scope="col">Estado</th>
                   <th scope="col">Acciones</th>
                   <th scope="col"></th>
                 </tr>
@@ -99,6 +136,13 @@
                   <td>{{ row.userModification }}</td>
                   <td>
                     {{ row.dateModification | date : "yyyy/MM/dd hh:mm:ss" }}
+                  </td>
+                  <td>
+                    <c-badge
+                      class="me-1"
+                      color="{{ !row.isDeleted ? 'success' : 'danger' }}"
+                      >{{ !row.isDeleted ? "ACTIVO" : "INACTIVO" }}</c-badge
+                    >
                   </td>
                   <td>
                     <button
@@ -144,21 +188,19 @@
             role="tabpanel"
           >
             <form cForm class="row g-3" [formGroup]="form">
-              <c-col [md]="6"
-                >
-                <label cLabel>Ninos
-                </label>
+              <c-col [md]="6" *ngIf="isVisibleKid">
+                <label cLabel>Ninos </label>
                 <app-selector-generic
+                  *ngIf="isVisibleKid"
                   [parameterList]="kidsList"
                   [selectedValue]="kidSelected"
                   (onRowChange)="onSelectedKid($event)"
                 ></app-selector-generic
               ></c-col>
-              <c-col [md]="6"
-                >
-                <label cLabel>Tutor a Asignar
-                </label>
+              <c-col [md]="6">
+                <label cLabel>Tutor a Asignar </label>
                 <app-selector-generic
+                  *ngIf="isVisibleParent"
                   [parameterList]="parentsList"
                   [selectedValue]="parentSelected"
                   (onRowChange)="onSelectedParent($event)"
@@ -178,7 +220,9 @@
                   type="text"
                   formControlName="observations"
                   class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f['observations'].errors }"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['observations'].errors
+                  }"
                   autoComplete="name"
                   cFormControl
                   placeholder="Ingrese Observaciones"
@@ -187,7 +231,9 @@
                   *ngIf="submitted && f['observations'].errors"
                   class="invalid-feedback"
                 >
-                  <div *ngIf="f['observations'].errors['required']">required</div>
+                  <div *ngIf="f['observations'].errors['required']">
+                    required
+                  </div>
                   <div *ngIf="f['observations'].errors['minlength']">
                     name must be at least 6 characters
                   </div>
@@ -200,14 +246,27 @@
                 <label cLabel>Autorización para Recoger</label>
                 <div>
                   <label>
-                    <input type="radio" name="isAuthorized" [ngModelOptions]="{standalone: true}"  [(ngModel)]="isAuthorized" value="true"> Sí
+                    <input
+                      type="radio"
+                      name="isAuthorized"
+                      [ngModelOptions]="{ standalone: true }"
+                      [(ngModel)]="isAuthorized"
+                      value="true"
+                    />
+                    Sí
                   </label>
                   <label>
-                    <input type="radio" name="isAuthorized" [ngModelOptions]="{standalone: true}" [(ngModel)]="isAuthorized" value="false"> No
+                    <input
+                      type="radio"
+                      name="isAuthorized"
+                      [ngModelOptions]="{ standalone: true }"
+                      [(ngModel)]="isAuthorized"
+                      value="false"
+                    />
+                    No
                   </label>
                 </div>
               </c-col>
-
               <c-col [xs]="12">
                 <button cButton type="submit" (click)="createOrUpdate()">
                   {{ this.actionRow === 0 ? "Registrar" : "Actualizar" }}

@@ -33,7 +33,7 @@ export class ParentsComponent extends GeneralComponent implements OnInit {
     this.form.value as CreateParentDto;
     this.service.AssingService('Parent');
     this.getListParents();
-    this.getParameters();
+    this.getParameters({sexType: true, bloodType: true, documentType: true, maritalStatus: true});
   }
 
   onSelectedSex(event: GetTypeResult) {

@@ -211,10 +211,24 @@ export const TUTOR_ASSIGNED: any =
     '',
     [
       Validators.required,
-      Validators.minLength(5),
+      Validators.minLength(3),
       Validators.maxLength(50),
     ]
   ],
 };
+
+export const ROOM_ASSIGNED: any =
+{
+  id: [],
+  observations: [
+    '',
+    [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50),
+    ]
+  ],
+};
+
 
 

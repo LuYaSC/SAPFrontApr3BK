@@ -38,7 +38,7 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
     this.form.value as CreateCollaboratorDto;
     this.service.AssingService('Collaborator');
     this.getListCollaborators();
-    this.getParameters();
+    this.getParameters({sexType: true, bloodType: true, documentType: true, branchOffice: true, city: true});
     this.rolesService.getAll().subscribe({
       next: (resp: RolesResult[]) => {
         this.listRoles = resp;

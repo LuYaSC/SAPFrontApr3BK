@@ -15,6 +15,10 @@ export class TutorAssignationService extends BaseService {
     this.AssingService("AssignationTutor");
   }
 
+  getFilter(dto: AssignationTutorDto): Observable<AssignationTutorResult[]> {
+    return this.http.post<AssignationTutorResult[]>(this.SetRoute('GetFilter'), dto);
+  }
+
   getAll(): Observable<AssignationTutorResult[]> {
     return this.http.get<AssignationTutorResult[]>(this.SetRoute('GetAll'));
   }
@@ -27,9 +31,9 @@ export class TutorAssignationService extends BaseService {
     return this.http.post<string>(this.SetRoute('Update'), dto);
   }
 
-  /*activateOrDeactivate(dto: any): Observable<string> {
-    return this.http.post<string>(this.SetRoute('ActivateOrDeactivate'), dto);
-  }*/
+  disableOrEnable(dto: AssignationTutorDto): Observable<string> {
+    return this.http.post<string>(this.SetRoute('DisableOrEnable'), dto);
+  }
 }
 
 

@@ -34,13 +34,11 @@ export class SelectorGenericComponent implements OnInit, OnChanges {
   }
 
   selectParameter() {
-    debugger
     this.parameter = this.row;
     this.onRowChange.emit(this.parameter);
   }
 
   private initializeRow() {
-    debugger
     if (!this.enableAllOptions) {
       this.row = this.parameterList[0];
       this.onRowChange.emit(this.row);

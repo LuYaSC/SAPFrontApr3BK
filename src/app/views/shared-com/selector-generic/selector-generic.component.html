@@ -4,7 +4,7 @@
     [(ngModel)]="row"
     (ngModelChange)="selectParameter()"
   >
-    <option *ngIf="enableAllOptions" value="0">ALL</option>
+    <option *ngIf="enableAllOptions" value="0">Todos los Registros</option>
     <option *ngFor="let row of parameterList" [ngValue]="row">
       {{ row.name }} {{ row.firstLastName }} {{ row.secondLastName }}
     </option>

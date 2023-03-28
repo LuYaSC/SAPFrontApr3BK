@@ -1,8 +1,9 @@
 export class AssignationTutorDto {
-  id: number;
-  kidId: number;
-  parentId: number;
-  relationshipId: number;
-  observations: string;
-  isAuthorized: boolean;
+  id: number = 0;
+  kidId: number = 0;
+  parentId: number = 0;
+  relationshipId: number = 0;
+  observations: string = '';
+  isAuthorized: boolean = false;
+  isDeleted: boolean = false;
 }

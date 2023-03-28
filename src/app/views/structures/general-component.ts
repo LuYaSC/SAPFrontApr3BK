@@ -30,6 +30,18 @@ export class GeneralComponent {
   public listRelationStatus: GetTypeResult[];
   public isVisibleRelationStatus: boolean;
   public selectedRelationStatus: GetTypeResult;
+
+  public listRooms: GetTypeResult[];
+  public isVisibleRoom: boolean;
+  public selectedRoom: GetTypeResult;
+  public listTurns: GetTypeResult[];
+  public isVisibleTurn: boolean;
+  public selectedTurn: GetTypeResult;
+  public listModality: GetTypeResult[];
+  public isVisibleModality: boolean;
+  public selectedModality: GetTypeResult;
+
+
   tabindex: number = 0;
   submitted = false;
   actionRow: number = 0;
@@ -75,8 +87,29 @@ export class GeneralComponent {
     return this.listTypes.slice(firstIndex, lastIndex);
   }
 
-  getParameters(sexType: boolean = true, bloodType: boolean = true, documentType: boolean = true, maritalStatus: boolean = true,
-    branchOffice: boolean = true, city: boolean = true, relation = false) {
+  getParameters(options: {
+    sexType?: boolean,
+    bloodType?: boolean,
+    documentType?: boolean,
+    maritalStatus?: boolean,
+    branchOffice?: boolean,
+    city?: boolean,
+    relation?: boolean,
+    room?: boolean,
+    turn?: boolean,
+    modality?: boolean,
+
+  } = {}) {
+    const sexType = options.sexType ?? false;
+    const bloodType = options.bloodType ?? false;
+    const documentType = options.documentType ?? false;
+    const maritalStatus = options.maritalStatus ?? false;
+    const branchOffice = options.branchOffice ?? false;
+    const city = options.city ?? false;
+    const relation = options.relation ?? false;
+    const room = options.room ?? false;
+    const turn = options.turn ?? false;
+    const modality = options.modality ?? false;
     if (sexType) {
       this.GetServiceParametersList('sexType').subscribe(res => {
         this.listSexs = res[0];
@@ -117,6 +150,24 @@ export class GeneralComponent {
       this.GetServiceParametersList('relationship').subscribe(res => {
         this.listRelationStatus = res[0];
         this.isVisibleRelationStatus = res[1];
+      });
+    }
+    if (room) {
+      this.GetServiceParametersList('room').subscribe(res => {
+        this.listRooms = res[0];
+        this.isVisibleRoom = res[1];
+      });
+    }
+    if (turn) {
+      this.GetServiceParametersList('turn').subscribe(res => {
+        this.listTurns = res[0];
+        this.isVisibleTurn = res[1];
+      });
+    }
+    if (modality) {
+      this.GetServiceParametersList('modality').subscribe(res => {
+        this.listModality = res[0];
+        this.isVisibleModality = res[1];
       });
     }
   }

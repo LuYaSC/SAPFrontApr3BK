@@ -68,10 +68,11 @@
             <tr>
               <th scope="col">Nombre</th>
               <th scope="col" *ngIf="haveInitials">Iniciales</th>
+              <th scope="col">Creado por</th>
+              <th scope="col">Creado en</th>
+              <th scope="col">Modificado por</th>
+              <th scope="col">Modificado en</th>
               <th scope="col">Estado</th>
-              <th scope="col">Creado por:</th>
-              <th scope="col">Creado en:</th>
-              <th scope="col">Modificado en:</th>
               <th scope="col">Acciones</th>
               <th scope="col"></th>
             </tr>
@@ -80,6 +81,11 @@
             <tr *ngFor="let row of visibleItems()">
               <td>{{ row.description }}</td>
               <td *ngIf="haveInitials">{{ row.initial }}</td>
+
+              <td>{{ row.userCreation }}</td>
+              <td>{{ row.dateCreation | date : "medium" }}</td>
+              <td>{{ row.userModification }}</td>
+              <td>{{ row.dateModification | date : "medium" }}</td>
               <td>
                 <c-badge
                   class="me-1"
@@ -87,9 +93,6 @@
                   >{{ row.isDeleted ? "INACTIVO" : "ACTIVO" }}</c-badge
                 >
               </td>
-              <td>{{ row.userCreation }}</td>
-              <td>{{ row.dateCreation | date : "medium" }}</td>
-              <td>{{ row.dateModification | date : "medium" }}</td>
               <td>
                 <button
                   color="warning"
