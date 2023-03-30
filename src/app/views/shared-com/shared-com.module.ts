@@ -29,6 +29,7 @@ import { IconModule } from '@coreui/icons-angular';
 import { DirectivesModule } from '../../helpers/directives/directives.module';
 import { SelectorGenericComponent } from './selector-generic/selector-generic.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { SelectorCompleteRoomComponent } from './selector-complete-room/selector-complete-room.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     SelectRolesComponent,
     SelectMultipleRolesComponent,
     PaginationComponent,
-    SelectorGenericComponent
+    SelectorGenericComponent,
+    SelectorCompleteRoomComponent
 
   ],
   imports: [
@@ -76,7 +78,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
       SelectRolesComponent,
       SelectMultipleRolesComponent,
       PaginationComponent,
-      SelectorGenericComponent
+      SelectorGenericComponent,
+      SelectorCompleteRoomComponent
     ]
 })
 export class SharedComModule {

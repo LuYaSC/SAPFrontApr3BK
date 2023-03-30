@@ -1,0 +1,543 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-3">
+      <c-card-header ngPreserveWhitespaces>
+        <strong>Asignacion de Tutores</strong> <small></small>
+      </c-card-header>
+      <c-card-body>
+        <c-nav variant="pills">
+          <c-nav-item>
+            <a
+              [cTabContent]="tabContent3"
+              [routerLink]
+              [tabPaneIdx]="0"
+              cNavLink
+              (click)="getListTutors()"
+            >
+              <svg cIcon class="me-2" name="cilHome"></svg>
+              Busqueda
+            </a>
+          </c-nav-item>
+          <c-nav-item>
+            <a
+              [cTabContent]="tabContent3"
+              [routerLink]
+              [tabPaneIdx]="1"
+              cNavLink
+              (click)="getParametersTutors()"
+            >
+              <svg cIcon class="me-2" name="cilUser"></svg>
+              Gestion
+            </a>
+          </c-nav-item>
+          <!--<c-nav-item>
+            <a [cTabContent]="tabContent3" [routerLink] [tabPaneIdx]="2" cNavLink>
+              <svg cIcon class="me-2" name="cilCode"></svg>
+              Contact
+            </a>
+          </c-nav-item>-->
+        </c-nav>
+        <c-tab-content
+          #tabContent3="cTabContent"
+          cRounded="bottom"
+          (activeTabPaneIdxChange)="changeTab($event)"
+          [activeTabPaneIdx]="tabindex"
+        >
+          <c-tab-pane
+            aria-labelledby="docs-code-preview"
+            class="p-3 preview"
+            role="tabpanel"
+          >
+            <strong>{{ typeName }}</strong>
+            <small>{{ this.listTypes.length }}</small> registros encontrados
+            <p class="text-medium-emphasis small">
+              Asignacion de Tutores - Ninos, si desea crear un nuevo registro,
+              presione:
+              <code>Gestion</code>
+            </p>
+            <form cForm class="row g-3" [formGroup]="formSearch">
+              <c-col [md]="6" *ngIf="isVisibleRoom">
+                <label cLabel>Sala</label>
+                <app-select-parameters
+                  [parameterList]="listRooms"
+                  [enableAllOptions]="true"
+                  (onRowChange)="onSelectedRoomFilter($event)"
+                ></app-select-parameters
+              ></c-col>
+              <c-col [md]="6" *ngIf="isVisibleKid">
+                <label cLabel>Ninos </label>
+                <app-selector-generic
+                  *ngIf="isVisibleKid"
+                  [parameterList]="kidsList"
+                  [enableAllOptions]="true"
+                  (onRowChange)="onSelectedKidFilter($event)"
+                ></app-selector-generic
+              ></c-col>
+              <c-col [xs]="12">
+                <div class="d-flex justify-content-end">
+                  <button
+                    cButton
+                    type="submit"
+                    class="btn-warning"
+                    (click)="filterSearch(true)"
+                    style="margin: 0 8px"
+                  >
+                    <i class="cil-x-circle"></i> Limpiar
+                  </button>
+                  <button cButton type="submit" (click)="filterSearch(false)">
+                    <i class="cil-magnifying-glass"></i> Buscar
+                  </button>
+                </div>
+              </c-col>
+            </form>
+            <table cTable *ngIf="isVisible">
+              <thead>
+                <tr>
+                  <th scope="col">Detalles</th>
+                  <th scope="col">Sala</th>
+                  <th scope="col">Nino</th>
+                  <th scope="col">Observaciones</th>
+                  <th scope="col">Creado por</th>
+                  <th scope="col">Creado en</th>
+                  <th scope="col">Modificado por</th>
+                  <th scope="col">Modificado en</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let row of visibleItems(); let i = index">
+                  <tr>
+                    <td>
+                      <div class="d-flex gap-2">
+                        <button
+                          color="info"
+                          cButton
+                          class="me-1"
+                          shape="rounded-pill"
+                          (click)="showDetails(row)"
+                          [disabled]="row.isDeleted"
+                        >
+                      <i class="fas fa-{{row.showDetails ? 'minus' : 'plus'}}"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td>
+                      {{ row.room }}
+                    </td>
+                    <td>
+                      {{ row.kid }}
+                    </td>
+                    <td>
+                      {{ row.observations }}
+                    </td>
+                    <td>{{ row.userCreation }}</td>
+                    <td>
+                      {{ row.dateCreation | date : "yyyy/MM/dd hh:mm:ss" }}
+                    </td>
+                    <td>{{ row.userModification }}</td>
+                    <td>
+                      {{ row.dateModification | date : "yyyy/MM/dd hh:mm:ss" }}
+                    </td>
+                    <td>
+                      <c-badge
+                        class="me-1"
+                        color="{{ !row.isDeleted ? 'success' : 'danger' }}"
+                        >{{ !row.isDeleted ? "ACTIVO" : "INACTIVO" }}</c-badge
+                      >
+                    </td>
+                    <td>
+                      <div class="d-flex gap-2">
+                        <button
+                          color="warning"
+                          cButton
+                          class="me-1"
+                          shape="rounded-pill"
+                          (click)="editRow(row)"
+                          [disabled]="row.isDeleted"
+                        >
+                          <svg cIcon name="cil-pencil"></svg>
+                        </button>
+                        <button
+                          color="{{ row.isDeleted ? 'success' : 'danger' }}"
+                          cButton
+                          class="me-1"
+                          shape="rounded-pill"
+                          (click)="enableOrDisable(row)"
+                        >
+                          <svg
+                            cIcon
+                            [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"
+                          ></svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="row.showDetails">
+                    <td [attr.colspan]="9">
+                      <div class="row">
+                        <c-card class="mb-4">
+                          <c-card-header>
+                            <strong>Datos Complementarios</strong>
+                          </c-card-header>
+                          <c-card-body>
+                            <!--  <p class="text-medium-emphasis small">
+                              Click the accordions below to expand/collapse the accordion content.
+                            </p>-->
+                            <c-accordion [flush]="true">
+                              <c-accordion-item visible>
+                                <ng-template cTemplateId="accordionHeader">
+                                  <strong>Datos Generales del Menor</strong>
+                                </ng-template>
+                                <ng-template cTemplateId="accordionBody">
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputName" placeholder="name@example.com" type="text" value="{{row.detailEnrollChildren.kidName}}" readonly />
+                                        <label cLabel for="floatingInput">Nombre Completo:</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputBornDate" type="text" value="data de prueba" value="{{row.detailEnrollChildren.bornDateKid}}" readonly/>
+                                        <label cLabel for="floatingInput">Fecha de Nacimiento:</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputAge" type="text" value="data de prueba" value="{{row.detailEnrollChildren.ageKid}}" readonly/>
+                                        <label cLabel for="floatingInput">Edad:</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputBloodType" type="text" value="{{row.kid}}" value="{{row.detailEnrollChildren.bloodTypeKid}}" readonly />
+                                        <label cLabel for="floatingInput">Tipo de Sangre:</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputGenre" placeholder="Password" type="text" value="{{row.detailEnrollChildren.sexKid}}" readonly/>
+                                        <label cLabel for="floatingInput">Genero:</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputTutorQuantity" type="text" value="{{row.detailEnrollChildren.quantityTutors}}"readonly/>
+                                        <label cLabel for="floatingInput">Cantidad de Tutores Asignados:</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                </ng-template>
+                              </c-accordion-item>
+                              <c-accordion-item [visible]="false">
+                                <ng-template cTemplateId="accordionHeader">
+                                  <strong> Datos Generales de los Padres del menor</strong>
+                                </ng-template>
+                                <div>
+                                <ng-template cTemplateId="accordionBody">
+                                  <div *ngFor="let parent of row.detailEnrollChildren.parents">
+                                    <c-card class="mb-4">
+                                      <c-card-header>
+                                        <strong>Tutor: {{parent.parentName}} - Autorizado para Recojo del Menor: <c-badge
+                                          class="me-1"
+                                          color="{{ parent.isAuthorized? 'success' : 'danger' }}"
+                                          >{{ parent.isAuthorized ? "AUTORIZADO" : "NO AUTORIZADO" }}</c-badge
+                                        ></strong>
+                                      </c-card-header>
+                                      <c-card-body>
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputNameParent" type="text" value="{{parent.parentName}}" readonly />
+                                        <label cLabel for="floatingInput">Nombre</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputRelationParent" type="text" value="{{parent.relation}}" readonly/>
+                                        <label cLabel for="floatingInput">Parentezco</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputContactNumber" type="text" value="{{parent.phoneNumber}}" readonly/>
+                                        <label cLabel for="floatingInput">Nro de Contacto</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputBloodTypeParent" type="text" value="{{parent.bloodTypeParent}}" readonly />
+                                        <label cLabel for="floatingInput">Tipo de Sangre</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputGenreParent" type="text" value="{{parent.sexParent}}" readonly/>
+                                        <label cLabel for="floatingInput">Genero</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputAddress" type="text" value="{{parent.address}}" readonly/>
+                                        <label cLabel for="floatingInput">Direccion</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputMaritalStatusParent" type="text" value="{{parent.maritalStatus}}" readonly />
+                                        <label cLabel for="floatingInput">Estado Civil</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                              </c-card-body>
+                                  </c-card>
+                                </div>
+                                </ng-template>
+                                </div>
+                              </c-accordion-item>
+                              <c-accordion-item [visible]="false">
+                                <ng-template cTemplateId="accordionHeader">
+                                  <strong>Datos Generales de Sala en la que se encuentra inscrito el menor</strong>
+                                </ng-template>
+                                <ng-template cTemplateId="accordionBody">
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputRoom" placeholder="name@example.com" type="text" value="{{row.detailEnrollChildren.room}}" readonly />
+                                        <label cLabel for="floatingInput">Sala</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputCity" type="text" value="{{row.detailEnrollChildren.city}}" readonly/>
+                                        <label cLabel for="floatingInput">Ciudad</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputBranchOffice" type="text" value="{{row.detailEnrollChildren.branchOffice}}" readonly/>
+                                        <label cLabel for="floatingInput">Sucursal</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputTurn" type="text" value="{{row.detailEnrollChildren.turn}}" readonly />
+                                        <label cLabel for="floatingInput">Turno</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputModality" placeholder="Password" type="text" value="{{row.detailEnrollChildren.modality}}" readonly/>
+                                        <label cLabel for="floatingInput">Modalidad</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputSchedule" type="text" value="{{row.detailEnrollChildren.schedule}}" readonly/>
+                                        <label cLabel for="floatingInput">Horario</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputObservations" type="text" value="{{row.detailEnrollChildren.observations}}" readonly />
+                                        <label cLabel for="floatingInput">Observaciones</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputCollaborator" placeholder="Password" type="text" value="{{row.detailEnrollChildren.collaborator}}" readonly/>
+                                        <label cLabel for="floatingInput">Colaborador Asignado a Sala</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputTutorStartDate" type="text" value="{{row.detailEnrollChildren.startDateKid}}" readonly/>
+                                        <label cLabel for="floatingInput">Fecha de Inicio en el Centro</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                </ng-template>
+                              </c-accordion-item>
+                            </c-accordion>
+                          </c-card-body>
+                        </c-card>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+              <br />
+              <app-pagination
+                [totalItems]="listTypes.length"
+                [itemsPerPage]="itemsPerPage"
+                [currentPage]="currentPage"
+                (pageChanged)="onPageChange($event)"
+              ></app-pagination>
+            </table>
+          </c-tab-pane>
+          <c-tab-pane
+            aria-labelledby="docs-code-preview"
+            class="p-3 preview"
+            role="tabpanel"
+          >
+            <form cForm class="row g-3" [formGroup]="form">
+              <c-col [md]="6" *ngIf="isVisibleKid">
+                <label cLabel>Ninos </label>
+                <app-selector-generic
+                  *ngIf="isVisibleKid"
+                  [parameterList]="kidsList"
+                  [selectedValue]="kidSelected"
+                  (onRowChange)="onSelectedKid($event)"
+                ></app-selector-generic
+              ></c-col>
+              <c-col [md]="6" *ngIf="isVisibleRoomAss">
+                <label cLabel>Salas</label>
+                <app-selector-complete-room
+                *ngIf="isVisibleRoomAss"
+                [parameterList]="roomAssList"
+                [selectedValue]="roomAssSelected"
+                (onRowChange)="onSelectedRoomAss($event)"
+              ></app-selector-complete-room
+            >
+              </c-col>
+
+              <c-col [md]="6" *ngIf="isVisibleKid">
+              <c-accordion [flush]="true">
+                <c-accordion-item visible>
+                  <ng-template cTemplateId="accordionHeader">
+                    Accordion item #0
+                  </ng-template>
+                  <ng-template cTemplateId="accordionBody">
+                    <span [innerHTML]="getAccordionBodyText('first')"></span>
+                  </ng-template>
+                </c-accordion-item>
+                <c-accordion-item [visible]="false">
+                  <ng-template cTemplateId="accordionHeader">
+                    Accordion item #1
+                  </ng-template>
+                  <ng-template cTemplateId="accordionBody">
+                    <span [innerHTML]="getAccordionBodyText('second')"></span>
+                  </ng-template>
+                </c-accordion-item>
+                <c-accordion-item [visible]="false">
+                  <ng-template cTemplateId="accordionHeader">
+                    Accordion item #2
+                  </ng-template>
+                  <ng-template cTemplateId="accordionBody">
+                    <span [innerHTML]="getAccordionBodyText('third')"></span>
+                  </ng-template>
+                </c-accordion-item>
+              </c-accordion>
+            </c-col>
+            <c-col [md]="6" *ngIf="isVisibleRoom">
+              <c-accordion [flush]="true">
+                <c-accordion-item visible>
+                  <ng-template cTemplateId="accordionHeader">
+                    Accordion item #0
+                  </ng-template>
+                  <ng-template cTemplateId="accordionBody">
+                    <span [innerHTML]="getAccordionBodyText('first')"></span>
+                  </ng-template>
+                </c-accordion-item>
+                <c-accordion-item [visible]="false">
+                  <ng-template cTemplateId="accordionHeader">
+                    Accordion item #1
+                  </ng-template>
+                  <ng-template cTemplateId="accordionBody">
+                    <span [innerHTML]="getAccordionBodyText('second')"></span>
+                  </ng-template>
+                </c-accordion-item>
+                <c-accordion-item [visible]="false">
+                  <ng-template cTemplateId="accordionHeader">
+                    Accordion item #2
+                  </ng-template>
+                  <ng-template cTemplateId="accordionBody">
+                    <span [innerHTML]="getAccordionBodyText('third')"></span>
+                  </ng-template>
+                </c-accordion-item>
+              </c-accordion>
+            </c-col>
+              <c-col [md]="6">
+                <label cLabel for="nameLabel">Observaciones</label>
+                <input
+                  type="text"
+                  formControlName="observations"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['observations'].errors
+                  }"
+                  autoComplete="name"
+                  cFormControl
+                  placeholder="Ingrese Observaciones"
+                />
+                <div
+                  *ngIf="submitted && f['observations'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['observations'].errors['required']">
+                    required
+                  </div>
+                  <div *ngIf="f['observations'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['observations'].errors['maxlength']">
+                    name must not exceed 50 characters
+                  </div>
+                </div>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel>Generar los Pagos</label>
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="isAuthorized"
+                      [ngModelOptions]="{ standalone: true }"
+                      [(ngModel)]="isAuthorized"
+                      value="true"
+                    />
+                    Sí
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="isAuthorized"
+                      [ngModelOptions]="{ standalone: true }"
+                      [(ngModel)]="isAuthorized"
+                      value="false"
+                    />
+                    No
+                  </label>
+                </div>
+              </c-col>
+              <c-col [xs]="12">
+                <button cButton type="submit" (click)="createOrUpdate()">
+                  {{ this.actionRow === 0 ? "Registrar" : "Actualizar" }}
+                </button>
+              </c-col>
+            </form>
+          </c-tab-pane>
+        </c-tab-content>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<c-alert color="info" *ngIf="!isVisible">{{ message }}</c-alert>
+<app-global-alerts
+  *ngIf="visible"
+  [visible]="visible"
+  [message]="message"
+></app-global-alerts>
+

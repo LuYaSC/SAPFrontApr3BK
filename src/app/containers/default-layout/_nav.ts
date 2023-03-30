@@ -159,6 +159,11 @@ export const navItems: INavData[] = [
         url: '/structures/room-assignation',
         iconComponent: { name: 'cil-speedometer' },
       },
+      {
+        name: 'Inscripcion',
+        url: '/structures/enroll-children',
+        iconComponent: { name: 'cil-speedometer' },
+      },
     ]
   },
 

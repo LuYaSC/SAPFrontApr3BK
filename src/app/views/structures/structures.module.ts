@@ -36,6 +36,8 @@ import { IconModule } from '@coreui/icons-angular';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TutorAssignationComponent } from './tutor-assignation/tutor-assignation.component';
 import { RoomAssignationComponent } from './room-assignation/room-assignation.component';
+import { EnrolledChildrenComponent } from './enrolled-children/enrolled-children.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { RoomAssignationComponent } from './room-assignation/room-assignation.co
     KidsComponent,
     CollaboratorsComponent,
     TutorAssignationComponent,
-    RoomAssignationComponent
+    RoomAssignationComponent,
+    EnrolledChildrenComponent,
+    PaymentsComponent
   ],
   imports: [
     StructuresRoutingModule,
@@ -78,6 +82,7 @@ import { RoomAssignationComponent } from './room-assignation/room-assignation.co
     ModalModule,
     AlertModule,
     BsDatepickerModule,
+    IconModule
   ],
 })
 export class StructuresModule { }

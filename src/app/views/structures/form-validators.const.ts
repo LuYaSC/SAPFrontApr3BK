@@ -230,5 +230,18 @@ export const ROOM_ASSIGNED: any =
   ],
 };
 
+export const ENROLL_CHILDREN: any =
+{
+  id: [],
+  observations: [
+    '',
+    [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50),
+    ]
+  ],
+};
+
 
 

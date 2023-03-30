@@ -1,0 +1,12 @@
+<div class="custom-select">
+  <select
+    class="form-control"
+    [(ngModel)]="row"
+    (ngModelChange)="selectParameter()"
+  >
+    <option *ngIf="enableAllOptions" value="0">Todos los Registros</option>
+    <option *ngFor="let row of parameterList" [ngValue]="row">
+      {{ row.collaborator }} - {{ row.room }} - {{ row.branchOffice }} - {{row.modality}}
+    </option>
+  </select>
+</div>

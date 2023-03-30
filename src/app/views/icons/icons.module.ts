@@ -19,6 +19,9 @@ import { DocsComponentsModule } from '@docs-components/docs-components.module';
   ],
   declarations: [
     CoreUIIconsComponent
+  ],
+  exports: [
+    IconModule
   ]
 })
 export class IconsModule {
