@@ -16,7 +16,8 @@ import {
   ProgressModule,
   SharedModule,
   TableModule,
-  ToastModule
+  ToastModule,
+  WidgetModule
 } from '@coreui/angular';
 import { GlobalAlertsComponent } from './global-alerts/global-alerts.component';
 import { ValidationsComponent } from './validations/validations.component';
@@ -42,7 +43,7 @@ import { SelectorCompleteRoomComponent } from './selector-complete-room/selector
     SelectMultipleRolesComponent,
     PaginationComponent,
     SelectorGenericComponent,
-    SelectorCompleteRoomComponent
+    SelectorCompleteRoomComponent,
 
   ],
   imports: [
@@ -67,7 +68,8 @@ import { SelectorCompleteRoomComponent } from './selector-complete-room/selector
     AlertModule,
     IconModule,
     DirectivesModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    WidgetModule
   ],
   exports:
     [
@@ -79,7 +81,7 @@ import { SelectorCompleteRoomComponent } from './selector-complete-room/selector
       SelectMultipleRolesComponent,
       PaginationComponent,
       SelectorGenericComponent,
-      SelectorCompleteRoomComponent
+      SelectorCompleteRoomComponent,
     ]
 })
 export class SharedComModule {

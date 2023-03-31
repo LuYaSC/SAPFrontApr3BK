@@ -1,7 +1,5 @@
-export class KidByIdDto {
+export class AssignationRoomDetailDto {
   id: number;
-  isDeleted: boolean;
-  kidId:number = 0;
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

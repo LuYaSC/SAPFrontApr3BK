@@ -38,7 +38,7 @@ export class EnrollChildrenService extends BaseService {
   }
 
   disableOrEnable(dto: EnrolledChildrenDto): Observable<string> {
-    return this.http.post<string>(this.SetRoute('DisableOrEnable'), dto);
+    return this.http.post<string>(this.SetRoute('ActivateOrDeactivate'), dto);
   }
 }
 

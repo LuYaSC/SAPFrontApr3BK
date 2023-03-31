@@ -241,6 +241,13 @@ export const ENROLL_CHILDREN: any =
       Validators.maxLength(50),
     ]
   ],
+  amount: [
+    '',
+    [
+      Validators.minLength(2),
+      Validators.maxLength(4),
+    ]
+  ],
 };
 
 

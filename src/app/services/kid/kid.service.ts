@@ -4,11 +4,13 @@ import { Observable } from 'rxjs';
 import { BaseService } from '../utils/base.service';
 import { KidsResult } from './models/kids-result';
 import { CreateKidDto } from './models/create-kid-dto';
+import { KidByIdDto } from './models/kid-by-id-dto';
+import { GetDetailKidResult } from 'src/app/services/kid/models/get-detail-kid-result';
 
 @Injectable({
   providedIn: 'root'
 })
-export class KidService extends BaseService{
+export class KidService extends BaseService {
 
   constructor(private http: HttpClient) {
     super();
@@ -32,5 +34,9 @@ export class KidService extends BaseService{
 
   activateOrDeactivate(dto: any): Observable<string> {
     return this.http.post<string>(this.SetRoute('ActivateOrDeactivate'), dto);
+  }
+
+  getDetail(dto: KidByIdDto): Observable<GetDetailKidResult[]> {
+    return this.http.post<GetDetailKidResult[]>(this.SetRoute('GetDetailKid'), dto);
   }
 }

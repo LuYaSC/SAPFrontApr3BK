@@ -412,58 +412,177 @@
             >
               </c-col>
 
-              <c-col [md]="6" *ngIf="isVisibleKid">
+              <c-col [md]="6" *ngIf="isVisiableDetailKid">
               <c-accordion [flush]="true">
                 <c-accordion-item visible>
                   <ng-template cTemplateId="accordionHeader">
-                    Accordion item #0
+                  <strong>Datos complementarios del Nino</strong>
                   </ng-template>
                   <ng-template cTemplateId="accordionBody">
-                    <span [innerHTML]="getAccordionBodyText('first')"></span>
+                    <c-row class="g-3">
+                      <c-col [sm]="4">
+                        <div [cFormFloating]="true" class="mb-3">
+                          <input cFormControl id="floatingInputDKName" type="text" value="{{detailKid[0].kidName}}" readonly />
+                          <label cLabel for="floatingInput">Nombre Completo</label>
+                        </div>
+                      </c-col>
+                      <c-col [sm]="4">
+                        <div cFormFloating>
+                          <input cFormControl id="floatingInputDKAgeKid" type="text" value="{{detailKid[0].ageKid}}" readonly/>
+                          <label cLabel for="floatingInput">Edad del Menor</label>
+                        </div>
+                      </c-col>
+                      <c-col [sm]="4">
+                        <div cFormFloating>
+                          <input cFormControl id="floatingInputDKDocType" type="text" value="{{detailKid[0].documentType}}" readonly/>
+                          <label cLabel for="floatingInput">Tipo de Documento</label>
+                        </div>
+                      </c-col>
+                    </c-row>
+                    <c-row class="g-3">
+                      <c-col [sm]="4">
+                        <div [cFormFloating]="true" class="mb-3">
+                          <input cFormControl id="floatingInputDKDocNumber" type="text" value="{{detailKid[0].documentNumber}}" readonly />
+                          <label cLabel for="floatingInput">Nro. de Documento</label>
+                        </div>
+                      </c-col>
+                    </c-row>
                   </ng-template>
                 </c-accordion-item>
                 <c-accordion-item [visible]="false">
                   <ng-template cTemplateId="accordionHeader">
-                    Accordion item #1
+                    <strong>Datos Complementarios de los Papas</strong>
                   </ng-template>
                   <ng-template cTemplateId="accordionBody">
-                    <span [innerHTML]="getAccordionBodyText('second')"></span>
-                  </ng-template>
-                </c-accordion-item>
-                <c-accordion-item [visible]="false">
-                  <ng-template cTemplateId="accordionHeader">
-                    Accordion item #2
-                  </ng-template>
-                  <ng-template cTemplateId="accordionBody">
-                    <span [innerHTML]="getAccordionBodyText('third')"></span>
+                    <div *ngFor="let parentkid of detailKid">
+                      <c-alert>
+                        <strong>{{parentkid.parentName}}</strong>  -
+                        Autorizado a Recojer al menor  <c-badge
+                        class="me-1"
+                        color="{{ parentkid.isAuthorized ? 'success' : 'danger' }}"
+                        >{{ parentkid.isAuthorized ? "SI" : "NO" }}</c-badge
+                      > -
+                        Tutor Principal <c-badge
+                        class="me-1"
+                        color="{{ parentkid.isPrincipal ? 'success' : 'danger' }}"
+                        >{{ parentkid.isPrincipal ? "SI" : "NO" }}</c-badge
+                      >
+                      </c-alert>
+                      <c-row class="g-3">
+                        <c-col [sm]="6">
+                          <div [cFormFloating]="true" class="mb-3">
+                            <input cFormControl id="floatingInputDKParentName" type="text" value="{{parentkid.parentName}}" readonly />
+                            <label cLabel for="floatingInput">Nombre Completo</label>
+                          </div>
+                        </c-col>
+                        <c-col [sm]="6">
+                          <div cFormFloating>
+                            <input cFormControl id="floatingInputDKParentRelation" type="text" value="{{parentkid.relation}}" readonly/>
+                            <label cLabel for="floatingInput">Parentezco</label>
+                          </div>
+                        </c-col>
+                      </c-row>
+                      <c-row class="g-3">
+                        <c-col [sm]="6">
+                          <div cFormFloating>
+                            <input cFormControl id="floatingInputDKParentMaritalSt" type="text" value="{{parentkid.maritalStatus}}" readonly/>
+                            <label cLabel for="floatingInput">Estado Civil</label>
+                          </div>
+                        </c-col>
+                        <c-col [sm]="6">
+                          <div [cFormFloating]="true" class="mb-3">
+                            <input cFormControl id="floatingInputDKParentPhoneN" type="text" value="{{parentkid.phoneNumber}}" readonly />
+                            <label cLabel for="floatingInput">Nro de Contacto</label>
+                          </div>
+                        </c-col>
+                      </c-row>
+                      </div>
                   </ng-template>
                 </c-accordion-item>
               </c-accordion>
             </c-col>
-            <c-col [md]="6" *ngIf="isVisibleRoom">
+            <c-col [md]="6" *ngIf="isVisiableDetailRoom">
               <c-accordion [flush]="true">
                 <c-accordion-item visible>
                   <ng-template cTemplateId="accordionHeader">
-                    Accordion item #0
+                    <strong> Datos Complementarios Colaborador</strong>
                   </ng-template>
                   <ng-template cTemplateId="accordionBody">
-                    <span [innerHTML]="getAccordionBodyText('first')"></span>
+                    <c-row class="g-3">
+                      <c-col [sm]="4">
+                        <div [cFormFloating]="true" class="mb-3">
+                          <input cFormControl id="floatingInputDRCollaborator" type="text" value="{{detailRoom.collaborator}}" readonly />
+                          <label cLabel for="floatingInput">Nombre Completo</label>
+                        </div>
+                      </c-col>
+                      <c-col [sm]="4">
+                        <div cFormFloating>
+                          <input cFormControl id="floatingInputDRSexCollab" type="text" value="{{detailRoom.collaboratorSex}}" readonly/>
+                          <label cLabel for="floatingInput">Genero</label>
+                        </div>
+                      </c-col>
+                      <c-col [sm]="4">
+                        <div cFormFloating>
+                          <input cFormControl id="floatingInputDRCollabSex" type="text" value="{{detailRoom.collaboratorCity}}" readonly/>
+                          <label cLabel for="floatingInput">Ciudad de Registro</label>
+                        </div>
+                      </c-col>
+                    </c-row>
+                    <c-row class="g-3">
+                      <c-col [sm]="4">
+                        <div [cFormFloating]="true" class="mb-3">
+                          <input cFormControl id="floatingInputDRCollabBO" placeholder="name@example.com" type="text" value="{{detailRoom.collaboratorBranchOffice}}" readonly />
+                          <label cLabel for="floatingInput">Sucursal de Registro</label>
+                        </div>
+                      </c-col>
+                      <c-col [sm]="4">
+                        <div cFormFloating>
+                          <input cFormControl id="floatingInputDRCollabEmail" type="text" value="{{detailRoom.collaboratorEmail}}" readonly/>
+                          <label cLabel for="floatingInput">Correo Electronico</label>
+                        </div>
+                      </c-col>
+                      <c-col [sm]="4">
+                        <div cFormFloating>
+                          <input cFormControl id="floatingInputDRCollabStartDate" type="text" value="{{detailRoom.collaboratorStartDate}}" readonly/>
+                          <label cLabel for="floatingInput">Fecha de Inicio</label>
+                        </div>
+                      </c-col>
+                    </c-row>
                   </ng-template>
                 </c-accordion-item>
                 <c-accordion-item [visible]="false">
                   <ng-template cTemplateId="accordionHeader">
-                    Accordion item #1
+                    <strong>Datos complementarios de la Sala</strong>
                   </ng-template>
                   <ng-template cTemplateId="accordionBody">
-                    <span [innerHTML]="getAccordionBodyText('second')"></span>
-                  </ng-template>
-                </c-accordion-item>
-                <c-accordion-item [visible]="false">
-                  <ng-template cTemplateId="accordionHeader">
-                    Accordion item #2
-                  </ng-template>
-                  <ng-template cTemplateId="accordionBody">
-                    <span [innerHTML]="getAccordionBodyText('third')"></span>
+                    <c-row class="g-3">
+                      <c-col [sm]="6">
+                        <div [cFormFloating]="true" class="mb-3">
+                          <input cFormControl id="floatingInputDRRoom" type="text" value="{{detailRoom.room}}" readonly />
+                          <label cLabel for="floatingInput">Sala a Asignar</label>
+                        </div>
+                      </c-col>
+                      <c-col [sm]="6">
+                        <div cFormFloating>
+                          <input cFormControl id="floatingInputDRBO" type="text" value="{{detailRoom.branchOffice}}" readonly/>
+                          <label cLabel for="floatingInput">Sucursal a la que corresponde la sala</label>
+                        </div>
+                      </c-col>
+                    </c-row>
+                    <c-row class="g-3">
+                      <c-col [sm]="6">
+                        <div cFormFloating>
+                          <input cFormControl id="floatingInputDRModality" type="text" value="{{detailRoom.modality}}" readonly/>
+                          <label cLabel for="floatingInput">Modalidad de la Sala</label>
+                        </div>
+                      </c-col>
+                      <c-col [sm]="6">
+                        <div [cFormFloating]="true" class="mb-3">
+                          <input cFormControl id="floatingInputDRCity" type="text" value="{{detailRoom.city}}" readonly />
+                          <label cLabel for="floatingInput">Ciudad a la que corresponde la Sala</label>
+                        </div>
+                      </c-col>
+                    </c-row>
                   </ng-template>
                 </c-accordion-item>
               </c-accordion>
@@ -472,6 +591,8 @@
                 <label cLabel for="nameLabel">Observaciones</label>
                 <input
                   type="text"
+                  noAutocomplete
+                  appOnlyLettersAndNumbers
                   formControlName="observations"
                   class="form-control"
                   [ngClass]="{
@@ -496,15 +617,15 @@
                   </div>
                 </div>
               </c-col>
-              <c-col [md]="6">
+              <c-col [md]="6" *ngIf="actionRow !== 1">
                 <label cLabel>Generar los Pagos</label>
                 <div>
                   <label>
                     <input
                       type="radio"
-                      name="isAuthorized"
+                      name="generatePayments"
                       [ngModelOptions]="{ standalone: true }"
-                      [(ngModel)]="isAuthorized"
+                      [(ngModel)]="generatePayments"
                       value="true"
                     />
                     Sí
@@ -512,13 +633,44 @@
                   <label>
                     <input
                       type="radio"
-                      name="isAuthorized"
+                      name="generatePayments"
                       [ngModelOptions]="{ standalone: true }"
-                      [(ngModel)]="isAuthorized"
+                      [(ngModel)]="generatePayments"
                       value="false"
                     />
                     No
                   </label>
+                </div>
+              </c-col>
+              <c-col [md]="6" *ngIf="actionRow !== 1 || generatePayments === 'true'">
+                <label cLabel for="nameLabel">Monto</label>
+                <input
+                  type="text"
+                  noAutocomplete
+                  appOnlyNumbers
+                  maxlength="4"
+                  formControlName="amount"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['amount'].errors
+                  }"
+                  autoComplete="name"
+                  cFormControl
+                  placeholder="Ingrese el monto referencial"
+                />
+                <div
+                  *ngIf="submitted && f['amount'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['amount'].errors['required']">
+                    required
+                  </div>
+                  <div *ngIf="f['amount'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['amount'].errors['maxlength']">
+                    name must not exceed 50 characters
+                  </div>
                 </div>
               </c-col>
               <c-col [xs]="12">

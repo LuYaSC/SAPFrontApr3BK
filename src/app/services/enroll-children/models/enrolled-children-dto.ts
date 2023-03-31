@@ -6,4 +6,6 @@ export class EnrolledChildrenDto {
   isDeleted: boolean;
   roomId: number = 0;
   kidId: number = 0;
+  amount: number;
+  generatePayments: boolean;
 }

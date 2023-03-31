@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AssignationRoomDto } from './models/assignation-room-dto';
 import { AssignationRoomResult } from './models/assignation-room-result';
+import { AssignationRoomDetailResult } from './models/assignation-room-detail-result';
+import { AssignationRoomDetailDto } from './models/assignation-room-detail-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +35,10 @@ export class RoomAssignationService extends BaseService {
 
   disableOrEnable(dto: AssignationRoomDto): Observable<string> {
     return this.http.post<string>(this.SetRoute('DisableOrEnable'), dto);
+  }
+
+  getDetail(dto: AssignationRoomDetailDto): Observable<AssignationRoomDetailResult> {
+    return this.http.post<AssignationRoomDetailResult>(this.SetRoute('GetDetail'), dto);
   }
 }
 

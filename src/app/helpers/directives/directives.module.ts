@@ -5,6 +5,7 @@ import { OnlyLettersDirective } from './only-letters.directive';
 import { OnlyNumbersDirective } from './only-numbers.directive';
 import { NoAutocompleteDirective } from './no-autocomplete.directive';
 import { CreditCardFormatDirective } from './credit-card-format.directive';
+import { AmountBsDirective } from './amount-bs.directive';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { CreditCardFormatDirective } from './credit-card-format.directive';
     OnlyNumbersDirective,
     EmailValidatorDirective,
     NoAutocompleteDirective,
-    CreditCardFormatDirective
+    CreditCardFormatDirective,
+    AmountBsDirective
   ],
   imports: [
 
@@ -24,7 +26,8 @@ import { CreditCardFormatDirective } from './credit-card-format.directive';
     OnlyNumbersDirective,
     EmailValidatorDirective,
     NoAutocompleteDirective,
-    CreditCardFormatDirective
+    CreditCardFormatDirective,
+    AmountBsDirective
   ]
 })
 export class DirectivesModule {

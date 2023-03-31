@@ -24,7 +24,6 @@ export class TypeBusinessService extends BaseService{
   }
 
   create(dto: CreateUpdateTypeBusinessDto) {
-    debugger
     return this.http.post<string>(this.SetRoute('Create'), dto);
   }
 

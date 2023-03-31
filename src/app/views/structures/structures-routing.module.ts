@@ -6,6 +6,7 @@ import { CollaboratorsComponent } from './collaborators/collaborators.component'
 import { TutorAssignationComponent } from './tutor-assignation/tutor-assignation.component';
 import { RoomAssignationComponent } from './room-assignation/room-assignation.component';
 import { EnrolledChildrenComponent } from './enrolled-children/enrolled-children.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,13 @@ const routes: Routes = [
     component: EnrolledChildrenComponent,
     data: {
       title: 'Inscripcion'
+    }
+  },
+  {
+    path: 'payments',
+    component: PaymentsComponent,
+    data: {
+      title: 'Pagos'
     }
   }
 ];

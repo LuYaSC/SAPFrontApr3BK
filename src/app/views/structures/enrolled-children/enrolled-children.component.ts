@@ -19,6 +19,10 @@ import { EnrollChildrenDetailResult } from 'src/app/services/enroll-children/mod
 import { EnrollFilterDto } from 'src/app/services/enroll-children/models/enroll-filter-dto';
 import { RoomAssignationService } from 'src/app/services/room-assignation/room-assignation.service';
 import { AssignationRoomResult } from 'src/app/services/room-assignation/models/assignation-room-result';
+import { KidByIdDto } from 'src/app/services/kid/models/kid-by-id-dto';
+import { GetDetailKidResult } from 'src/app/services/kid/models/get-detail-kid-result';
+import { AssignationRoomDetailDto } from 'src/app/services/room-assignation/models/assignation-room-detail-dto';
+import { AssignationRoomDetailResult } from 'src/app/services/room-assignation/models/assignation-room-detail-result';
 
 @Component({
   selector: 'app-enrolled-children',
@@ -32,13 +36,17 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
   saveDto: EnrolledChildrenDto = new EnrolledChildrenDto();
   filterDto: EnrollFilterDto = new EnrollFilterDto();
   kidsList: KidsResult[] = [];
-  kidSelected: any;
+  kidSelected: KidsResult;
   isVisibleKid = false;
   roomAssList: AssignationRoomResult[] = [];
   roomAssSelected: AssignationRoomResult;
   isVisibleRoomAss = false;
-  isAuthorized = "true";
+  generatePayments = "true";
   showDetailsValue: boolean = false;
+  detailKid: GetDetailKidResult[] = [];
+  isVisiableDetailKid: boolean = false;
+  detailRoom: AssignationRoomDetailResult = new AssignationRoomDetailResult();
+  isVisiableDetailRoom: boolean = false;
   formSearch: FormGroup = new FormGroup({
     kid: new FormControl(''),
     parent: new FormControl(''),
@@ -47,8 +55,7 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
   detailEnrollChildren: EnrollChildrenDetailResult = new EnrollChildrenDetailResult();
 
   constructor(private kidService: KidService, private roomAssignedService: RoomAssignationService, parameterService: TypeBusinessService,
-    private enrollService: EnrollChildrenService, private formBuilder: FormBuilder, private spinnerService: SpinnerService,
-    private sanitizer: DomSanitizer) {
+    private enrollService: EnrollChildrenService, private formBuilder: FormBuilder, private spinnerService: SpinnerService) {
     super(parameterService);
   }
 
@@ -68,7 +75,7 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
     this.getListKids();
     this.getListParents();
     this.getParameters({ room: true })
-    this.isAuthorized = "true";
+    this.generatePayments = "true";
     this.actionRow = 0;
     this.kidSelected = null;
     this.roomAssList = null;
@@ -94,10 +101,40 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
 
   onSelectedKid(event: any) {
     this.saveDto.kidId = event?.id;
+    if(this.tabindex === 1) {
+      this.isVisiableDetailKid = false;
+      this.kidService.getDetail(new KidByIdDto({KidId: event?.id })).subscribe({
+        next: (resp: GetDetailKidResult[]) => {
+          this.detailKid = resp;
+          this.isVisiableDetailKid = true;
+        },
+        error: (error: any) => {
+          this.message = error;
+        },
+        complete: () => {
+          this.spinnerService.hide();
+        }
+      });
+    }
   }
 
   onSelectedRoomAss(event: any) {
     this.saveDto.assignedRoomId = event?.id;
+    if(this.tabindex === 1) {
+      this.isVisiableDetailRoom = false;
+      this.roomAssignedService.getDetail(new AssignationRoomDetailDto({id: event?.id })).subscribe({
+        next: (resp: AssignationRoomDetailResult) => {
+          this.detailRoom = resp;
+          this.isVisiableDetailRoom = true;
+        },
+        error: (error: any) => {
+          this.message = error;
+        },
+        complete: () => {
+          this.spinnerService.hide();
+        }
+      });
+    }
   }
 
   onSelectedKidFilter(event: any) {
@@ -175,16 +212,18 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
     });
   }
 
-  editRow(row: AssignationTutorResult) {
+  editRow(row: EnrolledChildrenResult) {
     this.actionRow = 1;
+    this.kidSelected = new KidsResult();
+    this.roomAssSelected = new AssignationRoomResult();
     this.saveDto.id = row.id;
+    this.generatePayments = "false";
     this.kidSelected = this.kidsList.find(x => x.id === row.kidId);
-    this.roomAssSelected = this.roomAssList.find(x => x.id === row.id);
-    this.selectedRelationStatus = this.listRelationStatus.find((x) => x.description === row.relation);
-    this.isAuthorized = row.isAuthorized ? 'true' : 'false';
+    this.roomAssSelected = this.roomAssList.find(x => x.id === row.assignedRoomId);
     this.form.setValue({
       id: row.id,
       observations: row.observations,
+      amount: ''
     });
     this.liveDemoVisible = !this.liveDemoVisible;
     this.changeTab(1);
@@ -205,8 +244,11 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
       return;
     }
     this.isVisible = false;
+    debugger
     this.saveDto.observations = this.form.get("observations").value;
-    //this.saveDto.isAuthorized = this.isAuthorized === "true";
+    let amountRec = this.form.get("amount").value;
+    this.saveDto.amount = (amountRec === null || amountRec === undefined || amountRec === '') ? 0 : amountRec.replace('Bs.', '').trim();
+    this.saveDto.generatePayments = this.generatePayments === "true";
 
     if (this.actionRow === 0) {
       this.enrollService.create(this.saveDto).subscribe({
@@ -237,9 +279,9 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
   enableOrDisable(row: EnrolledChildrenResult) {
     this.saveDto.id = row.id;
     this.saveDto.isDeleted = !row.isDeleted;
+    this.saveDto.observations = '';
     this.enrollService.disableOrEnable(this.saveDto).subscribe({
       next: (resp: string) => {
-        this.cleanForm();
         this.filterSearch(true);
         this.notification(resp);
       },
@@ -258,26 +300,10 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
     this.enrollService.getDetail(this.saveDto).subscribe({
       next: (resp: EnrollChildrenDetailResult ) => {
         row.detailEnrollChildren = resp;
-        // this.cleanForm();
-        //this.filterSearch(true);
-        //this.notification(resp);
       },
       error: (error: string) => {
         this.notification(error);
       }
     });
-  }
-
-  getAccordionBodyText(value: string) {
-    const textSample = `
-      <strong>This is the <mark>#${value}</mark> item accordion body.</strong> It is hidden by
-      default, until the collapse plugin adds the appropriate classes that we use to
-      style each element. These classes control the overall appearance, as well as
-      the showing and hiding via CSS transitions. You can modify any of this with
-      custom CSS or overriding our default variables. It&#39;s also worth noting
-      that just about any HTML can go within the <code>.accordion-body</code>,
-      though the transition does limit overflow.
-    `;
-    return this.sanitizer.bypassSecurityTrustHtml(textSample);
   }
 }

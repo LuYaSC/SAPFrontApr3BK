@@ -28,7 +28,8 @@ import {
   PaginationModule,
   PopoverModule,
   ModalModule,
-  AlertModule
+  AlertModule,
+  WidgetModule
 } from '@coreui/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedComModule } from '../shared-com/shared-com.module';
@@ -38,6 +39,7 @@ import { TutorAssignationComponent } from './tutor-assignation/tutor-assignation
 import { RoomAssignationComponent } from './room-assignation/room-assignation.component';
 import { EnrolledChildrenComponent } from './enrolled-children/enrolled-children.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { DirectivesModule } from 'src/app/helpers/directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,9 @@ import { PaymentsComponent } from './payments/payments.component';
     ModalModule,
     AlertModule,
     BsDatepickerModule,
-    IconModule
+    IconModule,
+    WidgetModule,
+    DirectivesModule
   ],
 })
 export class StructuresModule { }
