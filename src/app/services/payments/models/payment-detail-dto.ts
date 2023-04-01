@@ -1,4 +1,4 @@
-export class AssignationRoomDetailDto {
+export class PaymentDetailDto {
   id: number;
   isDeleted: boolean;
 

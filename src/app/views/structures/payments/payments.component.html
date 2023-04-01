@@ -1,1 +1,636 @@
-<p>payments works!</p>
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-3">
+      <c-card-header ngPreserveWhitespaces>
+        <strong>Asignacion de Tutores</strong> <small></small>
+      </c-card-header>
+      <c-card-body>
+        <c-nav variant="pills">
+          <c-nav-item>
+            <a
+              [cTabContent]="tabContent3"
+              [routerLink]
+              [tabPaneIdx]="0"
+              cNavLink
+              (click)="getListTutors()"
+            >
+              <svg cIcon class="me-2" name="cilHome"></svg>
+              Busqueda
+            </a>
+          </c-nav-item>
+          <c-nav-item>
+            <a
+              [cTabContent]="tabContent3"
+              [routerLink]
+              [tabPaneIdx]="1"
+              cNavLink
+              (click)="getParametersTutors()"
+            >
+              <svg cIcon class="me-2" name="cilUser"></svg>
+              Gestion
+            </a>
+          </c-nav-item>
+          <!--<c-nav-item>
+            <a [cTabContent]="tabContent3" [routerLink] [tabPaneIdx]="2" cNavLink>
+              <svg cIcon class="me-2" name="cilCode"></svg>
+              Contact
+            </a>
+          </c-nav-item>-->
+        </c-nav>
+        <c-tab-content
+          #tabContent3="cTabContent"
+          cRounded="bottom"
+          (activeTabPaneIdxChange)="changeTab($event)"
+          [activeTabPaneIdx]="tabindex"
+        >
+          <c-tab-pane
+            aria-labelledby="docs-code-preview"
+            class="p-3 preview"
+            role="tabpanel"
+          >
+            <strong>{{ typeName }}</strong>
+            <small>{{ this.listTypes.length }}</small> registros encontrados
+            <p class="text-medium-emphasis small">
+              Asignacion de Tutores - Ninos, si desea crear un nuevo registro,
+              presione:
+              <code>Gestion</code>
+            </p>
+            <form cForm class="row g-3" [formGroup]="formSearch">
+              <c-col [md]="6" *ngIf="isVisibleKid">
+                <label cLabel>Ninos </label>
+                <app-selector-generic
+                  [parameterList]="kidsList"
+                  [enableAllOptions]="true"
+                  (onRowChange)="onSelectedKidFilter($event)"
+                ></app-selector-generic
+              ></c-col>
+              <c-col [md]="6" *ngIf="isVisibleBranchOfficeStatus">
+                <label cLabel>Sucursal </label>
+                <app-select-parameters
+                  [parameterList]="listBranchOfficeStatus"
+                  [enableAllOptions]="true"
+                  (onRowChange)="onSelectedBranchOfficeFilter($event)"
+                ></app-select-parameters
+              ></c-col>
+              <c-col [md]="6" *ngIf="isVisibleRoom">
+                <label cLabel>Sala</label>
+                <app-select-parameters
+                  [parameterList]="listRooms"
+                  [enableAllOptions]="true"
+                  (onRowChange)="onSelectedRoomFilter($event)"
+                ></app-select-parameters
+              ></c-col>
+              <c-col [xs]="12">
+                <div class="d-flex justify-content-end">
+                  <button
+                    cButton
+                    type="submit"
+                    class="btn-warning"
+                    (click)="filterSearch(true)"
+                    style="margin: 0 8px"
+                  >
+                    <i class="cil-x-circle"></i> Limpiar
+                  </button>
+                  <button cButton type="submit" (click)="filterSearch(false)">
+                    <i class="cil-magnifying-glass"></i> Buscar
+                  </button>
+                </div>
+              </c-col>
+            </form>
+            <table cTable *ngIf="isVisible">
+              <thead>
+                <tr>
+                  <th scope="col">Detalles</th>
+                  <th scope="col">Nino</th>
+                  <th scope="col">Sala</th>
+                  <th scope="col">Sucursal</th>
+                  <th scope="col">Monto</th>
+                  <th scope="col">Estado de Pago</th>
+                  <th scope="col">Detalle</th>
+                  <th scope="col">Observaciones</th>
+                  <th scope="col">Creado por</th>
+                  <th scope="col">Creado en</th>
+                  <th scope="col">Modificado por</th>
+                  <th scope="col">Modificado en</th>
+                  <th scope="col">Verificacion</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let row of visibleItems(); let i = index">
+                  <tr>
+                    <td>
+                        <button
+                          color="info"
+                          cButton
+                          class="me-1"
+                          shape="rounded-pill"
+                          (click)="showDetails(row)"
+                          [disabled]="row.isDeleted"
+                        >
+                      <i class="fas fa-{{row.showDetails ? 'minus' : 'plus'}}"></i>
+                        </button>
+                    </td>
+                    <td>
+                      {{ row.kid }}
+                    </td>
+                    <td>
+                      {{ row.room }}
+                    </td>
+                    <td>
+                      {{ row.branchOffice }}
+                    </td>
+                    <td>
+                      {{ row.amount }}
+                    </td>
+                    <td>
+                      <c-badge
+                      class="me-1"
+                      color="info"
+                      >{{ row.paymentOperation }}</c-badge
+                    >
+                    </td>
+                    <td>
+                      {{ row.description }}
+                    </td>
+                    <td>
+                      {{ row.observations }}
+                    </td>
+                    <td>{{ row.userCreation }}</td>
+                    <td>
+                      {{ row.dateCreation | date : "yyyy/MM/dd hh:mm:ss" }}
+                    </td>
+                    <td>{{ row.userModification }}</td>
+                    <td>
+                      {{ row.dateModification | date : "yyyy/MM/dd hh:mm:ss" }}
+                    </td>
+                    <td>
+                      <c-badge
+                        class="me-1"
+                        color="{{ row.isVerified ? 'success' : 'warning' }}"
+                        >{{ row.isVerified ? "VERIFICADO" : "NO VERIFICADO" }}</c-badge
+                      >
+                    </td>
+                    <td>
+                      <c-badge
+                        class="me-1"
+                        color="{{ !row.isDeleted ? 'success' : 'danger' }}"
+                        >{{ !row.isDeleted ? "ACTIVO" : "INACTIVO" }}</c-badge
+                      >
+                    </td>
+                    <td>
+                      <div class="d-flex gap-2">
+                        <button
+                          color="warning"
+                          cButton
+                          class="me-1"
+                          shape="rounded-pill"
+                          (click)="editRow(row)"
+                          [disabled]="row.isDeleted"
+                        >
+                          <svg cIcon name="cil-pencil"></svg>
+                        </button>
+                        <button
+                          color="{{ row.isDeleted ? 'success' : 'danger' }}"
+                          cButton
+                          class="me-1"
+                          shape="rounded-pill"
+                          (click)="enableOrDisable(row)"
+                        >
+                          <svg
+                            cIcon
+                            [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"
+                          ></svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="row.showDetails">
+                    <td [attr.colspan]="9">
+                      <div class="row">
+                        <c-card class="mb-4">
+                          <c-card-header>
+                            <strong>Datos Complementarios</strong>
+                          </c-card-header>
+                          <c-card-body>
+                            <c-accordion [flush]="true">
+                              <c-accordion-item visible>
+                                <ng-template cTemplateId="accordionHeader">
+                                  <strong>Datos Generales del Padre</strong>
+                                </ng-template>
+                                <ng-template cTemplateId="accordionBody">
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputName" placeholder="name@example.com" type="text" value="{{row.paymentDetails.parentName}}" readonly />
+                                        <label cLabel for="floatingInput">Nombre Completo:</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputBornDate" type="text" value="data de prueba" value="{{row.paymentDetails.parentRelation}}" readonly/>
+                                        <label cLabel for="floatingInput">Parentezco:</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputAge" type="text" value="data de prueba" value="{{row.paymentDetails.parentMaritalStatus}}" readonly/>
+                                        <label cLabel for="floatingInput">Estado Civil:</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputBloodType" type="text" value="{{row.kid}}" value="{{row.paymentDetails.parentDocumentType}}" readonly />
+                                        <label cLabel for="floatingInput">Tipo de Documento:</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputGenre" placeholder="Password" type="text" value="{{row.paymentDetails.parentDocumentNumber}}" readonly/>
+                                        <label cLabel for="floatingInput">Nro de Documento:</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputTutorQuantity" type="text" value="{{row.paymentDetails.parentPhoneNumber}}"readonly/>
+                                        <label cLabel for="floatingInput">Numero de Contacto:</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                </ng-template>
+                              </c-accordion-item>
+                              <c-accordion-item [visible]="false">
+                                <ng-template cTemplateId="accordionHeader">
+                                  <strong>Datos Generales de Sala en la que se encuentra inscrito el menor</strong>
+                                </ng-template>
+                                <ng-template cTemplateId="accordionBody">
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputRoom" placeholder="name@example.com" type="text" value="{{row.paymentDetails.room}}" readonly />
+                                        <label cLabel for="floatingInput">Sala</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputCity" type="text" value="{{row.paymentDetails.city}}" readonly/>
+                                        <label cLabel for="floatingInput">Ciudad</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputBranchOffice" type="text" value="{{row.paymentDetails.branchOffice}}" readonly/>
+                                        <label cLabel for="floatingInput">Sucursal</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                  <c-row class="g-3">
+                                    <c-col [sm]="4">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputTurn" type="text" value="{{row.paymentDetails.turn}}" readonly />
+                                        <label cLabel for="floatingInput">Turno</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputModality" placeholder="Password" type="text" value="{{row.paymentDetails.modality}}" readonly/>
+                                        <label cLabel for="floatingInput">Modalidad</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="4">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputSchedule" type="text" value="{{row.paymentDetails.collaboratorName}}" readonly/>
+                                        <label cLabel for="floatingInput">Colaborador Asignado</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                  <c-row class="g-3">
+                                    <c-col [sm]="6">
+                                      <div [cFormFloating]="true" class="mb-3">
+                                        <input cFormControl id="floatingInputObservations" type="text" value="{{row.paymentDetails.startDateKid}}" readonly />
+                                        <label cLabel for="floatingInput">Fecha de Ingreso</label>
+                                      </div>
+                                    </c-col>
+                                    <c-col [sm]="6">
+                                      <div cFormFloating>
+                                        <input cFormControl id="floatingInputCollaborator" placeholder="Password" type="text" value="{{row.paymentDetails.antiquity}}" readonly/>
+                                        <label cLabel for="floatingInput">Antiguedad</label>
+                                      </div>
+                                    </c-col>
+                                  </c-row>
+                                </ng-template>
+                              </c-accordion-item>
+                            </c-accordion>
+                          </c-card-body>
+                        </c-card>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+              <br />
+            </table>
+            <app-pagination
+                [totalItems]="listTypes.length"
+                [itemsPerPage]="itemsPerPage"
+                [currentPage]="currentPage"
+                (pageChanged)="onPageChange($event)"
+              ></app-pagination>
+          </c-tab-pane>
+          <c-tab-pane
+            aria-labelledby="docs-code-preview"
+            class="p-3 preview"
+            role="tabpanel"
+          >
+            <form cForm class="row g-3" [formGroup]="form">
+              <c-col [md]="12" *ngIf="isVisibleEnrollData">
+                <label cLabel>Lista de Inscritos </label>
+                <app-selector-enroll-children
+                  [parameterList]="listEnrollData"
+                  [selectedValue]="selectedEnrollData"
+                  (onRowChange)="onSelectedEnrollData($event)"
+                ></app-selector-enroll-children
+              ></c-col>
+              <c-col [md]="6" *ngIf="isVisiableDetailKid">
+              <c-accordion [flush]="true">
+                <c-accordion-item visible>
+                  <ng-template cTemplateId="accordionHeader">
+                  <strong>Datos complementarios del Nino</strong>
+                  </ng-template>
+                  <ng-template cTemplateId="accordionBody">
+                    <c-row class="g-3">
+                      <c-col [sm]="4">
+                        <div [cFormFloating]="true" class="mb-3">
+                          <input cFormControl id="floatingInputDKName" type="text" value="{{detailKid[0].kidName}}" readonly />
+                          <label cLabel for="floatingInput">Nombre Completo</label>
+                        </div>
+                      </c-col>
+                      <c-col [sm]="4">
+                        <div cFormFloating>
+                          <input cFormControl id="floatingInputDKAgeKid" type="text" value="{{detailKid[0].ageKid}}" readonly/>
+                          <label cLabel for="floatingInput">Edad del Menor</label>
+                        </div>
+                      </c-col>
+                      <c-col [sm]="4">
+                        <div cFormFloating>
+                          <input cFormControl id="floatingInputDKDocType" type="text" value="{{detailKid[0].documentType}}" readonly/>
+                          <label cLabel for="floatingInput">Tipo de Documento</label>
+                        </div>
+                      </c-col>
+                    </c-row>
+                    <c-row class="g-3">
+                      <c-col [sm]="4">
+                        <div [cFormFloating]="true" class="mb-3">
+                          <input cFormControl id="floatingInputDKDocNumber" type="text" value="{{detailKid[0].documentNumber}}" readonly />
+                          <label cLabel for="floatingInput">Nro. de Documento</label>
+                        </div>
+                      </c-col>
+                    </c-row>
+                  </ng-template>
+                </c-accordion-item>
+                <c-accordion-item [visible]="false">
+                  <ng-template cTemplateId="accordionHeader">
+                    <strong>Datos Complementarios de los Papas</strong>
+                  </ng-template>
+                  <ng-template cTemplateId="accordionBody">
+                    <div *ngFor="let parentkid of detailKid">
+                      <c-alert>
+                        <strong>{{parentkid.parentName}}</strong>  -
+                        Autorizado a Recojer al menor  <c-badge
+                        class="me-1"
+                        color="{{ parentkid.isAuthorized ? 'success' : 'danger' }}"
+                        >{{ parentkid.isAuthorized ? "SI" : "NO" }}</c-badge
+                      > -
+                        Tutor Principal <c-badge
+                        class="me-1"
+                        color="{{ parentkid.isPrincipal ? 'success' : 'danger' }}"
+                        >{{ parentkid.isPrincipal ? "SI" : "NO" }}</c-badge
+                      >
+                      </c-alert>
+                      <c-row class="g-3">
+                        <c-col [sm]="6">
+                          <div [cFormFloating]="true" class="mb-3">
+                            <input cFormControl id="floatingInputDKParentName" type="text" value="{{parentkid.parentName}}" readonly />
+                            <label cLabel for="floatingInput">Nombre Completo</label>
+                          </div>
+                        </c-col>
+                        <c-col [sm]="6">
+                          <div cFormFloating>
+                            <input cFormControl id="floatingInputDKParentRelation" type="text" value="{{parentkid.relation}}" readonly/>
+                            <label cLabel for="floatingInput">Parentezco</label>
+                          </div>
+                        </c-col>
+                      </c-row>
+                      <c-row class="g-3">
+                        <c-col [sm]="6">
+                          <div cFormFloating>
+                            <input cFormControl id="floatingInputDKParentMaritalSt" type="text" value="{{parentkid.maritalStatus}}" readonly/>
+                            <label cLabel for="floatingInput">Estado Civil</label>
+                          </div>
+                        </c-col>
+                        <c-col [sm]="6">
+                          <div [cFormFloating]="true" class="mb-3">
+                            <input cFormControl id="floatingInputDKParentPhoneN" type="text" value="{{parentkid.phoneNumber}}" readonly />
+                            <label cLabel for="floatingInput">Nro de Contacto</label>
+                          </div>
+                        </c-col>
+                      </c-row>
+                      </div>
+                  </ng-template>
+                </c-accordion-item>
+              </c-accordion>
+            </c-col>
+            <c-col [md]="6" *ngIf="isVisiblePaymentType">
+              <label cLabel>Tipo de Pago</label>
+              <app-select-parameters
+              [parameterList]="listPaymentType"
+              [selectedValue]="selectedPaymentType"
+              (onRowChange)="onSelectedPaymentType($event)"
+            ></app-select-parameters
+          >
+            </c-col>
+            <c-col [md]="6" *ngIf="isVisibleAuditPaymentType">
+              <label cLabel>Operacion</label>
+              <app-select-parameters
+              [parameterList]="listAuditPaymentType"
+              [selectedValue]="selectedAuditPaymentType"
+              (onRowChange)="onSelectedAuditPaymentType($event)"
+            ></app-select-parameters
+          >
+            </c-col>
+            <c-col [md]="6" *ngIf="isVisiblePaymentOperation">
+              <label cLabel>Estado del pago</label>
+              <app-select-parameters
+              [parameterList]="listPaymentOperation"
+              [selectedValue]="selectedPaymentOperation"
+              (onRowChange)="onSelectedPaymentOperation($event)"
+            ></app-select-parameters
+          >
+            </c-col>
+            <c-col [md]="6">
+              <label cLabel for="nameLabel">Descripcion</label>
+              <input
+                type="text"
+                noAutocomplete
+                appOnlyLettersAndNumbers
+                formControlName="description"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': submitted && f['description'].errors
+                }"
+                autoComplete="name"
+                cFormControl
+                placeholder="Ingrese Descripcion"
+              />
+              <div
+                *ngIf="submitted && f['description'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['description'].errors['required']">
+                  required
+                </div>
+                <div *ngIf="f['description'].errors['minlength']">
+                  name must be at least 6 characters
+                </div>
+                <div *ngIf="f['description'].errors['maxlength']">
+                  name must not exceed 50 characters
+                </div>
+              </div>
+            </c-col>
+              <c-col [md]="6">
+                <label cLabel for="nameLabel">Observaciones</label>
+                <input
+                  type="text"
+                  noAutocomplete
+                  appOnlyLettersAndNumbers
+                  formControlName="observations"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['observations'].errors
+                  }"
+                  cFormControl
+                  placeholder="Ingrese Observaciones"
+                />
+                <div
+                  *ngIf="submitted && f['observations'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['observations'].errors['required']">
+                    required
+                  </div>
+                  <div *ngIf="f['observations'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['observations'].errors['maxlength']">
+                    name must not exceed 50 characters
+                  </div>
+                </div>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel for="nameLabel">Nro de Factura</label>
+                <input
+                  type="text"
+                  noAutocomplete
+                  appOnlyLettersAndNumbers
+                  formControlName="numberBill"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['numberBill'].errors
+                  }"
+                  autoComplete="name"
+                  cFormControl
+                  placeholder="Ingrese Nro de Factura"
+                />
+                <div
+                  *ngIf="submitted && f['numberBill'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['numberBill'].errors['required']">
+                    required
+                  </div>
+                  <div *ngIf="f['numberBill'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['numberBill'].errors['maxlength']">
+                    name must not exceed 50 characters
+                  </div>
+                </div>
+              </c-col>
+              <c-col [md]="6" *ngIf="actionRow !== 1">
+                <label cLabel for="nameLabel">Monto</label>
+                <input
+                  type="text"
+                  noAutocomplete
+                  appOnlyNumbers
+                  maxlength="4"
+                  formControlName="amount"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['amount'].errors
+                  }"
+                  cFormControl
+                  placeholder="Ingrese el monto referencial"
+                />
+                <div
+                  *ngIf="submitted && f['amount'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['amount'].errors['required']">
+                    required
+                  </div>
+                  <div *ngIf="f['amount'].errors['minlength']">
+                    name must be at least 6 characters
+                  </div>
+                  <div *ngIf="f['amount'].errors['maxlength']">
+                    name must not exceed 50 characters
+                  </div>
+                </div>
+              </c-col>
+              <c-col [md]="6" *ngIf="actionRow !== 1">
+                <label cLabel>Pago Verificado</label>
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="generatePayments"
+                      [ngModelOptions]="{ standalone: true }"
+                      [(ngModel)]="isVerified"
+                      value="true"
+                    />
+                    Sí
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="generatePayments"
+                      [ngModelOptions]="{ standalone: true }"
+                      [(ngModel)]="isVerified"
+                      value="false"
+                    />
+                    No
+                  </label>
+                </div>
+              </c-col>
+              <c-col [xs]="12">
+                <button cButton type="submit" (click)="createOrUpdate()">
+                  {{ this.actionRow === 0 ? "Registrar" : "Actualizar" }}
+                </button>
+              </c-col>
+            </form>
+          </c-tab-pane>
+        </c-tab-content>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<c-alert color="info" *ngIf="!isVisible">{{ message }}</c-alert>
+<app-global-alerts
+  *ngIf="visible"
+  [visible]="visible"
+  [message]="message"
+></app-global-alerts>
+

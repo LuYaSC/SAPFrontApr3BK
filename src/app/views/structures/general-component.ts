@@ -41,6 +41,16 @@ export class GeneralComponent {
   public isVisibleModality: boolean;
   public selectedModality: GetTypeResult;
 
+  public listPaymentType: GetTypeResult[];
+  public isVisiblePaymentType: boolean;
+  public selectedPaymentType: GetTypeResult;
+  public listAuditPaymentType: GetTypeResult[];
+  public isVisibleAuditPaymentType: boolean;
+  public selectedAuditPaymentType: GetTypeResult;
+  public listPaymentOperation: GetTypeResult[];
+  public isVisiblePaymentOperation: boolean;
+  public selectedPaymentOperation: GetTypeResult;
+
 
   tabindex: number = 0;
   submitted = false;
@@ -98,6 +108,9 @@ export class GeneralComponent {
     room?: boolean,
     turn?: boolean,
     modality?: boolean,
+    paymentType?: boolean,
+    auditPaymentType?: boolean,
+    paymentOperation?: boolean,
 
   } = {}) {
     const sexType = options.sexType ?? false;
@@ -110,6 +123,9 @@ export class GeneralComponent {
     const room = options.room ?? false;
     const turn = options.turn ?? false;
     const modality = options.modality ?? false;
+    const paymentType = options.paymentType ?? false;
+    const auditPaymentType = options.auditPaymentType ?? false;
+    const paymentOperation = options.paymentOperation ?? false;
     if (sexType) {
       this.GetServiceParametersList('sexType').subscribe(res => {
         this.listSexs = res[0];
@@ -168,6 +184,24 @@ export class GeneralComponent {
       this.GetServiceParametersList('modality').subscribe(res => {
         this.listModality = res[0];
         this.isVisibleModality = res[1];
+      });
+    }
+    if (paymentType) {
+      this.GetServiceParametersList('paymentType').subscribe(res => {
+        this.listPaymentType = res[0];
+        this.isVisiblePaymentType = res[1];
+      });
+    }
+    if (auditPaymentType) {
+      this.GetServiceParametersList('auditPaymentType').subscribe(res => {
+        this.listAuditPaymentType = res[0];
+        this.isVisibleAuditPaymentType = res[1];
+      });
+    }
+    if (paymentOperation) {
+      this.GetServiceParametersList('paymentOperation').subscribe(res => {
+        this.listPaymentOperation = res[0];
+        this.isVisiblePaymentOperation = res[1];
       });
     }
   }

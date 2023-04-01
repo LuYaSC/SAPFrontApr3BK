@@ -250,5 +250,44 @@ export const ENROLL_CHILDREN: any =
   ],
 };
 
+export const PAYMENT: any =
+{
+  id: [],
+  observations: [
+    '',
+    [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(50),
+    ]
+  ],
+  amount: [
+    '',
+    [
+      Validators.minLength(2),
+      Validators.maxLength(4),
+    ]
+  ],
+  description: [
+    '',
+    [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(4),
+    ]
+  ],
+  numberBill: [
+    '',
+    [
+      Validators.minLength(2),
+      Validators.maxLength(10),
+    ]
+  ],
+
+};
+
+
+
+
 
 

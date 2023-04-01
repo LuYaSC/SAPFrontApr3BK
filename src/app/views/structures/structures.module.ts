@@ -40,6 +40,7 @@ import { RoomAssignationComponent } from './room-assignation/room-assignation.co
 import { EnrolledChildrenComponent } from './enrolled-children/enrolled-children.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { DirectivesModule } from 'src/app/helpers/directives/directives.module';
+import { TaxesComponent } from './taxes/taxes.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { DirectivesModule } from 'src/app/helpers/directives/directives.module';
     TutorAssignationComponent,
     RoomAssignationComponent,
     EnrolledChildrenComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    TaxesComponent
   ],
   imports: [
     StructuresRoutingModule,

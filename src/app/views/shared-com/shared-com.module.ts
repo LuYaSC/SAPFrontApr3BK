@@ -31,6 +31,7 @@ import { DirectivesModule } from '../../helpers/directives/directives.module';
 import { SelectorGenericComponent } from './selector-generic/selector-generic.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SelectorCompleteRoomComponent } from './selector-complete-room/selector-complete-room.component';
+import { SelectorEnrollChildrenComponent } from './selector-enroll-children/selector-enroll-children.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { SelectorCompleteRoomComponent } from './selector-complete-room/selector
     PaginationComponent,
     SelectorGenericComponent,
     SelectorCompleteRoomComponent,
+    SelectorEnrollChildrenComponent,
 
   ],
   imports: [
@@ -82,6 +84,7 @@ import { SelectorCompleteRoomComponent } from './selector-complete-room/selector
       PaginationComponent,
       SelectorGenericComponent,
       SelectorCompleteRoomComponent,
+      SelectorEnrollChildrenComponent
     ]
 })
 export class SharedComModule {
