@@ -3,6 +3,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { TypeBusinessService } from '../../../services/type-business/type-business.service';
 import { GetTypeResult } from '../../../services/type-business/models/get-type-result';
 import { CreateUpdateTypeBusinessDto } from '../../../services/type-business/models/create-update-type-business-dto';
+import { ReportResult } from 'src/app/services/utils/models/report-result';
+
 
 @Component({
   selector: 'app-type-business',
@@ -210,5 +212,45 @@ export class TypeBusinessComponent implements OnInit {
   notification(message: string) {
     this.message = message;
     this.visible = true;
+  }
+
+  downloadPdf() {
+    this.service.generatePdf().subscribe({
+      next: (resp: ReportResult) => {
+        const blob = this.b64toBlob(resp.report, 'application/pdf');
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = resp.reportName + '.pdf';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.notification('Reprte Generado Correctamente');
+      },
+      error: (error: string) => {
+        this.notification(error);
+      }
+    });
+  }
+
+  b64toBlob(b64Data: any, contentType: string): Blob {
+    contentType = contentType || '';
+    const sliceSize = 512;
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
   }
 }

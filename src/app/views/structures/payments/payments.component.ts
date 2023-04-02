@@ -52,8 +52,8 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
   listEnrollData: EnrolledChildrenResult [] = [];
   isVisibleEnrollData: boolean;
   selectedEnrollData: EnrolledChildrenResult;
-  detailKid: GetDetailKidResult[] = [];
-  isVisiableDetailKid: boolean = false;
+  detailKid: EnrollChildrenDetailResult;
+  isVisibleDetailKid: boolean = false;
   detailRoom: AssignationRoomDetailResult = new AssignationRoomDetailResult();
   isVisiableDetailRoom: boolean = false;
   formSearch: FormGroup = new FormGroup({
@@ -118,16 +118,20 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
     this.filterDto.branchOfficeId = event?.id;
   }
 
+  onSelectedPaymentOperationFilter(event: any) {
+    this.filterDto.paymentOperationId = event?.id;
+  }
+
   onSelectedPaymentType(event: GetTypeResult) {
-    //this.filterDto.branchOfficeId = event?.id;
+    this.saveDto.paymentTypeId = event?.id;
   }
 
   onSelectedAuditPaymentType(event: GetTypeResult) {
-    //this.filterDto.branchOfficeId = event?.id;
+    this.saveDto.auditPaymentId = event?.id;
   }
 
   onSelectedPaymentOperation(event: GetTypeResult) {
-    //this.filterDto.branchOfficeId = event?.id;
+    this.saveDto.paymentOperationId = event?.id;
   }
 
   getListEnrollChildren(){
@@ -147,12 +151,13 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
 
   onSelectedEnrollData(event: any) {
     this.saveDto.enrolledChildrenId = event?.id;
-    /*if(this.tabindex === 1) {
-      this.isVisiableDetailKid = false;
-      this.kidService.getDetail(new KidByIdDto({KidId: event?.id })).subscribe({
-        next: (resp: GetDetailKidResult[]) => {
+      this.isVisibleDetailKid = false;
+      let dto = new EnrolledChildrenDto();
+      dto.id = event?.id;
+      this.enrollService.getDetail(dto).subscribe({
+        next: (resp: EnrollChildrenDetailResult) => {
           this.detailKid = resp;
-          this.isVisiableDetailKid = true;
+          this.isVisibleDetailKid = true;
         },
         error: (error: any) => {
           this.message = error;
@@ -161,7 +166,6 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
           this.spinnerService.hide();
         }
       });
-    }*/
   }
 
   onSelectedRoomAss(event: any) {
@@ -257,14 +261,16 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
     //this.kidSelected = new KidsResult();
     //this.roomAssSelected = new AssignationRoomResult();
     this.saveDto.id = row.id;
-    this.isVerified = "false";
+    this.isVerified = row.isVerified ? 'true' : 'false';
     this.selectedPaymentType = this.listPaymentType.find(x => x.id === row.paymentTypeId);
     this.selectedAuditPaymentType = this.listAuditPaymentType.find(x => x.id === row.auditPaymentId);
     this.selectedPaymentOperation = this.listPaymentOperation.find(x => x.id === row.paymentOperationId);
     this.form.setValue({
       id: row.id,
       observations: row.observations,
-      amount: ''
+      amount: row.amount,
+      description: row.description,
+      numberBill: row.numberBill
     });
     this.liveDemoVisible = !this.liveDemoVisible;
     this.changeTab(1);
@@ -284,11 +290,14 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    debugger
     this.isVisible = false;
     this.saveDto.observations = this.form.get("observations").value;
     let amountRec = this.form.get("amount").value;
-    this.saveDto.amount = (amountRec === null || amountRec === undefined || amountRec === '') ? 0 : amountRec.replace('Bs.', '').trim();
+    this.saveDto.amount = (amountRec === null || amountRec === undefined || amountRec === '') ? 0 : amountRec;
     this.saveDto.isVerified = this.isVerified === "true";
+    this.saveDto.description = this.form.get("description").value;
+    this.saveDto.numberBill = this.form.get("numberBill").value;
 
     if (this.actionRow === 0) {
       this.paymentService.create(this.saveDto).subscribe({

@@ -2,7 +2,7 @@
   <c-col xs="12">
     <c-card class="mb-3">
       <c-card-header ngPreserveWhitespaces>
-        <strong>Asignacion de Tutores</strong> <small></small>
+        <strong>Seguimiento y Control de Pagos</strong> <small></small>
       </c-card-header>
       <c-card-body>
         <c-nav variant="pills">
@@ -51,7 +51,7 @@
             <strong>{{ typeName }}</strong>
             <small>{{ this.listTypes.length }}</small> registros encontrados
             <p class="text-medium-emphasis small">
-              Asignacion de Tutores - Ninos, si desea crear un nuevo registro,
+              Seguimiento y Control de Pagos, si desea crear un nuevo registro,
               presione:
               <code>Gestion</code>
             </p>
@@ -78,6 +78,14 @@
                   [parameterList]="listRooms"
                   [enableAllOptions]="true"
                   (onRowChange)="onSelectedRoomFilter($event)"
+                ></app-select-parameters
+              ></c-col>
+              <c-col [md]="6" *ngIf="isVisibleAuditPaymentType">
+                <label cLabel>Estado de Pago</label>
+                <app-select-parameters
+                  [parameterList]="listPaymentOperation"
+                  [enableAllOptions]="true"
+                  (onRowChange)="onSelectedPaymentOperationFilter($event)"
                 ></app-select-parameters
               ></c-col>
               <c-col [xs]="12">
@@ -223,19 +231,19 @@
                                   <c-row class="g-3">
                                     <c-col [sm]="4">
                                       <div [cFormFloating]="true" class="mb-3">
-                                        <input cFormControl id="floatingInputName" placeholder="name@example.com" type="text" value="{{row.paymentDetails.parentName}}" readonly />
+                                        <input cFormControl id="floatingInputParent" placeholder="name@example.com" type="text" value="{{row.paymentDetails.parentName}}" readonly />
                                         <label cLabel for="floatingInput">Nombre Completo:</label>
                                       </div>
                                     </c-col>
                                     <c-col [sm]="4">
                                       <div cFormFloating>
-                                        <input cFormControl id="floatingInputBornDate" type="text" value="data de prueba" value="{{row.paymentDetails.parentRelation}}" readonly/>
+                                        <input cFormControl id="floatingInputRelationP" type="text"  value="{{row.paymentDetails.parentRelation}}" readonly/>
                                         <label cLabel for="floatingInput">Parentezco:</label>
                                       </div>
                                     </c-col>
                                     <c-col [sm]="4">
                                       <div cFormFloating>
-                                        <input cFormControl id="floatingInputAge" type="text" value="data de prueba" value="{{row.paymentDetails.parentMaritalStatus}}" readonly/>
+                                        <input cFormControl id="floatingInputMaritalStatusP" type="text" value="{{row.paymentDetails.parentMaritalStatus}}" readonly/>
                                         <label cLabel for="floatingInput">Estado Civil:</label>
                                       </div>
                                     </c-col>
@@ -243,19 +251,19 @@
                                   <c-row class="g-3">
                                     <c-col [sm]="4">
                                       <div [cFormFloating]="true" class="mb-3">
-                                        <input cFormControl id="floatingInputBloodType" type="text" value="{{row.kid}}" value="{{row.paymentDetails.parentDocumentType}}" readonly />
+                                        <input cFormControl id="floatingInputDocType" type="text" value="{{row.kid}}" value="{{row.paymentDetails.parentDocumentType}}" readonly />
                                         <label cLabel for="floatingInput">Tipo de Documento:</label>
                                       </div>
                                     </c-col>
                                     <c-col [sm]="4">
                                       <div cFormFloating>
-                                        <input cFormControl id="floatingInputGenre" placeholder="Password" type="text" value="{{row.paymentDetails.parentDocumentNumber}}" readonly/>
+                                        <input cFormControl id="floatingInputdoc" type="text" value="{{row.paymentDetails.parentDocumentNumber}}" readonly/>
                                         <label cLabel for="floatingInput">Nro de Documento:</label>
                                       </div>
                                     </c-col>
                                     <c-col [sm]="4">
                                       <div cFormFloating>
-                                        <input cFormControl id="floatingInputTutorQuantity" type="text" value="{{row.paymentDetails.parentPhoneNumber}}"readonly/>
+                                        <input cFormControl id="floatingInputTutorphonenumber" type="text" value="{{row.paymentDetails.parentPhoneNumber}}"readonly/>
                                         <label cLabel for="floatingInput">Numero de Contacto:</label>
                                       </div>
                                     </c-col>
@@ -270,19 +278,19 @@
                                   <c-row class="g-3">
                                     <c-col [sm]="4">
                                       <div [cFormFloating]="true" class="mb-3">
-                                        <input cFormControl id="floatingInputRoom" placeholder="name@example.com" type="text" value="{{row.paymentDetails.room}}" readonly />
+                                        <input cFormControl id="floatingInputRoomkid" placeholder="name@example.com" type="text" value="{{row.paymentDetails.room}}" readonly />
                                         <label cLabel for="floatingInput">Sala</label>
                                       </div>
                                     </c-col>
                                     <c-col [sm]="4">
                                       <div cFormFloating>
-                                        <input cFormControl id="floatingInputCity" type="text" value="{{row.paymentDetails.city}}" readonly/>
+                                        <input cFormControl id="floatingInputCitykid" type="text" value="{{row.paymentDetails.city}}" readonly/>
                                         <label cLabel for="floatingInput">Ciudad</label>
                                       </div>
                                     </c-col>
                                     <c-col [sm]="4">
                                       <div cFormFloating>
-                                        <input cFormControl id="floatingInputBranchOffice" type="text" value="{{row.paymentDetails.branchOffice}}" readonly/>
+                                        <input cFormControl id="floatingInputBranchOfficekid" type="text" value="{{row.paymentDetails.branchOffice}}" readonly/>
                                         <label cLabel for="floatingInput">Sucursal</label>
                                       </div>
                                     </c-col>
@@ -290,19 +298,19 @@
                                   <c-row class="g-3">
                                     <c-col [sm]="4">
                                       <div [cFormFloating]="true" class="mb-3">
-                                        <input cFormControl id="floatingInputTurn" type="text" value="{{row.paymentDetails.turn}}" readonly />
+                                        <input cFormControl id="floatingInputTurnkid" type="text" value="{{row.paymentDetails.turn}}" readonly />
                                         <label cLabel for="floatingInput">Turno</label>
                                       </div>
                                     </c-col>
                                     <c-col [sm]="4">
                                       <div cFormFloating>
-                                        <input cFormControl id="floatingInputModality" placeholder="Password" type="text" value="{{row.paymentDetails.modality}}" readonly/>
+                                        <input cFormControl id="floatingInputModalitykid" placeholder="Password" type="text" value="{{row.paymentDetails.modality}}" readonly/>
                                         <label cLabel for="floatingInput">Modalidad</label>
                                       </div>
                                     </c-col>
                                     <c-col [sm]="4">
                                       <div cFormFloating>
-                                        <input cFormControl id="floatingInputSchedule" type="text" value="{{row.paymentDetails.collaboratorName}}" readonly/>
+                                        <input cFormControl id="floatingcollaboratorName" type="text" value="{{row.paymentDetails.collaboratorName}}" readonly/>
                                         <label cLabel for="floatingInput">Colaborador Asignado</label>
                                       </div>
                                     </c-col>
@@ -310,13 +318,13 @@
                                   <c-row class="g-3">
                                     <c-col [sm]="6">
                                       <div [cFormFloating]="true" class="mb-3">
-                                        <input cFormControl id="floatingInputObservations" type="text" value="{{row.paymentDetails.startDateKid}}" readonly />
+                                        <input cFormControl id="floatingInputOstartDateKid" type="text" value="{{row.paymentDetails.startDateKid}}" readonly />
                                         <label cLabel for="floatingInput">Fecha de Ingreso</label>
                                       </div>
                                     </c-col>
                                     <c-col [sm]="6">
                                       <div cFormFloating>
-                                        <input cFormControl id="floatingInputCollaborator" placeholder="Password" type="text" value="{{row.paymentDetails.antiquity}}" readonly/>
+                                        <input cFormControl id="floatingInputAntiquy" type="text" value="{{row.paymentDetails.antiquity}}" readonly/>
                                         <label cLabel for="floatingInput">Antiguedad</label>
                                       </div>
                                     </c-col>
@@ -354,94 +362,202 @@
                   (onRowChange)="onSelectedEnrollData($event)"
                 ></app-selector-enroll-children
               ></c-col>
-              <c-col [md]="6" *ngIf="isVisiableDetailKid">
-              <c-accordion [flush]="true">
-                <c-accordion-item visible>
-                  <ng-template cTemplateId="accordionHeader">
-                  <strong>Datos complementarios del Nino</strong>
-                  </ng-template>
-                  <ng-template cTemplateId="accordionBody">
-                    <c-row class="g-3">
-                      <c-col [sm]="4">
-                        <div [cFormFloating]="true" class="mb-3">
-                          <input cFormControl id="floatingInputDKName" type="text" value="{{detailKid[0].kidName}}" readonly />
-                          <label cLabel for="floatingInput">Nombre Completo</label>
-                        </div>
-                      </c-col>
-                      <c-col [sm]="4">
-                        <div cFormFloating>
-                          <input cFormControl id="floatingInputDKAgeKid" type="text" value="{{detailKid[0].ageKid}}" readonly/>
-                          <label cLabel for="floatingInput">Edad del Menor</label>
-                        </div>
-                      </c-col>
-                      <c-col [sm]="4">
-                        <div cFormFloating>
-                          <input cFormControl id="floatingInputDKDocType" type="text" value="{{detailKid[0].documentType}}" readonly/>
-                          <label cLabel for="floatingInput">Tipo de Documento</label>
-                        </div>
-                      </c-col>
-                    </c-row>
-                    <c-row class="g-3">
-                      <c-col [sm]="4">
-                        <div [cFormFloating]="true" class="mb-3">
-                          <input cFormControl id="floatingInputDKDocNumber" type="text" value="{{detailKid[0].documentNumber}}" readonly />
-                          <label cLabel for="floatingInput">Nro. de Documento</label>
-                        </div>
-                      </c-col>
-                    </c-row>
-                  </ng-template>
-                </c-accordion-item>
-                <c-accordion-item [visible]="false">
-                  <ng-template cTemplateId="accordionHeader">
-                    <strong>Datos Complementarios de los Papas</strong>
-                  </ng-template>
-                  <ng-template cTemplateId="accordionBody">
-                    <div *ngFor="let parentkid of detailKid">
-                      <c-alert>
-                        <strong>{{parentkid.parentName}}</strong>  -
-                        Autorizado a Recojer al menor  <c-badge
-                        class="me-1"
-                        color="{{ parentkid.isAuthorized ? 'success' : 'danger' }}"
-                        >{{ parentkid.isAuthorized ? "SI" : "NO" }}</c-badge
-                      > -
-                        Tutor Principal <c-badge
-                        class="me-1"
-                        color="{{ parentkid.isPrincipal ? 'success' : 'danger' }}"
-                        >{{ parentkid.isPrincipal ? "SI" : "NO" }}</c-badge
-                      >
-                      </c-alert>
-                      <c-row class="g-3">
-                        <c-col [sm]="6">
-                          <div [cFormFloating]="true" class="mb-3">
-                            <input cFormControl id="floatingInputDKParentName" type="text" value="{{parentkid.parentName}}" readonly />
-                            <label cLabel for="floatingInput">Nombre Completo</label>
+              <c-col [md]="12" *ngIf="isVisibleDetailKid && listEnrollData.length > 0">
+                <div class="row">
+                  <c-card class="mb-4">
+                    <c-card-header>
+                      <strong>Datos Complementarios</strong>
+                    </c-card-header>
+                    <c-card-body>
+                      <c-accordion [flush]="true">
+                        <c-accordion-item visible>
+                          <ng-template cTemplateId="accordionHeader">
+                            <strong>Datos Generales del Menor</strong>
+                          </ng-template>
+                          <ng-template cTemplateId="accordionBody">
+                            <c-row class="g-3">
+                              <c-col [sm]="4">
+                                <div [cFormFloating]="true" class="mb-3">
+                                  <input cFormControl id="floatingInputName" type="text" value="{{detailKid.kidName}}" readonly />
+                                  <label cLabel for="floatingInput">Nombre Completo:</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputBornDate" type="text" value="data de prueba" value="{{detailKid.bornDateKid}}" readonly/>
+                                  <label cLabel for="floatingInput">Fecha de Nacimiento:</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputAge" type="text" value="data de prueba" value="{{detailKid.ageKid}}" readonly/>
+                                  <label cLabel for="floatingInput">Edad:</label>
+                                </div>
+                              </c-col>
+                            </c-row>
+                            <c-row class="g-3">
+                              <c-col [sm]="4">
+                                <div [cFormFloating]="true" class="mb-3">
+                                  <input cFormControl id="floatingInputBloodType" type="text" value="{{detailKid.bloodTypeKid}}" readonly />
+                                  <label cLabel for="floatingInput">Tipo de Sangre:</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputGenre" placeholder="Password" type="text" value="{{detailKid.sexKid}}" readonly/>
+                                  <label cLabel for="floatingInput">Genero:</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputTutorQuantity" type="text" value="{{detailKid.quantityTutors}}"readonly/>
+                                  <label cLabel for="floatingInput">Cantidad de Tutores Asignados:</label>
+                                </div>
+                              </c-col>
+                            </c-row>
+                          </ng-template>
+                        </c-accordion-item>
+                        <c-accordion-item [visible]="false">
+                          <ng-template cTemplateId="accordionHeader">
+                            <strong> Datos Generales de los Padres del menor</strong>
+                          </ng-template>
+                          <div>
+                          <ng-template cTemplateId="accordionBody">
+                            <div *ngFor="let parent of detailKid.parents">
+                              <c-card class="mb-4">
+                                <c-card-header>
+                                  <strong>Tutor: {{parent.parentName}} - Autorizado para Recojo del Menor: <c-badge
+                                    class="me-1"
+                                    color="{{ parent.isAuthorized? 'success' : 'danger' }}"
+                                    >{{ parent.isAuthorized ? "AUTORIZADO" : "NO AUTORIZADO" }}</c-badge
+                                  ></strong>
+                                </c-card-header>
+                                <c-card-body>
+                            <c-row class="g-3">
+                              <c-col [sm]="4">
+                                <div [cFormFloating]="true" class="mb-3">
+                                  <input cFormControl id="floatingInputNameParent" type="text" value="{{parent.parentName}}" readonly />
+                                  <label cLabel for="floatingInput">Nombre</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputRelationParent" type="text" value="{{parent.relation}}" readonly/>
+                                  <label cLabel for="floatingInput">Parentezco</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputContactNumber" type="text" value="{{parent.phoneNumber}}" readonly/>
+                                  <label cLabel for="floatingInput">Nro de Contacto</label>
+                                </div>
+                              </c-col>
+                            </c-row>
+                            <c-row class="g-3">
+                              <c-col [sm]="4">
+                                <div [cFormFloating]="true" class="mb-3">
+                                  <input cFormControl id="floatingInputBloodTypeParent" type="text" value="{{parent.bloodTypeParent}}" readonly />
+                                  <label cLabel for="floatingInput">Tipo de Sangre</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputGenreParent" type="text" value="{{parent.sexParent}}" readonly/>
+                                  <label cLabel for="floatingInput">Genero</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputAddress" type="text" value="{{parent.address}}" readonly/>
+                                  <label cLabel for="floatingInput">Direccion</label>
+                                </div>
+                              </c-col>
+                            </c-row>
+                            <c-row class="g-3">
+                              <c-col [sm]="4">
+                                <div [cFormFloating]="true" class="mb-3">
+                                  <input cFormControl id="floatingInputMaritalStatusParent" type="text" value="{{parent.maritalStatus}}" readonly />
+                                  <label cLabel for="floatingInput">Estado Civil</label>
+                                </div>
+                              </c-col>
+                            </c-row>
+                        </c-card-body>
+                            </c-card>
                           </div>
-                        </c-col>
-                        <c-col [sm]="6">
-                          <div cFormFloating>
-                            <input cFormControl id="floatingInputDKParentRelation" type="text" value="{{parentkid.relation}}" readonly/>
-                            <label cLabel for="floatingInput">Parentezco</label>
+                          </ng-template>
                           </div>
-                        </c-col>
-                      </c-row>
-                      <c-row class="g-3">
-                        <c-col [sm]="6">
-                          <div cFormFloating>
-                            <input cFormControl id="floatingInputDKParentMaritalSt" type="text" value="{{parentkid.maritalStatus}}" readonly/>
-                            <label cLabel for="floatingInput">Estado Civil</label>
-                          </div>
-                        </c-col>
-                        <c-col [sm]="6">
-                          <div [cFormFloating]="true" class="mb-3">
-                            <input cFormControl id="floatingInputDKParentPhoneN" type="text" value="{{parentkid.phoneNumber}}" readonly />
-                            <label cLabel for="floatingInput">Nro de Contacto</label>
-                          </div>
-                        </c-col>
-                      </c-row>
-                      </div>
-                  </ng-template>
-                </c-accordion-item>
-              </c-accordion>
+                        </c-accordion-item>
+                        <c-accordion-item [visible]="false">
+                          <ng-template cTemplateId="accordionHeader">
+                            <strong>Datos Generales de Sala en la que se encuentra inscrito el menor</strong>
+                          </ng-template>
+                          <ng-template cTemplateId="accordionBody">
+                            <c-row class="g-3">
+                              <c-col [sm]="4">
+                                <div [cFormFloating]="true" class="mb-3">
+                                  <input cFormControl id="floatingInputRoom" type="text" value="{{detailKid.room}}" readonly />
+                                  <label cLabel for="floatingInput">Sala</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputCity" type="text" value="{{detailKid.city}}" readonly/>
+                                  <label cLabel for="floatingInput">Ciudad</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputBranchOffice" type="text" value="{{detailKid.branchOffice}}" readonly/>
+                                  <label cLabel for="floatingInput">Sucursal</label>
+                                </div>
+                              </c-col>
+                            </c-row>
+                            <c-row class="g-3">
+                              <c-col [sm]="4">
+                                <div [cFormFloating]="true" class="mb-3">
+                                  <input cFormControl id="floatingInputTurn" type="text" value="{{detailKid.turn}}" readonly />
+                                  <label cLabel for="floatingInput">Turno</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputModality" placeholder="Password" type="text" value="{{detailKid.modality}}" readonly/>
+                                  <label cLabel for="floatingInput">Modalidad</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputSchedule" type="text" value="{{detailKid.schedule}}" readonly/>
+                                  <label cLabel for="floatingInput">Horario</label>
+                                </div>
+                              </c-col>
+                            </c-row>
+                            <c-row class="g-3">
+                              <c-col [sm]="4">
+                                <div [cFormFloating]="true" class="mb-3">
+                                  <input cFormControl id="floatingInputObservations" type="text" value="{{detailKid.observations}}" readonly />
+                                  <label cLabel for="floatingInput">Observaciones</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputCollaborator" placeholder="Password" type="text" value="{{detailKid.collaborator}}" readonly/>
+                                  <label cLabel for="floatingInput">Colaborador Asignado a Sala</label>
+                                </div>
+                              </c-col>
+                              <c-col [sm]="4">
+                                <div cFormFloating>
+                                  <input cFormControl id="floatingInputTutorStartDate" type="text" value="{{detailKid.startDateKid}}" readonly/>
+                                  <label cLabel for="floatingInput">Fecha de Inicio en el Centro</label>
+                                </div>
+                              </c-col>
+                            </c-row>
+                          </ng-template>
+                        </c-accordion-item>
+                      </c-accordion>
+                    </c-card-body>
+                  </c-card>
+                </div>
             </c-col>
             <c-col [md]="6" *ngIf="isVisiblePaymentType">
               <label cLabel>Tipo de Pago</label>
@@ -559,7 +675,7 @@
                   </div>
                 </div>
               </c-col>
-              <c-col [md]="6" *ngIf="actionRow !== 1">
+              <c-col [md]="6">
                 <label cLabel for="nameLabel">Monto</label>
                 <input
                   type="text"
@@ -589,7 +705,7 @@
                   </div>
                 </div>
               </c-col>
-              <c-col [md]="6" *ngIf="actionRow !== 1">
+              <c-col [md]="6" >
                 <label cLabel>Pago Verificado</label>
                 <div>
                   <label>

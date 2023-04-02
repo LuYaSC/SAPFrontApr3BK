@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import {DashboardService} from 'src/app/services/dashboard/dashboard.service';
+import { DashboardResult } from 'src/app/services/dashboard/models/dashboard-result';
 
 interface IUser {
   name: string;
@@ -22,7 +24,7 @@ interface IUser {
   styleUrls: ['dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private chartsData: DashboardChartsData) {
+  constructor(private chartsData: DashboardChartsData,private dashboardService: DashboardService) {
   }
 
   public users: IUser[] = [
@@ -107,12 +109,37 @@ export class DashboardComponent implements OnInit {
   ];
   public mainChart: IChartProps = {};
   public chart: Array<IChartProps> = [];
+  message: string;
+  visible: boolean;
+  isVisibleFisrtSection: boolean = false;
+  dashboardData: DashboardResult;
   public trafficRadioGroup = new UntypedFormGroup({
     trafficRadio: new UntypedFormControl('Month')
   });
 
   ngOnInit(): void {
     this.initCharts();
+    this.getDataDashboard();
+  }
+
+  getDataDashboard(){
+
+    this.dashboardService.getData().subscribe({
+      next: (resp: DashboardResult) => {
+        debugger
+        this.dashboardData = resp;
+        this.isVisibleFisrtSection = true;
+        this.notification('Datos Actualizados');
+      },
+      error: (error: string) => {
+        this.notification(error);
+      }
+    });
+  }
+
+  notification(message: string) {
+    this.message = message;
+    this.visible = true;
   }
 
   initCharts(): void {

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from './dashboard.component';
+import { DashboardSapgComponent } from './dashboard-sapg/dashboard-sapg.component';
 
 const routes: Routes = [
   {
@@ -9,6 +10,13 @@ const routes: Routes = [
     component: DashboardComponent,
     data: {
       title: $localize`Dashboard`
+    }
+  },
+  {
+    path: 'dashboard-sapg',
+    component: DashboardSapgComponent,
+    data: {
+      title: `Dashboard`
     }
   }
 ];

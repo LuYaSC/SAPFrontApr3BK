@@ -9,10 +9,9 @@ export class OnlyLettersAndNumbersDirective {
 
   @HostListener('input', ['$event']) onInputChange(event: any) {
     const initialValue = this.el.nativeElement.value;
-    this.el.nativeElement.value = initialValue.replace(/[^a-zA-Z0-9]/g, '');
+    this.el.nativeElement.value = initialValue.replace(/[^a-zA-Z0-9ñÑ\s.,]/g, '');
     if (this.el.nativeElement.value !== initialValue) {
       event.stopPropagation();
     }
   }
-
 }

@@ -41,26 +41,26 @@ export class DashboardChartsData {
 
     // generate random values for mainChart
     for (let i = 0; i <= this.mainChart['elements']; i++) {
-      this.mainChart['Data1'].push(this.random(50, 240));
-      this.mainChart['Data2'].push(this.random(20, 160));
-      this.mainChart['Data3'].push(65);
+      this.mainChart['Data1'].push(this.random(1, 10));
+      this.mainChart['Data2'].push(this.random(1, 20));
+      this.mainChart['Data3'].push(10);
     }
 
     let labels: string[] = [];
     if (period === 'Month') {
       labels = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Augosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Deciembre'
       ];
     } else {
       /* tslint:disable:max-line-length */

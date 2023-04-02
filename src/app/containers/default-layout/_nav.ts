@@ -6,11 +6,10 @@ export const navItems: INavData[] = [
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },
     badge: {
-      color: 'info',
-      text: 'NEW'
+      color: 'success',
+      text: 'New'
     }
   },
-
   {
     title: true,
     name: 'Modulo de Administracion de Centros'
@@ -167,6 +166,11 @@ export const navItems: INavData[] = [
       {
         name: 'Pagos',
         url: '/structures/payments',
+        iconComponent: { name: 'cil-speedometer' },
+      },
+      {
+        name: 'Impuestos',
+        url: '/structures/taxes',
         iconComponent: { name: 'cil-speedometer' },
       },
     ]

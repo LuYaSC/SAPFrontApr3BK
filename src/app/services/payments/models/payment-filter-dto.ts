@@ -3,6 +3,7 @@ export class PaymentFilterDto {
   roomId: number;
   branchOfficeId: number;
   idDeleted: boolean;
+  paymentOperationId: number;
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

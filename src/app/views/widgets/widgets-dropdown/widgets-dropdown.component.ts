@@ -4,11 +4,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   OnInit,
   ViewChild
 } from '@angular/core';
 import { getStyle } from '@coreui/utils/src';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
+import { DashboardResult } from 'src/app/services/dashboard/models/dashboard-result';
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -17,10 +19,10 @@ import { ChartjsComponent } from '@coreui/angular-chartjs';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
-
+  @Input() dashboardData: DashboardResult = new DashboardResult();
   constructor(
     private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  ) { }
 
   data: any[] = [];
   options: any[] = [];
@@ -176,7 +178,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 })
 export class ChartSample implements AfterViewInit {
 
-  constructor() {}
+  constructor() { }
 
   @ViewChild('chart') chartComponent!: ChartjsComponent;
 

@@ -71,7 +71,8 @@ import { SelectorEnrollChildrenComponent } from './selector-enroll-children/sele
     IconModule,
     DirectivesModule,
     Ng2SearchPipeModule,
-    WidgetModule
+    WidgetModule,
+    DirectivesModule
   ],
   exports:
     [

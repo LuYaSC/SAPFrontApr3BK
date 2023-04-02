@@ -258,7 +258,7 @@ export const PAYMENT: any =
     [
       Validators.required,
       Validators.minLength(3),
-      Validators.maxLength(50),
+      Validators.maxLength(100),
     ]
   ],
   amount: [
@@ -272,14 +272,14 @@ export const PAYMENT: any =
     '',
     [
       Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(4),
+      Validators.minLength(3),
+      Validators.maxLength(100),
     ]
   ],
   numberBill: [
     '',
     [
-      Validators.minLength(2),
+      Validators.minLength(1),
       Validators.maxLength(10),
     ]
   ],

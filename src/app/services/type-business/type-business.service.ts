@@ -5,6 +5,7 @@ import { BaseService } from '../utils/base.service';
 import { CreateUpdateTypeBusinessDto } from './models/create-update-type-business-dto';
 import { GetTypeByIdDto } from './models/get-type-by-id-dto';
 import { GetTypeResult } from './models/get-type-result';
+import { ReportResult } from '../utils/models/report-result';
 
 @Injectable({
   providedIn: 'root'
@@ -31,4 +32,7 @@ export class TypeBusinessService extends BaseService{
     return this.http.post<string>(this.SetRoute('Update'), dto);
   }
 
+  generatePdf() :Observable<ReportResult>  {
+    return this.http.get<ReportResult>(this.SetRoute('GenerateReport'));
+  }
 }

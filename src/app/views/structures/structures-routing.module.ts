@@ -7,6 +7,7 @@ import { TutorAssignationComponent } from './tutor-assignation/tutor-assignation
 import { RoomAssignationComponent } from './room-assignation/room-assignation.component';
 import { EnrolledChildrenComponent } from './enrolled-children/enrolled-children.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { TaxesComponent } from './taxes/taxes.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,13 @@ const routes: Routes = [
     component: PaymentsComponent,
     data: {
       title: 'Pagos'
+    }
+  },
+  {
+    path: 'taxes',
+    component: TaxesComponent,
+    data: {
+      title: 'Impuestos'
     }
   }
 ];
