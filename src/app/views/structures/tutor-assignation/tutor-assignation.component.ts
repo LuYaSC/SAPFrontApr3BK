@@ -12,6 +12,7 @@ import { ParentsResult } from 'src/app/services/parent/models/parents-result';
 import { TutorAssignationService } from 'src/app/services/tutor-assignation/tutor-assignation.service';
 import { AssignationTutorResult } from 'src/app/services/tutor-assignation/models/assignation-tutor-result';
 import { AssignationTutorDto } from 'src/app/services/tutor-assignation/models/assignation-tutor-dto';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-tutor-assignation',
@@ -39,8 +40,8 @@ export class TutorAssignationComponent extends GeneralComponent implements OnIni
 
 
   constructor(private kidService: KidService, private parentService: ParentService, parameterService: TypeBusinessService,
-    private tutorService: TutorAssignationService, private formBuilder: FormBuilder, private spinnerService: SpinnerService) {
-    super(parameterService);
+    private tutorService: TutorAssignationService, private formBuilder: FormBuilder, private spinnerService: SpinnerService, storageService: StorageService) {
+    super(parameterService, storageService);
   }
 
   ngOnInit(): void {

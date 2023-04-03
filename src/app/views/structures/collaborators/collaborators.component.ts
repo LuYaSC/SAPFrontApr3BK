@@ -10,6 +10,7 @@ import { SpinnerService } from 'src/app/helpers/spinner.service';
 import { CollaboratorsResult } from 'src/app/services/collaborator/models/collaborators-result';
 import { RolesService } from 'src/app/services/roles/roles.service';
 import { RolesResult } from 'src/app/services/roles/models/roles-result';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-collaborators',
@@ -27,8 +28,8 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
   saveCollaborator: CreateCollaboratorDto = new CreateCollaboratorDto();
 
   constructor(private service: CollaboratorService, parameterService: TypeBusinessService, private rolesService: RolesService, private formBuilder: FormBuilder,
-    private spinnerService: SpinnerService) {
-    super(parameterService);
+    private spinnerService: SpinnerService, storageService: StorageService) {
+    super(parameterService, storageService);
   }
 
   ngOnInit(): void {

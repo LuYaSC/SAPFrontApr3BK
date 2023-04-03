@@ -9,6 +9,7 @@ import { SpinnerService } from 'src/app/helpers/spinner.service';
 import { GeneralComponent } from './../general-component';
 import { PARENT_FORM_VALIDATORS } from './../form-validators.const';
 import { FormBuilder } from '@angular/forms';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-parents',
@@ -22,8 +23,8 @@ export class ParentsComponent extends GeneralComponent implements OnInit {
   saveParent: CreateParentDto = new CreateParentDto();
 
   constructor(private service: ParentService, parameterService: TypeBusinessService, private formBuilder: FormBuilder,
-    private spinnerService: SpinnerService) {
-    super(parameterService);
+    private spinnerService: SpinnerService, storageService: StorageService) {
+    super(parameterService, storageService);
   }
 
   ngOnInit(): void {

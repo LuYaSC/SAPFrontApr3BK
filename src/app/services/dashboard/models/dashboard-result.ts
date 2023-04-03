@@ -7,12 +7,22 @@ export class DashboardResult {
   totalPartiallyPayedPayments: number;
   quantityUnpayPayments: number;
   totalUnpayPayments: number;
+  quantityCashPayments: number;
+  totalCashPayments: number;
+  quantityQrPayments: number;
+  totalQrPayments: number;
+  quantityTransferPayments: number;
+  totalTransferPayments: number;
   quantityTotalChildren: number;
   quantityTotalParents: number;
   quantityTotalCollaborators: number;
   quantityTotalPayments: number;
   quantityTotalInscriptions: number;
-  collaborators: CollaboratorData[] = [];
+  collaborators: CollaboratorData[];
+
+  constructor() {
+    this.collaborators = [];
+  }
 }
 
 export class CollaboratorData {

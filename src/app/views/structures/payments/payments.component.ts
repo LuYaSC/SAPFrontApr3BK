@@ -24,6 +24,7 @@ import { PaymentDetailResult } from 'src/app/services/payments/models/payment-de
 import {PaymentFilterDto} from 'src/app/services/payments/models/payment-filter-dto';
 import { PaymentDetailDto } from 'src/app/services/payments/models/payment-detail-dto';
 import {PaymentDto} from 'src/app/services/payments/models/payment-dto';
+import { StorageService } from 'src/app/services/storage.service';
 
 
 @Component({
@@ -65,8 +66,8 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
 
   constructor(private kidService: KidService, private roomAssignedService: RoomAssignationService, parameterService: TypeBusinessService,
     private enrollService: EnrollChildrenService, private formBuilder: FormBuilder, private spinnerService: SpinnerService,
-    private paymentService: PaymentsService) {
-    super(parameterService);
+    private paymentService: PaymentsService, storageService: StorageService) {
+    super(parameterService, storageService);
   }
 
   ngOnInit(): void {
@@ -290,14 +291,14 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    debugger
     this.isVisible = false;
     this.saveDto.observations = this.form.get("observations").value;
     let amountRec = this.form.get("amount").value;
     this.saveDto.amount = (amountRec === null || amountRec === undefined || amountRec === '') ? 0 : amountRec;
     this.saveDto.isVerified = this.isVerified === "true";
     this.saveDto.description = this.form.get("description").value;
-    this.saveDto.numberBill = this.form.get("numberBill").value;
+    let numberBill = this.form.get("numberBill").value;
+    this.saveDto.numberBill = numberBill === null ||  numberBill === undefined ? '' : numberBill;
 
     if (this.actionRow === 0) {
       this.paymentService.create(this.saveDto).subscribe({

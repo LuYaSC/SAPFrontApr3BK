@@ -9,6 +9,7 @@ import { SpinnerService } from 'src/app/helpers/spinner.service';
 import { KID_FORM_VALIDATORS } from '../form-validators.const';
 import { GeneralComponent } from '../general-component';
 import { FormBuilder } from '@angular/forms';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-kids',
@@ -23,8 +24,8 @@ export class KidsComponent extends GeneralComponent implements OnInit {
 
 
   constructor(private service: KidService, parameterService: TypeBusinessService, private formBuilder: FormBuilder,
-    private spinnerService: SpinnerService) {
-    super(parameterService);
+    private spinnerService: SpinnerService, storageService: StorageService) {
+    super(parameterService, storageService);
   }
 
   ngOnInit(): void {

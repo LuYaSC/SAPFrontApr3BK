@@ -1,4 +1,4 @@
-<app-widgets-dropdown [dashboardData]="dashboardData" *ngIf="isVisibleFisrtSection"></app-widgets-dropdown>
+<app-widgets-dropdown [row]="datafor1Section" *ngIf="isVisibleFisrtSection && isAdmin"></app-widgets-dropdown>
 <c-card class="mb-4" *ngIf="isVisibleFisrtSection">
   <c-card-body>
     <c-row>
@@ -57,7 +57,7 @@
   <c-card-footer>
     <c-row class="text-center" [md]="5" [xs]="1">
       <c-col class="mb-sm-2 mb-0">
-        <div class="text-medium-emphasis">Cantidad total de ninos Registrados</div>
+        <div class="text-medium-emphasis">Cantidad total de Niños Registrados</div>
         <strong>{{dashboardData.quantityTotalChildren}}</strong>
         <c-progress class="mt-2" thin>
           <c-progress-bar color="success" value="40"></c-progress-bar>
@@ -94,6 +94,7 @@
     </c-row>
   </c-card-footer>
 </c-card>
+<app-widgets-dropdown [row]="datafor2Section" *ngIf="isVisibleFisrtSection && isAdmin"></app-widgets-dropdown>
 
 <!--<app-widgets-brand [withCharts]="true"></app-widgets-brand>-->
 <c-row>
@@ -108,10 +109,10 @@
                 <svg cIcon name="cilPeople"></svg>
               </th>
               <th>Nombre Completo</th>
-              <th class="text-center">Country</th>
-              <th>Ninos asignados</th>
-              <th>Ciudad/Sucursal</th>
+              <th class="text-center">Nacionalidad</th>
+              <th>Cantidad Niños a cargo</th>
               <th class="text-center">Estado</th>
+              <th>Ciudad/Sucursal</th>
             </tr>
           </thead>
           <tbody>
@@ -140,7 +141,7 @@
               <td>
                 <div class="clearfix">
                   <div class="float-start">
-                    <strong>{{ user.usage }}%</strong>
+                    <strong>{{ user.quantity }} Niños</strong>
                   </div>
                   <div class="float-end">
                     <small class="text-medium-emphasis">
@@ -153,11 +154,12 @@
                 </c-progress>
               </td>
               <td class="text-center">
-                <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
+                <c-badge class="me-1" color="{{ user.isDeleted ? 'danger' : 'success' }}">{{ user.isDeleted ? "INACTIVO"
+                  : "ACTIVO" }}</c-badge>
               </td>
               <td>
-                <div class="small text-medium-emphasis">Last login</div>
-                <strong>{{ user.activity }}</strong>
+                <div class="small text-medium-emphasis">{{user.city}}</div>
+                <strong>{{ user.branchOffice }}</strong>
               </td>
             </tr>
           </tbody>

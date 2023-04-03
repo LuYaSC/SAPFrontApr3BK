@@ -18,6 +18,7 @@ import { KidByIdDto } from 'src/app/services/kid/models/kid-by-id-dto';
 import { GetDetailKidResult } from 'src/app/services/kid/models/get-detail-kid-result';
 import { AssignationRoomDetailDto } from 'src/app/services/room-assignation/models/assignation-room-detail-dto';
 import { AssignationRoomDetailResult } from 'src/app/services/room-assignation/models/assignation-room-detail-result';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-enrolled-children',
@@ -50,8 +51,8 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
   detailEnrollChildren: EnrollChildrenDetailResult = new EnrollChildrenDetailResult();
 
   constructor(private kidService: KidService, private roomAssignedService: RoomAssignationService, parameterService: TypeBusinessService,
-    private enrollService: EnrollChildrenService, private formBuilder: FormBuilder, private spinnerService: SpinnerService) {
-    super(parameterService);
+    private enrollService: EnrollChildrenService, private formBuilder: FormBuilder, private spinnerService: SpinnerService, storageService: StorageService) {
+    super(parameterService, storageService);
   }
 
   ngOnInit(): void {

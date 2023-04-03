@@ -51,13 +51,13 @@
             <strong>{{ typeName }}</strong>
             <small>{{ this.listTypes.length }}</small> registros encontrados
             <p class="text-medium-emphasis small">
-              Asignacion de Tutores - Ninos, si desea crear un nuevo
+              Asignacion de Tutores - Niños, si desea crear un nuevo
               registro, presione:
               <code>Gestion</code>
             </p>
             <form cForm class="row g-3" [formGroup]="formSearch">
               <c-col [md]="6" *ngIf="isVisibleKid">
-                <label cLabel>Ninos </label>
+                <label cLabel>Niños </label>
                 <app-selector-generic
                   *ngIf="isVisibleKid"
                   [parameterList]="kidsList"
@@ -94,7 +94,7 @@
             <table cTable *ngIf="isVisible">
               <thead>
                 <tr>
-                  <th scope="col">Nino</th>
+                  <th scope="col">Niño</th>
                   <th scope="col">Padre</th>
                   <th scope="col">Parentezco</th>
                   <th scope="col">Observaciones</th>
@@ -189,7 +189,7 @@
           >
             <form cForm class="row g-3" [formGroup]="form">
               <c-col [md]="6" *ngIf="isVisibleKid">
-                <label cLabel>Ninos </label>
+                <label cLabel>Niños </label>
                 <app-selector-generic
                   *ngIf="isVisibleKid"
                   [parameterList]="kidsList"

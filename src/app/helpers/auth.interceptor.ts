@@ -60,8 +60,8 @@ export class AuthInterceptor implements HttpInterceptor {
         return event instanceof HttpResponse;
       }),
       map((event: HttpResponse<any>) => {
-        if(event.status === 200 && event.ok) {
-          if(event.body.isOk) {
+        if (event.status === 200 && event.ok) {
+          if (event.body.isOk) {
             //La peticion retorno correctamente y solo se retorna el body
             return event.clone({ body: event.body.body });
           }
@@ -75,7 +75,6 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       }),
       catchError((error: HttpErrorResponse) => {
-        debugger
         if (error && [401, 403].includes(error.status)) {
           this.storageService.logout();
           this.router.navigate(["/login"]);
@@ -106,7 +105,15 @@ export class AuthInterceptor implements HttpInterceptor {
             );
           }
         } else {
-          return throwError(error);
+          console.log(error);
+          if (error === undefined) {
+            return throwError('Error en el Servicio, Vuelva a intentarlo porfavor');
+          }
+          else if (error.error === null) {
+            return throwError('Error en el Servicio, Vuelva a intentarlo porfavor');
+          } else {
+            return throwError(error);
+          }
         }
       })
     ) as Observable<HttpEvent<any>>;

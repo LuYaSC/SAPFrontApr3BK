@@ -49,6 +49,11 @@ export class StorageService {
     }
   }
 
+  public validateIsAdmin() {
+    var value = window.sessionStorage.getItem(ROLES);
+    return value.includes('ADMIN');
+  }
+
   public getUser(): string | null {
     return window.sessionStorage.getItem(USER_NAME);
   }

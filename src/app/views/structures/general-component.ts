@@ -2,6 +2,7 @@ import { Directive, HostListener, Input, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, UntypedFormControl } from '@angular/forms';
 import { BsDatepickerConfig, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 import { Observable, Subject } from 'rxjs';
+import { StorageService } from 'src/app/services/storage.service';
 import { GetTypeResult } from 'src/app/services/type-business/models/get-type-result';
 import { TypeBusinessService } from 'src/app/services/type-business/type-business.service';
 
@@ -77,13 +78,15 @@ export class GeneralComponent {
   itemsPerPage: number = 10;
   currentPage: number = 1;
   @Input() listTypes: any[] = [];
+  isAdmin: boolean = false;
 
-  constructor(private parameterService: TypeBusinessService) {
+  constructor(private parameterService: TypeBusinessService, private storageService: StorageService) {
     this.minDate = new Date();
     this.maxDate = new Date();
     this.minDate.setDate(this.minDate.getDate() - 1);
     this.maxDate.setDate(this.maxDate.getDate() + 7);
     this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
+    this.isAdmin = this.storageService.validateIsAdmin();
   }
 
   onPageChange(pageNumber: number): void {

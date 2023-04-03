@@ -4,6 +4,7 @@ import { TypeBusinessService } from '../../../services/type-business/type-busine
 import { GetTypeResult } from '../../../services/type-business/models/get-type-result';
 import { CreateUpdateTypeBusinessDto } from '../../../services/type-business/models/create-update-type-business-dto';
 import { ReportResult } from 'src/app/services/utils/models/report-result';
+import { StorageService } from 'src/app/services/storage.service';
 
 
 @Component({
@@ -35,8 +36,11 @@ export class TypeBusinessComponent implements OnInit {
   currentPage: number = 1;
   totalItemsCount: number = 0;
   listTemp: GetTypeResult[];
+  isAdmin: boolean = false;
 
-  constructor(private service: TypeBusinessService, private formBuilder: FormBuilder) { }
+  constructor(private service: TypeBusinessService, private formBuilder: FormBuilder, private storageService: StorageService) {
+    this.isAdmin  = storageService.validateIsAdmin();
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group(

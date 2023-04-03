@@ -10,6 +10,7 @@ import { AssignationRoomDto } from 'src/app/services/room-assignation/models/ass
 import { RoomAssignationService } from 'src/app/services/room-assignation/room-assignation.service';
 import { AssignationRoomResult } from 'src/app/services/room-assignation/models/assignation-room-result';
 import { CollaboratorsResult } from 'src/app/services/collaborator/models/collaborators-result';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-room-assignation',
@@ -33,9 +34,9 @@ export class RoomAssignationComponent extends GeneralComponent implements OnInit
   });
 
   constructor(private collaboratorService: CollaboratorService, parameterService: TypeBusinessService,
-    private roomAsService: RoomAssignationService,
+    private roomAsService: RoomAssignationService, storageService: StorageService,
     private formBuilder: FormBuilder, private spinnerService: SpinnerService) {
-    super(parameterService);
+    super(parameterService, storageService);
   }
 
   ngOnInit(): void {

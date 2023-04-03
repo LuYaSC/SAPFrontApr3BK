@@ -2,7 +2,7 @@ import { INavData } from '@coreui/angular';
 
 export const navItems: INavData[] = [
   {
-    name: 'Dashboard',
+    name: 'Panel Informativo',
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },
     badge: {
@@ -48,6 +48,30 @@ export const navItems: INavData[] = [
         url: '/administration-garden/modality',
         iconComponent: { name: 'cil-settings' },
       },
+      {
+        title: true,
+        name: 'Seguimiento y Registro'
+      },
+      {
+        name: 'Colaboradores',
+        url: '/administration-garden/collaborators',
+        iconComponent: { name: 'cil-file' },
+      },
+      {
+        name: 'Asignacion de Tutores',
+        url: '/administration-garden/tutor-assignation',
+        iconComponent: { name: 'cil-file' },
+      },
+      {
+        name: 'Asignacion de Salas',
+        url: '/administration-garden/room-assignation',
+        iconComponent: { name: 'cil-file' },
+      },
+      {
+        name: 'Inscripcion',
+        url: '/administration-garden/enroll-children',
+        iconComponent: { name: 'cil-file' },
+      },
     ]
   },
   {
@@ -87,7 +111,21 @@ export const navItems: INavData[] = [
         name: 'Estado Civil',
         url: '/administration-client/marital-status',
         iconComponent: { name: 'cil-settings' },
-      }
+      },
+      {
+        title: true,
+        name: 'Seguimiento y Registro'
+      },
+      {
+        name: 'Niños',
+        url: '/administration-client/kids',
+        iconComponent: { name: 'cil-check' },
+      },
+      {
+        name: 'Padres o Tutores',
+        url: '/administration-client/parents',
+        iconComponent: { name: 'cil-check' },
+      },
     ]
   },
   {
@@ -118,9 +156,23 @@ export const navItems: INavData[] = [
         url: '/administration-payment/audit-payment-type',
         iconComponent: { name: 'cil-settings' },
       },
+      {
+        title: true,
+        name: 'Seguimiento y Registro'
+      },
+      {
+        name: 'Pagos',
+        url: '/administration-payment/payments',
+        iconComponent: { name: 'cil-check' },
+      },
+      {
+        name: 'Impuestos',
+        url: '/administration-payment/taxes',
+        iconComponent: { name: 'cil-check' },
+      },
     ]
   },
-  {
+  /*{
     title: true,
     name: 'Estructuras'
   },
@@ -134,7 +186,7 @@ export const navItems: INavData[] = [
     },
     children: [
       {
-        name: 'Ninos',
+        name: 'Niños',
         url: '/structures/kids',
         iconComponent: { name: 'cil-speedometer' },
       },
@@ -176,7 +228,9 @@ export const navItems: INavData[] = [
     ]
   },
 
-  {
+
+
+  /*{
     title: true,
     name: 'Theme'
   },
@@ -380,6 +434,8 @@ export const navItems: INavData[] = [
       text: 'NEW'
     }
   },
+
+
   /*{
     title: true,
     name: 'Extras'

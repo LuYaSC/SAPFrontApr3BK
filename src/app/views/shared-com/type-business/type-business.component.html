@@ -1,9 +1,15 @@
 <c-row ngPreserveWhitespaces>
   <c-col xs="12">
     <c-card class="mb-12">
-      <c-card-header ngPreserveWhitespaces>
+      <c-card-header class="d-flex justify-content-between" ngPreserveWhitespaces>
         <strong>{{ typeName.toUpperCase() }}
-          <small class="text-success">({{ totalItemsCount }} registros encontrados)</small></strong>
+          <small class="text-success">({{ totalItemsCount }} registros encontrados)</small>
+        </strong>
+        <div *ngTemplateOutlet="liveDemo">
+            <button cButton type="submit" class="btn-info ml-auto" (click)="openModal()">
+              <i class="cil-plus"></i> Crear registro
+            </button>
+          </div>
       </c-card-header>
       <c-card-body>
         <form cForm class="row g-3" [formGroup]="formSearch">
@@ -28,13 +34,10 @@
                 <button cButton type="submit" class="btn-gray" style="margin-right: 8px" (click)="downloadPdf()">
                   <i class="cil-file"></i> Generar Reporte
                 </button>
-                <button cButton type="submit" class="btn-info" (click)="openModal()" style="margin-right: 8px"
-                  *ngTemplateOutlet="liveDemo">
-                  <i class="cil-plus"></i> Crear registro
-                </button>
               </div>
               <div>
-                <button cButton type="submit" class="btn-warning" (click)="filterSearch(true)" style="margin-right: 8px">
+                <button cButton type="submit" class="btn-warning" (click)="filterSearch(true)"
+                  style="margin-right: 8px">
                   <i class="cil-x-circle"></i> Limpiar
                 </button>
                 <button cButton type="submit" (click)="filterSearch(false)">
@@ -55,15 +58,13 @@
                 <th scope="col">Modificado por</th>
                 <th scope="col">Modificado en</th>
                 <th scope="col">Estado</th>
-                <th scope="col">Acciones</th>
-                <th scope="col"></th>
+                <th scope="col" *ngIf="isAdmin">Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let row of visibleItems()">
                 <td>{{ row.description }}</td>
                 <td *ngIf="haveInitials">{{ row.initial }}</td>
-
                 <td>{{ row.userCreation }}</td>
                 <td>{{ row.dateCreation | date : "medium" }}</td>
                 <td>{{ row.userModification }}</td>
@@ -73,28 +74,14 @@
                     : "ACTIVO" }}</c-badge>
                 </td>
                 <td>
-                  <div class="d-flex gap-2">
-                    <button
-                      color="warning"
-                      cButton
-                      class="me-1"
-                      shape="rounded-pill"
-                      (click)="editRow(row)"
-                      [disabled]="row.isDeleted"
-                    >
+                  <div class="d-flex gap-2" *ngIf="isAdmin">
+                    <button color="warning" cButton class="me-1" shape="rounded-pill" (click)="editRow(row)"
+                      [disabled]="row.isDeleted">
                       <svg cIcon name="cil-pencil"></svg>
                     </button>
-                    <button
-                      color="{{ row.isDeleted ? 'success' : 'danger' }}"
-                      cButton
-                      class="me-1"
-                      shape="rounded-pill"
-                      (click)="enableOrDisable(row)"
-                    >
-                      <svg
-                        cIcon
-                        [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"
-                      ></svg>
+                    <button color="{{ row.isDeleted ? 'success' : 'danger' }}" cButton class="me-1" shape="rounded-pill"
+                      (click)="enableOrDisable(row)">
+                      <svg cIcon [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"></svg>
                     </button>
                   </div>
                 </td>
@@ -115,7 +102,7 @@
 <app-global-alerts *ngIf="visible" [visible]="visible" [message]="message"></app-global-alerts>
 
 <ng-template #liveDemo>
-  <button (click)="openModal()" cButton class="btn-success">
+  <button (click)="openModal()" cButton class="btn-success" *ngIf="isAdmin">
     <i class="cil-plus"></i> Crear registro
   </button>
   <c-modal id="liveDemoModal" [visible]="liveDemoVisible" (visibleChange)="handleLiveDemoChange($event)">

@@ -11,6 +11,7 @@ import {
 import { getStyle } from '@coreui/utils/src';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
 import { DashboardResult } from 'src/app/services/dashboard/models/dashboard-result';
+import {WidgetInput} from 'src/app/services/utils/models/widget-input';
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -20,6 +21,7 @@ import { DashboardResult } from 'src/app/services/dashboard/models/dashboard-res
 })
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   @Input() dashboardData: DashboardResult = new DashboardResult();
+  @Input() row: WidgetInput = new WidgetInput();
   constructor(
     private changeDetectorRef: ChangeDetectorRef
   ) { }

@@ -8,7 +8,7 @@ export const PARENT_FORM_VALIDATORS: any =
     [
       Validators.required,
       Validators.minLength(3),
-      Validators.maxLength(20),
+      Validators.maxLength(50),
     ]
   ],
   firstLastName: [
@@ -16,14 +16,14 @@ export const PARENT_FORM_VALIDATORS: any =
     [
       Validators.required,
       Validators.minLength(3),
-      Validators.maxLength(20),
+      Validators.maxLength(50),
     ]
   ],
   secondLastName: [
     '',
     [
       Validators.minLength(3),
-      Validators.maxLength(20),
+      Validators.maxLength(50),
     ]
   ],
   address: [
@@ -31,14 +31,14 @@ export const PARENT_FORM_VALIDATORS: any =
     [
       Validators.required,
       Validators.minLength(10),
-      Validators.maxLength(50),
+      Validators.maxLength(100),
     ]
   ],
   documentNumber: [
     '',
     [
       Validators.required,
-      Validators.minLength(5),
+      Validators.minLength(8),
       Validators.maxLength(10),
     ]
   ],
@@ -47,7 +47,7 @@ export const PARENT_FORM_VALIDATORS: any =
     [
       Validators.required,
       Validators.minLength(5),
-      Validators.maxLength(30),
+      Validators.maxLength(60),
     ]
   ],
   phoneNumber: [
@@ -67,7 +67,7 @@ export const KID_FORM_VALIDATORS: any =
     '',
     [
       Validators.required,
-      Validators.minLength(6),
+      Validators.minLength(10),
       Validators.maxLength(10),
     ]
   ],
@@ -75,7 +75,7 @@ export const KID_FORM_VALIDATORS: any =
     '',
     [
       Validators.required,
-      Validators.minLength(6),
+      Validators.minLength(10),
       Validators.maxLength(10),
     ]
   ],
@@ -84,7 +84,7 @@ export const KID_FORM_VALIDATORS: any =
     [
       Validators.required,
       Validators.minLength(3),
-      Validators.maxLength(20),
+      Validators.maxLength(50),
     ]
   ],
   firstLastName: [
@@ -92,21 +92,21 @@ export const KID_FORM_VALIDATORS: any =
     [
       Validators.required,
       Validators.minLength(3),
-      Validators.maxLength(20),
+      Validators.maxLength(50),
     ]
   ],
   secondLastName: [
     '',
     [
       Validators.minLength(3),
-      Validators.maxLength(20),
+      Validators.maxLength(50),
     ]
   ],
   documentNumber: [
     '',
     [
       Validators.required,
-      Validators.minLength(5),
+      Validators.minLength(8),
       Validators.maxLength(10),
     ]
   ],
@@ -115,7 +115,7 @@ export const KID_FORM_VALIDATORS: any =
     [
       Validators.required,
       Validators.minLength(5),
-      Validators.maxLength(30),
+      Validators.maxLength(60),
     ]
   ],
 };
@@ -128,7 +128,7 @@ export const COLLABORATOR_FORM_VALIDATORS: any =
     [
       Validators.required,
       Validators.minLength(3),
-      Validators.maxLength(20),
+      Validators.maxLength(50),
     ]
   ],
   firstLastName: [
@@ -136,21 +136,21 @@ export const COLLABORATOR_FORM_VALIDATORS: any =
     [
       Validators.required,
       Validators.minLength(3),
-      Validators.maxLength(20),
+      Validators.maxLength(50),
     ]
   ],
   secondLastName: [
     '',
     [
       Validators.minLength(3),
-      Validators.maxLength(20),
+      Validators.maxLength(50),
     ]
   ],
   bornDate: [
     '',
     [
       Validators.required,
-      Validators.minLength(6),
+      Validators.minLength(10),
       Validators.maxLength(10),
     ]
   ],
@@ -158,14 +158,14 @@ export const COLLABORATOR_FORM_VALIDATORS: any =
     '',
     [
       Validators.required,
-      Validators.minLength(6),
+      Validators.minLength(10),
       Validators.maxLength(10),
     ]
   ],
   endDate: [
     '',
     [
-      Validators.minLength(6),
+      Validators.minLength(10),
       Validators.maxLength(10),
     ]
   ],
@@ -173,7 +173,7 @@ export const COLLABORATOR_FORM_VALIDATORS: any =
     '',
     [
       Validators.required,
-      Validators.minLength(5),
+      Validators.minLength(8),
       Validators.maxLength(10),
     ]
   ],
@@ -181,8 +181,8 @@ export const COLLABORATOR_FORM_VALIDATORS: any =
     '',
     [
       Validators.required,
-      Validators.minLength(5),
-      Validators.maxLength(30),
+      Validators.minLength(10),
+      Validators.maxLength(60),
       Validators.email,
     ]
   ],
@@ -190,15 +190,15 @@ export const COLLABORATOR_FORM_VALIDATORS: any =
     '',
     [
       Validators.required,
-      Validators.minLength(5),
-      Validators.maxLength(30),
+      Validators.minLength(10),
+      Validators.maxLength(100),
     ]
   ],
   phoneNumber: [
     '',
     [
       Validators.required,
-      Validators.minLength(7),
+      Validators.minLength(8),
       Validators.maxLength(8),
     ]
   ],

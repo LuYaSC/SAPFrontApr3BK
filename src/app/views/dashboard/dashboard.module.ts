@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import {
   AvatarModule,
+  BadgeModule,
   ButtonGroupModule,
   ButtonModule,
   CardModule,
@@ -42,7 +43,8 @@ import { DashboardSapgComponent } from './dashboard-sapg/dashboard-sapg.componen
     AvatarModule,
     TableModule,
     WidgetsModule,
-    IconModule
+    IconModule,
+    BadgeModule
   ],
   declarations: [DashboardComponent, DashboardSapgComponent]
 })
