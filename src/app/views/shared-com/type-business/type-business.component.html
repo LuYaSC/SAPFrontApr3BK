@@ -20,13 +20,11 @@
           </c-col>
           <c-col [md]="6">
             <label cLabel for="statusLabel">Estado</label>
-            <div class="custom-select">
-              <select class="form-control" id="select-search-status" formControlName="statusSelected">
+              <select class="form-select"  id="select-search-status" formControlName="statusSelected">
                 <option value="" selected>Todos</option>
                 <option value="1">Activo</option>
                 <option value="0">Inactivo</option>
               </select>
-            </div>
           </c-col>
           <c-col [xs]="12">
             <div class="d-flex justify-content-between align-items-center">
