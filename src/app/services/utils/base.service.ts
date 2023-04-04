@@ -7,7 +7,7 @@ import { StorageService } from '../storage.service';
   providedIn: 'root'
 })
 export class BaseService {
-  AUTH_API = 'https://localhost:44360/api/';
+  AUTH_API = 'http://192.168.1.107/api/';
   public httpHeader: any;
   public controller = '';
   public storageService = new StorageService();

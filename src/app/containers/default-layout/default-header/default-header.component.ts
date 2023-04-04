@@ -12,6 +12,7 @@ import { StorageService } from 'src/app/services/storage.service';
 export class DefaultHeaderComponent extends HeaderComponent {
 
   @Input() sidebarId: string = "sidebar";
+  userName: string = '';
 
   public newMessages = new Array(4)
   public newTasks = new Array(5)
@@ -19,6 +20,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   constructor(private classToggler: ClassToggleService, private storageService: StorageService, private router: Router) {
     super();
+    this.userName = storageService.getUser()?.split('@')[0];
   }
 
   public logout() {
