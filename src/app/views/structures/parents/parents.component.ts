@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ParentService } from './../../../services/parent/parent.service';
 import { GetTypeResult } from 'src/app/services/type-business/models/get-type-result';
-import { KidByIdDto } from 'src/app/services/kid/models/kid-by-id-dto';
 import { CreateParentDto } from 'src/app/services/parent/models/create-parent-dto';
 import { TypeBusinessService } from 'src/app/services/type-business/type-business.service';
 import { ParentsResult } from 'src/app/services/parent/models/parents-result';
@@ -10,6 +9,8 @@ import { GeneralComponent } from './../general-component';
 import { PARENT_FORM_VALIDATORS } from './../form-validators.const';
 import { FormBuilder } from '@angular/forms';
 import { StorageService } from 'src/app/services/storage.service';
+import { DeleteDto } from 'src/app/services/utils/models/delete-dto';
+import { ReportResult } from 'src/app/services/utils/models/report-result';
 
 @Component({
   selector: 'app-parents',
@@ -141,10 +142,29 @@ export class ParentsComponent extends GeneralComponent implements OnInit {
   }
 
   enableOrDisable(row: ParentsResult) {
-    this.service.activateOrDeactivate(new KidByIdDto({ id: row.id, isDeleted: !row.isDeleted })).subscribe({
+    this.service.activateOrDeactivate(new DeleteDto({ id: row.id, isDeleted: !row.isDeleted })).subscribe({
       next: (resp: string) => {
         this.cleanForm();
+        this.getListParents();
         this.notification(resp);
+      },
+      error: (error: string) => {
+        this.notification(error);
+      }
+    });
+  }
+
+  downloadPdf() {
+    this.service.generatePdf().subscribe({
+      next: (resp: ReportResult) => {
+        const blob = this.b64toBlob(resp.report, 'application/pdf');
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = resp.reportName + '.pdf';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.notification('Reprte Generado Correctamente');
       },
       error: (error: string) => {
         this.notification(error);

@@ -13,6 +13,7 @@ import { TutorAssignationService } from 'src/app/services/tutor-assignation/tuto
 import { AssignationTutorResult } from 'src/app/services/tutor-assignation/models/assignation-tutor-result';
 import { AssignationTutorDto } from 'src/app/services/tutor-assignation/models/assignation-tutor-dto';
 import { StorageService } from 'src/app/services/storage.service';
+import { ReportResult } from 'src/app/services/utils/models/report-result';
 
 @Component({
   selector: 'app-tutor-assignation',
@@ -230,13 +231,31 @@ export class TutorAssignationComponent extends GeneralComponent implements OnIni
   }
 
   enableOrDisable(row: AssignationTutorResult) {
-  this.saveDto.id = row.id;
-  this.saveDto.isDeleted = !row.isDeleted;
+    this.saveDto.id = row.id;
+    this.saveDto.isDeleted = !row.isDeleted;
     this.tutorService.disableOrEnable(this.saveDto).subscribe({
       next: (resp: string) => {
         this.cleanForm();
         this.filterSearch(true);
         this.notification(resp);
+      },
+      error: (error: string) => {
+        this.notification(error);
+      }
+    });
+  }
+
+  downloadPdf() {
+    this.tutorService.generatePdf().subscribe({
+      next: (resp: ReportResult) => {
+        const blob = this.b64toBlob(resp.report, 'application/pdf');
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = resp.reportName + '.pdf';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.notification('Reprte Generado Correctamente');
       },
       error: (error: string) => {
         this.notification(error);

@@ -11,6 +11,7 @@ import { IconModule } from '@coreui/icons-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { SharedComModule } from '../shared-com/shared-com.module';
+import { DirectivesModule } from 'src/app/helpers/directives/directives.module';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -31,7 +32,8 @@ import { SharedComModule } from '../shared-com/shared-com.module';
     NotificationsModule,
     ToastModule,
     ProgressModule,
-    SharedComModule
+    SharedComModule,
+    DirectivesModule
   ],
 })
 export class PagesModule {

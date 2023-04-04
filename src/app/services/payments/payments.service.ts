@@ -7,6 +7,7 @@ import { PaymentDetailResult } from './models/payment-detail-result';
 import { PaymentDetailDto } from './models/payment-detail-dto';
 import { PaymentFilterDto } from './models/payment-filter-dto';
 import { PaymentDto } from './models/payment-dto';
+import { ReportResult } from '../utils/models/report-result';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,10 @@ export class PaymentsService extends BaseService {
 
   disableOrEnable(dto: PaymentDetailDto): Observable<string> {
     return this.http.post<string>(this.SetRoute('ActivateOrDeactivate'), dto);
+  }
+
+  generatePdf(dto: PaymentFilterDto) :Observable<ReportResult>  {
+    return this.http.post<ReportResult>(this.SetRoute('GenerateReport'), dto);
   }
 }
 

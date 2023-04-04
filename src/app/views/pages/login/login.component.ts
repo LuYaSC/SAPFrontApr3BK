@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
           [
             Validators.required,
             Validators.minLength(6),
-            Validators.maxLength(100),
+            Validators.maxLength(50),
             Validators.email
           ]
         ],
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
           [
             Validators.required,
             Validators.minLength(6),
-            Validators.maxLength(100),
+            Validators.maxLength(50),
           ]
         ],
         //confirmPassword: ['', Validators.required],

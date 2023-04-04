@@ -4,6 +4,7 @@ import { BaseService } from '../utils/base.service';
 import { AssignationTutorResult } from './models/assignation-tutor-result';
 import { Observable } from 'rxjs';
 import { AssignationTutorDto } from './models/assignation-tutor-dto';
+import { ReportResult } from '../utils/models/report-result';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,10 @@ export class TutorAssignationService extends BaseService {
 
   disableOrEnable(dto: AssignationTutorDto): Observable<string> {
     return this.http.post<string>(this.SetRoute('DisableOrEnable'), dto);
+  }
+
+  generatePdf() :Observable<ReportResult>  {
+    return this.http.get<ReportResult>(this.SetRoute('GenerateReport'));
   }
 }
 

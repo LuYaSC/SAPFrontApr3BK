@@ -11,6 +11,8 @@ import { CollaboratorsResult } from 'src/app/services/collaborator/models/collab
 import { RolesService } from 'src/app/services/roles/roles.service';
 import { RolesResult } from 'src/app/services/roles/models/roles-result';
 import { StorageService } from 'src/app/services/storage.service';
+import { DeleteDto } from 'src/app/services/utils/models/delete-dto';
+import { ReportResult } from 'src/app/services/utils/models/report-result';
 
 @Component({
   selector: 'app-collaborators',
@@ -180,14 +182,33 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
   }
 
   enableOrDisable(row: CollaboratorsResult) {
-    /*this.service.activateOrDeactivate(new any({ id: row.id, isDeleted: !row.isDeleted })).subscribe({
+    this.service.activateOrDeactivate(new DeleteDto({ id: row.id, isDeleted: !row.isDeleted })).subscribe({
       next: (resp: string) => {
         this.cleanForm();
+        this.getListCollaborators();
         this.notification(resp);
       },
       error: (error: string) => {
         this.notification(error);
       }
-    });*/
+    });
+  }
+
+  downloadPdf() {
+    this.service.generatePdf().subscribe({
+      next: (resp: ReportResult) => {
+        const blob = this.b64toBlob(resp.report, 'application/pdf');
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = resp.reportName + '.pdf';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.notification('Reprte Generado Correctamente');
+      },
+      error: (error: string) => {
+        this.notification(error);
+      }
+    });
   }
 }

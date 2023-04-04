@@ -1,11 +1,6 @@
-<div class="custom-select">
-  <select
-    class="form-control"
-    [(ngModel)]="row"
-    (ngModelChange)="selectParameter()"
-  >
-    <option *ngFor="let row of parameterList" [ngValue]="row">
-      Menor: {{ row.kid }} - Sucursal: {{ row.branchOffice }} - Sala: {{ row.room }} - Turno: {{ row.turn }} - Modalidad: {{row.modality}} - Colaborador Asignado: {{row.collaborator}}
-    </option>
-  </select>
-</div>
+<select class="form-select" [(ngModel)]="row" (ngModelChange)="selectParameter()">
+  <option *ngFor="let row of parameterList" [ngValue]="row">
+    Menor: {{ row.kid }} - Sucursal: {{ row.branchOffice }} - Sala: {{ row.room }} - Turno: {{ row.turn }} - Modalidad:
+    {{row.modality}} - Colaborador Asignado: {{row.collaborator}}
+  </option>
+</select>

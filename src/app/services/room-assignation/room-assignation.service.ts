@@ -6,6 +6,7 @@ import { AssignationRoomDto } from './models/assignation-room-dto';
 import { AssignationRoomResult } from './models/assignation-room-result';
 import { AssignationRoomDetailResult } from './models/assignation-room-detail-result';
 import { AssignationRoomDetailDto } from './models/assignation-room-detail-dto';
+import { ReportResult } from '../utils/models/report-result';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,10 @@ export class RoomAssignationService extends BaseService {
 
   getDetail(dto: AssignationRoomDetailDto): Observable<AssignationRoomDetailResult> {
     return this.http.post<AssignationRoomDetailResult>(this.SetRoute('GetDetail'), dto);
+  }
+
+  generatePdf() :Observable<ReportResult>  {
+    return this.http.get<ReportResult>(this.SetRoute('GenerateReport'));
   }
 }
 

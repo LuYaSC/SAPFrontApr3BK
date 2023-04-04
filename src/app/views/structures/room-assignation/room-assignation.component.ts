@@ -11,6 +11,7 @@ import { RoomAssignationService } from 'src/app/services/room-assignation/room-a
 import { AssignationRoomResult } from 'src/app/services/room-assignation/models/assignation-room-result';
 import { CollaboratorsResult } from 'src/app/services/collaborator/models/collaborators-result';
 import { StorageService } from 'src/app/services/storage.service';
+import { ReportResult } from 'src/app/services/utils/models/report-result';
 
 @Component({
   selector: 'app-room-assignation',
@@ -244,6 +245,24 @@ export class RoomAssignationComponent extends GeneralComponent implements OnInit
         this.cleanForm();
         this.filterSearch(true);
         this.notification(resp);
+      },
+      error: (error: string) => {
+        this.notification(error);
+      }
+    });
+  }
+
+  downloadPdf() {
+    this.roomAsService.generatePdf().subscribe({
+      next: (resp: ReportResult) => {
+        const blob = this.b64toBlob(resp.report, 'application/pdf');
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = resp.reportName + '.pdf';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.notification('Reprte Generado Correctamente');
       },
       error: (error: string) => {
         this.notification(error);

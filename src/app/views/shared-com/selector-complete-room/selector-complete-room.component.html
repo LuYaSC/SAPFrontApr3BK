@@ -1,6 +1,5 @@
-<div class="custom-select">
   <select
-    class="form-control"
+    class="form-select"
     [(ngModel)]="row"
     (ngModelChange)="selectParameter()"
   >
@@ -9,4 +8,3 @@
       {{ row.collaborator }} - {{ row.room }} - {{ row.branchOffice }} - {{row.modality}}
     </option>
   </select>
-</div>

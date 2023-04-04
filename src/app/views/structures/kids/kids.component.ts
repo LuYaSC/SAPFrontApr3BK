@@ -10,6 +10,7 @@ import { KID_FORM_VALIDATORS } from '../form-validators.const';
 import { GeneralComponent } from '../general-component';
 import { FormBuilder } from '@angular/forms';
 import { StorageService } from 'src/app/services/storage.service';
+import { ReportResult } from 'src/app/services/utils/models/report-result';
 
 @Component({
   selector: 'app-kids',
@@ -140,7 +141,26 @@ export class KidsComponent extends GeneralComponent implements OnInit {
     this.service.activateOrDeactivate(new KidByIdDto({ id: row.id, isDeleted: !row.isDeleted })).subscribe({
       next: (resp: string) => {
         this.cleanForm();
+        this.getListKids();
         this.notification(resp);
+      },
+      error: (error: string) => {
+        this.notification(error);
+      }
+    });
+  }
+
+  downloadPdf() {
+    this.service.generatePdf().subscribe({
+      next: (resp: ReportResult) => {
+        const blob = this.b64toBlob(resp.report, 'application/pdf');
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = resp.reportName + '.pdf';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.notification('Reprte Generado Correctamente');
       },
       error: (error: string) => {
         this.notification(error);

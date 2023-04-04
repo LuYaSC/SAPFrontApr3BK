@@ -25,6 +25,7 @@ import {PaymentFilterDto} from 'src/app/services/payments/models/payment-filter-
 import { PaymentDetailDto } from 'src/app/services/payments/models/payment-detail-dto';
 import {PaymentDto} from 'src/app/services/payments/models/payment-dto';
 import { StorageService } from 'src/app/services/storage.service';
+import { ReportResult } from 'src/app/services/utils/models/report-result';
 
 
 @Component({
@@ -345,6 +346,24 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
     this.paymentService.getDetail( new PaymentDetailDto({id: row.id})).subscribe({
       next: (resp: PaymentDetailResult ) => {
         row.paymentDetails = resp;
+      },
+      error: (error: string) => {
+        this.notification(error);
+      }
+    });
+  }
+
+  downloadPdf() {
+    this.paymentService.generatePdf(this.filterDto).subscribe({
+      next: (resp: ReportResult) => {
+        const blob = this.b64toBlob(resp.report, 'application/pdf');
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = resp.reportName + '.pdf';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.notification('Reprte Generado Correctamente');
       },
       error: (error: string) => {
         this.notification(error);

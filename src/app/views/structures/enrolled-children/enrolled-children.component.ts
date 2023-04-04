@@ -19,6 +19,7 @@ import { GetDetailKidResult } from 'src/app/services/kid/models/get-detail-kid-r
 import { AssignationRoomDetailDto } from 'src/app/services/room-assignation/models/assignation-room-detail-dto';
 import { AssignationRoomDetailResult } from 'src/app/services/room-assignation/models/assignation-room-detail-result';
 import { StorageService } from 'src/app/services/storage.service';
+import { ReportResult } from 'src/app/services/utils/models/report-result';
 
 @Component({
   selector: 'app-enrolled-children',
@@ -296,6 +297,24 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
     this.enrollService.getDetail(this.saveDto).subscribe({
       next: (resp: EnrollChildrenDetailResult ) => {
         row.detailEnrollChildren = resp;
+      },
+      error: (error: string) => {
+        this.notification(error);
+      }
+    });
+  }
+
+  downloadPdf() {
+    this.enrollService.generatePdf().subscribe({
+      next: (resp: ReportResult) => {
+        const blob = this.b64toBlob(resp.report, 'application/pdf');
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = resp.reportName + '.pdf';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.notification('Reprte Generado Correctamente');
       },
       error: (error: string) => {
         this.notification(error);

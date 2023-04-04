@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { EnrolledChildrenResult } from './models/enrolled-children-result';
 import { EnrollChildrenDetailResult } from 'src/app/services/enroll-children/models/enroll-children-detail-result';
 import { EnrollFilterDto } from 'src/app/services/enroll-children/models/enroll-filter-dto';
+import { ReportResult } from '../utils/models/report-result';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,10 @@ export class EnrollChildrenService extends BaseService {
 
   disableOrEnable(dto: EnrolledChildrenDto): Observable<string> {
     return this.http.post<string>(this.SetRoute('ActivateOrDeactivate'), dto);
+  }
+
+  generatePdf() :Observable<ReportResult>  {
+    return this.http.get<ReportResult>(this.SetRoute('GenerateReport'));
   }
 }
 

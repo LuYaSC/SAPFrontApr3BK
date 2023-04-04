@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { BaseService } from '../utils/base.service';
 import { CreateParentDto } from './models/create-parent-dto';
 import { ParentsResult } from './models/parents-result';
+import { DeleteDto } from 'src/app/services/utils/models/delete-dto';
+import { ReportResult } from '../utils/models/report-result';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ParentService  extends BaseService
-{
+export class ParentService extends BaseService {
 
   constructor(private http: HttpClient) {
     super();
@@ -27,7 +28,11 @@ export class ParentService  extends BaseService
     return this.http.post<string>(this.SetRoute('UpdateParent'), dto);
   }
 
-  activateOrDeactivate(dto: any): Observable<string> {
+  activateOrDeactivate(dto: DeleteDto): Observable<string> {
     return this.http.post<string>(this.SetRoute('ActivateOrDeactivate'), dto);
+  }
+
+  generatePdf() :Observable<ReportResult>  {
+    return this.http.get<ReportResult>(this.SetRoute('GenerateReport'));
   }
 }

@@ -1,4 +1,4 @@
-<select class="form-control" [(ngModel)]="row" (ngModelChange)="selectRol()" >
+<select class="form-select" [(ngModel)]="row" (ngModelChange)="selectRol()" >
   <option *ngIf="enableAllOptions" value="0">ALL</option>
   <option *ngFor="let row of parameterList" [ngValue]="row">
     {{row.name}}
