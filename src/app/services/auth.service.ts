@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoginDto} from './models/login-dto'
+import { environment } from 'src/environments/environment';
 
-const AUTH_API = 'https://localhost:44360/api/authenticate/';
+const AUTH_API = environment.Auth + 'authenticate/';
 
 const httpOptions = {
   headers: new HttpHeaders({
