@@ -6,10 +6,10 @@
           <small class="text-success">({{ totalItemsCount }} registros encontrados)</small>
         </strong>
         <div *ngTemplateOutlet="liveDemo">
-            <button cButton type="submit" class="btn-info ml-auto" (click)="openModal()">
-              <i class="cil-plus"></i> Crear registro
-            </button>
-          </div>
+          <button cButton type="submit" class="btn-info ml-auto" (click)="openModal()">
+            <i class="cil-plus"></i> Crear registro
+          </button>
+        </div>
       </c-card-header>
       <c-card-body>
         <form cForm class="row g-3" [formGroup]="formSearch">
@@ -20,11 +20,11 @@
           </c-col>
           <c-col [md]="6">
             <label cLabel for="statusLabel">Estado</label>
-              <select class="form-select"  id="select-search-status" formControlName="statusSelected">
-                <option value="" selected>Todos</option>
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
-              </select>
+            <select class="form-select" id="select-search-status" formControlName="statusSelected">
+              <option value="" selected>Todos</option>
+              <option value="1">Activo</option>
+              <option value="0">Inactivo</option>
+            </select>
           </c-col>
           <c-col [xs]="12">
             <div class="d-flex justify-content-between align-items-center">
@@ -45,50 +45,51 @@
             </div>
           </c-col>
         </form>
-        <div id="pdf-content">
-          <table cTable *ngIf="isVisible">
-            <thead>
-              <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col" *ngIf="haveInitials">Iniciales</th>
-                <th scope="col">Creado por</th>
-                <th scope="col">Creado en</th>
-                <th scope="col">Modificado por</th>
-                <th scope="col">Modificado en</th>
-                <th scope="col">Estado</th>
-                <th scope="col" *ngIf="isAdmin">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of visibleItems()">
-                <td>{{ row.description }}</td>
-                <td *ngIf="haveInitials">{{ row.initial }}</td>
-                <td>{{ row.userCreation }}</td>
-                <td>{{ row.dateCreation | date : "medium" }}</td>
-                <td>{{ row.userModification }}</td>
-                <td>{{ row.dateModification | date : "medium" }}</td>
-                <td>
-                  <c-badge class="me-1" color="{{ row.isDeleted ? 'danger' : 'success' }}">{{ row.isDeleted ? "INACTIVO"
-                    : "ACTIVO" }}</c-badge>
-                </td>
-                <td>
-                  <div class="d-flex gap-2" *ngIf="isAdmin">
-                    <button color="warning" cButton class="me-1" shape="rounded-pill" (click)="editRow(row)"
-                      [disabled]="row.isDeleted">
-                      <svg cIcon name="cil-pencil"></svg>
-                    </button>
-                    <button color="{{ row.isDeleted ? 'success' : 'danger' }}" cButton class="me-1" shape="rounded-pill"
-                      (click)="enableOrDisable(row)">
-                      <svg cIcon [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"></svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-            <br />
+        <div>
+          <br />
+            <table cTable *ngIf="isVisible" [hover]="true" [responsive]="true" [striped]="false" align="middle">
+              <thead cTableColor="info">
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col" *ngIf="haveInitials">Iniciales</th>
+                  <th scope="col">Creado por</th>
+                  <th scope="col">Creado en</th>
+                  <th scope="col">Modificado por</th>
+                  <th scope="col">Modificado en</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col" *ngIf="isAdmin">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of visibleItems()">
+                  <td>{{ row.description }}</td>
+                  <td *ngIf="haveInitials">{{ row.initial }}</td>
+                  <td>{{ row.userCreation }}</td>
+                  <td>{{ row.dateCreation | date : "medium" }}</td>
+                  <td>{{ row.userModification }}</td>
+                  <td>{{ row.dateModification | date : "medium" }}</td>
+                  <td>
+                    <c-badge class="me-1" color="{{ row.isDeleted ? 'danger' : 'success' }}">{{ row.isDeleted ?
+                      "INACTIVO"
+                      : "ACTIVO" }}</c-badge>
+                  </td>
+                  <td>
+                    <div class="d-flex gap-2" *ngIf="isAdmin">
+                      <button color="warning" cButton class="me-1" shape="rounded-pill" (click)="editRow(row)"
+                        [disabled]="row.isDeleted">
+                        <svg cIcon name="cil-pencil"></svg>
+                      </button>
+                      <button color="{{ row.isDeleted ? 'success' : 'danger' }}" cButton class="me-1"
+                        shape="rounded-pill" (click)="enableOrDisable(row)">
+                        <svg cIcon [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"></svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
             <app-pagination [totalItems]="listTypes.length" [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
-              (pageChanged)="onPageChange($event)"></app-pagination>
-          </table>
+            (pageChanged)="onPageChange($event)"></app-pagination>
         </div>
       </c-card-body>
     </c-card>

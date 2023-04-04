@@ -34,8 +34,8 @@
               registro, presione:
               <code>Gestion</code>
             </p>
-            <table cTable *ngIf="isVisible">
-              <thead>
+            <table cTable *ngIf="isVisible" [hover]="true" [responsive]="true" [striped]="false" align="middle">
+              <thead cTableColor="info">
                 <tr>
                   <th scope="col">Nombre</th>
                   <th scope="col">Estado</th>

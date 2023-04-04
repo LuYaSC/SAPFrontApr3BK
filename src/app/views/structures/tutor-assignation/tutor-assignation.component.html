@@ -96,8 +96,9 @@
                 </div>
               </c-col>
             </form>
-            <table cTable *ngIf="isVisible">
-              <thead>
+            <br />
+            <table cTable *ngIf="isVisible" [hover]="true" [responsive]="true" [striped]="false" align="middle">
+              <thead cTableColor="info">
                 <tr>
                   <th scope="col">Niño</th>
                   <th scope="col">Padre</th>

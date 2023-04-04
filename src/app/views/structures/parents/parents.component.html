@@ -34,8 +34,9 @@
               registro, presione:
               <code>Gestion</code>
             </p>
-            <table cTable *ngIf="isVisible">
-              <thead>
+            <br />
+            <table cTable *ngIf="isVisible" [hover]="true" [responsive]="true" [striped]="false" align="middle">
+              <thead cTableColor="info">
                 <tr>
                   <th scope="col">Nombre</th>
                   <th scope="col">Estado Civil</th>
@@ -78,10 +79,9 @@
                   </td>
                 </tr>
               </tbody>
-              <br />
-              <app-pagination [totalItems]="listTypes.length" [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
-                (pageChanged)="onPageChange($event)"></app-pagination>
             </table>
+            <app-pagination [totalItems]="listTypes.length" [itemsPerPage]="itemsPerPage" [currentPage]="currentPage"
+            (pageChanged)="onPageChange($event)"></app-pagination>
           </c-tab-pane>
           <c-tab-pane aria-labelledby="docs-code-preview" class="p-3 preview" role="tabpanel">
             <form cForm class="row g-3" [formGroup]="form">

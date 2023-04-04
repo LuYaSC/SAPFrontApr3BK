@@ -110,8 +110,9 @@
                 </div>
               </c-col>
             </form>
-            <table cTable *ngIf="isVisible">
-              <thead>
+            <br />
+            <table cTable *ngIf="isVisible" [hover]="true" [responsive]="true" [striped]="false" align="middle">
+              <thead cTableColor="info">
                 <tr>
                   <th scope="col">Detalles</th>
                   <th scope="col">Niño</th>
@@ -344,7 +345,6 @@
                   </tr>
                 </ng-container>
               </tbody>
-              <br />
             </table>
             <app-pagination
                 [totalItems]="listTypes.length"
