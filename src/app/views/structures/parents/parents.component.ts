@@ -120,10 +120,10 @@ export class ParentsComponent extends GeneralComponent implements OnInit {
         next: (resp: string) => {
           this.cleanForm();
           this.getListParents();
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -132,10 +132,10 @@ export class ParentsComponent extends GeneralComponent implements OnInit {
         next: (resp: string) => {
           this.cleanForm();
           this.getListParents();
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -146,10 +146,10 @@ export class ParentsComponent extends GeneralComponent implements OnInit {
       next: (resp: string) => {
         this.cleanForm();
         this.getListParents();
-        this.notification(resp);
+        this.showAlert('success', 'Realizado', resp);
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }
@@ -164,10 +164,10 @@ export class ParentsComponent extends GeneralComponent implements OnInit {
         a.download = resp.reportName + '.pdf';
         a.click();
         window.URL.revokeObjectURL(url);
-        this.notification('Reprte Generado Correctamente');
+        this.showAlert('success', 'Realizado', 'Reporte Generado Correctamente');
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }

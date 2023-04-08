@@ -5,7 +5,7 @@ import { GetTypeResult } from '../../../services/type-business/models/get-type-r
 import { CreateUpdateTypeBusinessDto } from '../../../services/type-business/models/create-update-type-business-dto';
 import { ReportResult } from 'src/app/services/utils/models/report-result';
 import { StorageService } from 'src/app/services/storage.service';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-type-business',
@@ -39,7 +39,7 @@ export class TypeBusinessComponent implements OnInit {
   isAdmin: boolean = false;
 
   constructor(private service: TypeBusinessService, private formBuilder: FormBuilder, private storageService: StorageService) {
-    this.isAdmin  = storageService.validateIsAdmin();
+    this.isAdmin = storageService.validateIsAdmin();
   }
 
   ngOnInit(): void {
@@ -79,6 +79,46 @@ export class TypeBusinessComponent implements OnInit {
     this.formSearch.value as any;
     this.service.AssingService(this.nameService);
     this.getParameters();
+  }
+
+  showAlert(icon: any, title: any, text: any, duration: number = 2) {
+    let timer;
+    timer = duration * 1000;
+    Swal.fire({
+      icon: icon,
+      title: title,
+      text: text,
+      showConfirmButton: false,
+      timer: timer
+    });
+  }
+
+  modelCancel(row: GetTypeResult) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: true
+    })
+
+    swalWithBootstrapButtons.fire({
+      title: 'Esta seguro que desea eliminar el registro?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: `Si, ${!row.isDeleted ? 'Deshabilitar' : 'Habilitar'}!`,
+      cancelButtonText: 'No, cancelar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.enableOrDisable(row);
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        this.showAlert('error', 'Cancelado', 'La operacion fue cancelada', 2);
+      }
+    })
   }
 
   filterSearch(clean: boolean) {
@@ -164,11 +204,11 @@ export class TypeBusinessComponent implements OnInit {
       this.service.create(dto).subscribe({
         next: (resp: string) => {
           this.getParameters();
-          this.notification(resp);
+          this.showAlert('success', 'Success', resp);
           this.closeModal();
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -176,11 +216,11 @@ export class TypeBusinessComponent implements OnInit {
       this.service.update(dto).subscribe({
         next: (resp: string) => {
           this.getParameters();
-          this.notification(resp);
+          this.showAlert('success', 'Success', resp);
           this.closeModal();
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -196,10 +236,10 @@ export class TypeBusinessComponent implements OnInit {
     this.service.update(dto).subscribe({
       next: (resp: string) => {
         this.getParameters();
-        this.notification(resp);
+        this.showAlert('success', 'Success', resp);
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }
@@ -228,10 +268,10 @@ export class TypeBusinessComponent implements OnInit {
         a.download = resp.reportName + '.pdf';
         a.click();
         window.URL.revokeObjectURL(url);
-        this.notification('Reprte Generado Correctamente');
+        this.showAlert('success', 'Realizado', 'Reporte Generado Correctamente');
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }

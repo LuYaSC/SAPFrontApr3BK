@@ -23,7 +23,7 @@
               Busqueda
             </a>
           </c-nav-item>
-          <c-nav-item>
+          <c-nav-item *ngIf="isAdmin">
             <a
               [cTabContent]="tabContent3"
               [routerLink]
@@ -110,8 +110,7 @@
                   <th scope="col">Modificado por</th>
                   <th scope="col">Modificado en</th>
                   <th scope="col">Estado</th>
-                  <th scope="col">Acciones</th>
-                  <th scope="col"></th>
+                  <th scope="col" *ngIf="isAdmin">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -150,31 +149,14 @@
                       >{{ !row.isDeleted ? "ACTIVO" : "INACTIVO" }}</c-badge
                     >
                   </td>
-                  <td>
-                    <button
-                      color="warning"
-                      cButton
-                      class="me-1"
-                      shape="rounded-pill"
-                      (click)="editRow(row)"
-                      disabled="{{ row.isDeleted }}"
-                    >
+                  <td *ngIf="isAdmin">
+                    <button color="warning" cButton class="me-1" shape="rounded-pill" (click)="editRow(row)"
+                      disabled="{{ row.isDeleted }}">
                       <svg cIcon class="me-2" name="cil-pencil"></svg>
                     </button>
-                  </td>
-                  <td>
-                    <button
-                      color="{{ row.isDeleted ? 'success' : 'danger' }}"
-                      cButton
-                      class="me-1"
-                      shape="rounded-pill"
-                      (click)="enableOrDisable(row)"
-                    >
-                      <svg
-                        cIcon
-                        class="me-2"
-                        [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"
-                      ></svg>
+                    <button color="{{row.isDeleted ? 'success' : 'danger'}}" cButton class="me-1" shape="rounded-pill"
+                      (click)="modelCancel(row)">
+                      <svg cIcon class="me-2" [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"></svg>
                     </button>
                   </td>
                 </tr>

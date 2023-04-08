@@ -26,11 +26,11 @@
         </c-nav>
         <c-tab-content #tabContent3="cTabContent" cRounded="bottom" (activeTabPaneIdxChange)="changeTab($event)"
           [activeTabPaneIdx]="tabindex">
-          <c-tab-pane aria-labelledby="docs-code-preview" class="p-3 preview" role="tabpanel">
+          <c-tab-pane class="p-3 preview" role="tabpanel">
             <strong>{{ typeName }}</strong>
             <small>{{ this.listTypes.length }}</small> registros encontrados
             <p class="text-medium-emphasis small">
-              Administracion del modulo de ni;os, si desea crear un nuevo
+              Administracion del modulo de Niños, si desea crear un nuevo
               registro, presione:
               <code>Gestion</code>
             </p>
@@ -72,7 +72,7 @@
                       <svg cIcon class="me-2" name="cil-pencil"></svg>
                     </button>
                     <button color="{{row.isDeleted ? 'success' : 'danger'}}" cButton class="me-1" shape="rounded-pill"
-                      (click)="enableOrDisable(row)">
+                      (click)="modelCancel(row)">
                       <svg cIcon class="me-2" [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"></svg>
                     </button>
                   </td>
@@ -149,7 +149,7 @@
                 </div>
               </c-col>
               <c-col [md]="6" *ngIf="isVisibleSex">
-                <label cLabel>Sexo</label>
+                <label cLabel>Genero</label>
                 <app-select-parameters [parameterList]="listSexs" [selectedValue]="selectedSex"
                   (onRowChange)="onSelectedSex($event)"></app-select-parameters>
               </c-col>

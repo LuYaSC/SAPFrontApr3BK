@@ -207,19 +207,17 @@ export class RoomAssignationComponent extends GeneralComponent implements OnInit
       return;
     }
     this.isVisible = false;
-    debugger
     this.saveDto.observations = this.form.get("observations").value;
-    //this.saveDto.isAuthorized = this.isAuthorized === "true";
 
     if (this.actionRow === 0) {
       this.roomAsService.create(this.saveDto).subscribe({
         next: (resp: string) => {
           this.cleanForm();
           this.filterSearch(true);
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -228,10 +226,10 @@ export class RoomAssignationComponent extends GeneralComponent implements OnInit
         next: (resp: string) => {
           this.cleanForm();
           this.filterSearch(true);
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -244,10 +242,10 @@ export class RoomAssignationComponent extends GeneralComponent implements OnInit
       next: (resp: string) => {
         this.cleanForm();
         this.filterSearch(true);
-        this.notification(resp);
+        this.showAlert('success', 'Realizado', resp);
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }
@@ -262,10 +260,10 @@ export class RoomAssignationComponent extends GeneralComponent implements OnInit
         a.download = resp.reportName + '.pdf';
         a.click();
         window.URL.revokeObjectURL(url);
-        this.notification('Reprte Generado Correctamente');
+        this.showAlert('success', 'Realizado', 'Reporte Generado Correctamente');
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }

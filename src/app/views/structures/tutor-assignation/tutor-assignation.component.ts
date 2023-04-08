@@ -209,10 +209,10 @@ export class TutorAssignationComponent extends GeneralComponent implements OnIni
         next: (resp: string) => {
           this.cleanForm();
           this.filterSearch(true);
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -221,10 +221,10 @@ export class TutorAssignationComponent extends GeneralComponent implements OnIni
         next: (resp: string) => {
           this.cleanForm();
           this.filterSearch(true);
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -237,10 +237,10 @@ export class TutorAssignationComponent extends GeneralComponent implements OnIni
       next: (resp: string) => {
         this.cleanForm();
         this.filterSearch(true);
-        this.notification(resp);
+        this.showAlert('success', 'Realizado', resp);
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }
@@ -255,10 +255,10 @@ export class TutorAssignationComponent extends GeneralComponent implements OnIni
         a.download = resp.reportName + '.pdf';
         a.click();
         window.URL.revokeObjectURL(url);
-        this.notification('Reprte Generado Correctamente');
+        this.showAlert('success', 'Realizado', 'Reporte Generado Correctamente');
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }

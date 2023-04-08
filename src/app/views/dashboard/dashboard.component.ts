@@ -6,6 +6,7 @@ import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
 import { DashboardResult } from 'src/app/services/dashboard/models/dashboard-result';
 import { StorageService } from 'src/app/services/storage.service';
 import { WidgetInput } from 'src/app/services/utils/models/widget-input';
+import Swal from 'sweetalert2';
 
 export class IUser {
   name: string;
@@ -60,6 +61,18 @@ export class DashboardComponent implements OnInit {
     }, 10000);*/
   }
 
+  public showAlert(icon: any, title: any, text: any, duration: number = 2) {
+    let timer;
+    timer = duration * 1000;
+    Swal.fire({
+      icon: icon,
+      title: title,
+      text: text,
+      showConfirmButton: false,
+      timer: timer
+    });
+  }
+
   getDataDashboard() {
     this.dashboardService.getData().subscribe({
       next: (resp: DashboardResult) => {
@@ -89,7 +102,7 @@ export class DashboardComponent implements OnInit {
         this.notification('Datos Actualizados');
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }

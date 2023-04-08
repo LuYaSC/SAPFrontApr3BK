@@ -5,11 +5,12 @@ import { Observable, Subject } from 'rxjs';
 import { StorageService } from 'src/app/services/storage.service';
 import { GetTypeResult } from 'src/app/services/type-business/models/get-type-result';
 import { TypeBusinessService } from 'src/app/services/type-business/type-business.service';
+import Swal from 'sweetalert2';
 
 @Directive({
   selector: '[GeneralComponent]'
 })
-export class GeneralComponent {
+export abstract class GeneralComponent {
   public listSexs: GetTypeResult[];
   public isVisibleSex: boolean;
   public selectedSex: GetTypeResult;
@@ -88,6 +89,48 @@ export class GeneralComponent {
     this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
     this.isAdmin = this.storageService.validateIsAdmin();
   }
+
+  public showAlert(icon: any, title: any, text: any, duration: number = 2) {
+    let timer;
+    timer = duration * 1000;
+    Swal.fire({
+      icon: icon,
+      title: title,
+      text: text,
+      showConfirmButton: false,
+      timer: timer
+    });
+  }
+
+  public modelCancel(row: GetTypeResult) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: true
+    })
+
+    swalWithBootstrapButtons.fire({
+      title: 'Esta seguro que desea eliminar el registro?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: `Si, ${!row.isDeleted ? 'Deshabilitar' : 'Habilitar'}!`,
+      cancelButtonText: 'No, cancelar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.enableOrDisable(row);
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        this.showAlert('error', 'Cencelado', 'La operacion fue cancelada', 2);
+      }
+    })
+  }
+
+  abstract enableOrDisable(row: any): void;
 
   onPageChange(pageNumber: number): void {
     this.currentPage = pageNumber;
@@ -209,6 +252,7 @@ export class GeneralComponent {
     }
   }
 
+
   GetServiceParametersList(service: string): Observable<[GetTypeResult[], boolean]> {
     var subject = new Subject<[GetTypeResult[], boolean]>();
     this.parameterService.AssingService(service);
@@ -217,7 +261,7 @@ export class GeneralComponent {
         subject.next([resp, true]);
       },
       error: (error: any) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
     return subject.asObservable();

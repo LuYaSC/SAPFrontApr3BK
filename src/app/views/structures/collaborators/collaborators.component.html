@@ -77,7 +77,7 @@
                       <svg cIcon class="me-2" name="cil-pencil"></svg>
                     </button>
                     <button color="{{row.isDeleted ? 'success' : 'danger'}}" cButton class="me-1" shape="rounded-pill"
-                      (click)="enableOrDisable(row)">
+                      (click)="modelCancel(row)">
                       <svg cIcon class="me-2" [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"></svg>
                     </button>
                   </td>
@@ -169,7 +169,7 @@
                 </div>
               </c-col>
               <c-col [md]="6" *ngIf="isVisibleSex">
-                <label cLabel>Sexo</label>
+                <label cLabel>Genero</label>
                 <app-select-parameters [parameterList]="listSexs" [selectedValue]="selectedSex"
                   (onRowChange)="onSelectedSex($event)"></app-select-parameters>
               </c-col>

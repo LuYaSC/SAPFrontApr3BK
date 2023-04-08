@@ -98,9 +98,9 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
 
   onSelectedKid(event: any) {
     this.saveDto.kidId = event?.id;
-    if(this.tabindex === 1) {
+    if (this.tabindex === 1) {
       this.isVisiableDetailKid = false;
-      this.kidService.getDetail(new KidByIdDto({KidId: event?.id })).subscribe({
+      this.kidService.getDetail(new KidByIdDto({ KidId: event?.id })).subscribe({
         next: (resp: GetDetailKidResult[]) => {
           this.detailKid = resp;
           this.isVisiableDetailKid = true;
@@ -117,9 +117,9 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
 
   onSelectedRoomAss(event: any) {
     this.saveDto.assignedRoomId = event?.id;
-    if(this.tabindex === 1) {
+    if (this.tabindex === 1) {
       this.isVisiableDetailRoom = false;
-      this.roomAssignedService.getDetail(new AssignationRoomDetailDto({id: event?.id })).subscribe({
+      this.roomAssignedService.getDetail(new AssignationRoomDetailDto({ id: event?.id })).subscribe({
         next: (resp: AssignationRoomDetailResult) => {
           this.detailRoom = resp;
           this.isVisiableDetailRoom = true;
@@ -252,10 +252,10 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
         next: (resp: string) => {
           this.cleanForm();
           this.filterSearch(true);
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -264,10 +264,10 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
         next: (resp: string) => {
           this.cleanForm();
           this.filterSearch(true);
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -280,10 +280,10 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
     this.enrollService.disableOrEnable(this.saveDto).subscribe({
       next: (resp: string) => {
         this.filterSearch(true);
-        this.notification(resp);
+        this.showAlert('success', 'Realizado', resp);
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }
@@ -291,15 +291,15 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
   showDetails(row: EnrolledChildrenResult) {
     row.showDetails = !row.showDetails;
     row.detailEnrollChildren = new EnrollChildrenDetailResult();
-    if(!row.showDetails) return;
+    if (!row.showDetails) return;
     this.saveDto.id = row.id;
     this.saveDto.observations = '';
     this.enrollService.getDetail(this.saveDto).subscribe({
-      next: (resp: EnrollChildrenDetailResult ) => {
+      next: (resp: EnrollChildrenDetailResult) => {
         row.detailEnrollChildren = resp;
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }
@@ -314,10 +314,10 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
         a.download = resp.reportName + '.pdf';
         a.click();
         window.URL.revokeObjectURL(url);
-        this.notification('Reprte Generado Correctamente');
+        this.showAlert('success', 'Realizado', 'Reporte Generado Correctamente');
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }

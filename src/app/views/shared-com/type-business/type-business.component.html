@@ -73,14 +73,14 @@
                       "INACTIVO"
                       : "ACTIVO" }}</c-badge>
                   </td>
-                  <td>
-                    <div class="d-flex gap-2" *ngIf="isAdmin">
+                  <td *ngIf="isAdmin">
+                    <div class="d-flex gap-2">
                       <button color="warning" cButton class="me-1" shape="rounded-pill" (click)="editRow(row)"
                         [disabled]="row.isDeleted">
                         <svg cIcon name="cil-pencil"></svg>
                       </button>
                       <button color="{{ row.isDeleted ? 'success' : 'danger' }}" cButton class="me-1"
-                        shape="rounded-pill" (click)="enableOrDisable(row)">
+                        shape="rounded-pill" (click)="modelCancel(row)">
                         <svg cIcon [name]="row.isDeleted ? 'cil-check' : 'cil-trash'"></svg>
                       </button>
                     </div>

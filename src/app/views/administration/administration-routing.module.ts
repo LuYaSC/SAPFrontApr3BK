@@ -95,7 +95,7 @@ const routes: Routes = [
         path: 'sex-type',
         component: SexTypeComponent,
         data: {
-          title: 'Sexo'
+          title: 'Genero'
         }
       },
       {

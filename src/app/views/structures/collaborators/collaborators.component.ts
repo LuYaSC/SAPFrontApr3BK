@@ -97,6 +97,7 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
       error: (error: any) => {
         this.message = error;
         this.visible = true;
+        this.showAlert('error', 'Error', error);
       },
       complete: () => {
         this.spinnerService.hide();
@@ -160,10 +161,10 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
         next: (resp: string) => {
           this.cleanForm();
           this.getListCollaborators();
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -172,10 +173,10 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
         next: (resp: string) => {
           this.cleanForm();
           this.getListCollaborators();
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -186,10 +187,10 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
       next: (resp: string) => {
         this.cleanForm();
         this.getListCollaborators();
-        this.notification(resp);
+        this.showAlert('success', 'Realizado', resp);
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }
@@ -204,10 +205,10 @@ export class CollaboratorsComponent extends GeneralComponent implements OnInit {
         a.download = resp.reportName + '.pdf';
         a.click();
         window.URL.revokeObjectURL(url);
-        this.notification('Reprte Generado Correctamente');
+        this.showAlert('success', 'Realizado', 'Reporte Generado Correctamente');
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }

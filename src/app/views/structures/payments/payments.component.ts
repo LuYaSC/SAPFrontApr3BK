@@ -306,10 +306,10 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
         next: (resp: string) => {
           this.cleanForm();
           this.filterSearch(true);
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -318,10 +318,10 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
         next: (resp: string) => {
           this.cleanForm();
           this.filterSearch(true);
-          this.notification(resp);
+          this.showAlert('success', 'Realizado', resp);
         },
         error: (error: string) => {
-          this.notification(error);
+          this.showAlert('error', 'Error', error);
         }
       });
     }
@@ -331,10 +331,10 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
     this.paymentService.disableOrEnable(new PaymentDetailDto({id: row.id, isDeleted: !row.isDeleted })).subscribe({
       next: (resp: string) => {
         this.filterSearch(true);
-        this.notification(resp);
+        this.showAlert('success', 'Realizado', resp);
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }
@@ -348,7 +348,7 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
         row.paymentDetails = resp;
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }
@@ -363,10 +363,10 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
         a.download = resp.reportName + '.pdf';
         a.click();
         window.URL.revokeObjectURL(url);
-        this.notification('Reprte Generado Correctamente');
+        this.showAlert('success', 'Realizado', 'Reporte Generado Correctamente');
       },
       error: (error: string) => {
-        this.notification(error);
+        this.showAlert('error', 'Error', error);
       }
     });
   }
