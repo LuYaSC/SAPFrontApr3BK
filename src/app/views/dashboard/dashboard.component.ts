@@ -56,9 +56,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.initCharts();
     this.getDataDashboard();
-    /*setInterval(() => {
+    setInterval(() => {
       this.getDataDashboard();
-    }, 10000);*/
+    }, 10000);
   }
 
   public showAlert(icon: any, title: any, text: any, duration: number = 2) {
