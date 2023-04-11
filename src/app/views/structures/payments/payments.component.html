@@ -23,7 +23,7 @@
               Busqueda
             </a>
           </c-nav-item>
-          <c-nav-item>
+          <c-nav-item *ngIf="isAdmin">
             <a
               [cTabContent]="tabContent3"
               [routerLink]
@@ -128,7 +128,7 @@
                   <th scope="col">Modificado en</th>
                   <th scope="col">Verificacion</th>
                   <th scope="col">Estado</th>
-                  <th scope="col">Acciones</th>
+                  <th scope="col" *ngIf="isAdmin">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -193,7 +193,7 @@
                         >{{ !row.isDeleted ? "ACTIVO" : "INACTIVO" }}</c-badge
                       >
                     </td>
-                    <td>
+                    <td *ngIf="isAdmin">
                       <div class="d-flex gap-2">
                         <button
                           color="warning"
