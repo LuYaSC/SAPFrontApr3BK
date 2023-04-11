@@ -10,11 +10,9 @@ export class HttpResponseInterceptor implements HttpInterceptor {
   constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpResponse<any>> {
-    debugger
     console.info('req.headers =', req.headers, ';');
     return next.handle(req).pipe(
       map((event: HttpEvent<any>) => {
-        debugger
         let resValid = event instanceof HttpResponse;
         this.res = event;
 

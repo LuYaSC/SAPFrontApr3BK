@@ -9,4 +9,5 @@ export class PaymentDto {
   numberBill: string;
   observations: string;
   isVerified: boolean;
+  dateToPay: Date;
 }

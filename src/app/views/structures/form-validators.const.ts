@@ -283,6 +283,14 @@ export const PAYMENT: any =
       Validators.maxLength(10),
     ]
   ],
+  dateToPay: [
+    '',
+    [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(10),
+    ]
+  ],
 
 };
 

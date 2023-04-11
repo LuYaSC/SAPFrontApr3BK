@@ -241,7 +241,6 @@ export class EnrolledChildrenComponent extends GeneralComponent implements OnIni
       return;
     }
     this.isVisible = false;
-    debugger
     this.saveDto.observations = this.form.get("observations").value;
     let amountRec = this.form.get("amount").value;
     this.saveDto.amount = (amountRec === null || amountRec === undefined || amountRec === '') ? 0 : amountRec.replace('Bs.', '').trim();

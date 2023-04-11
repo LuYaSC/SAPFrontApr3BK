@@ -261,7 +261,8 @@ export abstract class GeneralComponent {
         subject.next([resp, true]);
       },
       error: (error: any) => {
-        this.showAlert('error', 'Error', error);
+        //this.showAlert('error', 'Error', error);
+        this.notification(error);
       }
     });
     return subject.asObservable();

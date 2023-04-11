@@ -389,7 +389,7 @@
                               </c-col>
                               <c-col [sm]="4">
                                 <div cFormFloating>
-                                  <input cFormControl id="floatingInputBornDate" type="text" value="data de prueba" value="{{detailKid.bornDateKid}}" readonly/>
+                                  <input cFormControl id="floatingInputBornDate" type="text" value="data de prueba" value="{{detailKid.bornDateKid }} " readonly/>
                                   <label cLabel for="floatingInput">Fecha de Nacimiento:</label>
                                 </div>
                               </c-col>
@@ -661,7 +661,6 @@
                   [ngClass]="{
                     'is-invalid': submitted && f['numberBill'].errors
                   }"
-                  autoComplete="name"
                   cFormControl
                   placeholder="Ingrese Nro de Factura"
                 />
@@ -707,6 +706,22 @@
                   </div>
                   <div *ngIf="f['amount'].errors['maxlength']">
                     name must not exceed 50 characters
+                  </div>
+                </div>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel>Fecha de Pago</label>
+                <input class="form-control" placeholder="Ingrese Fecha" ngModel bsDatepicker [bsConfig]="bsConfig"
+                  formControlName="dateToPay" cFormControl [ngClass]="{
+                    'is-invalid': submitted && f['dateToPay'].errors
+                  }" />
+                <div *ngIf="submitted && f['dateToPay'].errors" class="invalid-feedback">
+                  <div *ngIf="f['dateToPay'].errors['required']">Campo Requerido (*)</div>
+                  <div *ngIf="f['dateToPay'].errors['minlength']">
+                    Debe Contener al menos 6 caracteres
+                  </div>
+                  <div *ngIf="f['dateToPay'].errors['maxlength']">
+                    Maximo 10 caracteres
                   </div>
                 </div>
               </c-col>

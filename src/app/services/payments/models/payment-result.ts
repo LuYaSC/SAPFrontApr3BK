@@ -1,6 +1,7 @@
 import { PaymentDetailResult } from 'src/app/services/payments/models/payment-detail-result';
 export class PaymentResult {
   id: number;
+  enrolledChildrenId: number;
   parent: string;
   kid: string;
   collaborator: string;
@@ -26,6 +27,7 @@ export class PaymentResult {
   auditPaymentId: number;
   paymentOperationId: number;
   paymentTypeId: number;
+  dateToPay: Date;
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

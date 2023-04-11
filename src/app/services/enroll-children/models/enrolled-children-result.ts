@@ -2,6 +2,7 @@ import { EnrollChildrenDetailResult } from "./enroll-children-detail-result";
 
 export class EnrolledChildrenResult {
   id: number;
+  enrolledChildrenId: number;
   parent: string;
   kid: string;
   assignedRoomId: number;

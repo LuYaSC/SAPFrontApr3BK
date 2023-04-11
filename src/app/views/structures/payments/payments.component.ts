@@ -260,19 +260,19 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
 
   editRow(row: PaymentResult) {
     this.actionRow = 1;
-    //this.kidSelected = new KidsResult();
-    //this.roomAssSelected = new AssignationRoomResult();
     this.saveDto.id = row.id;
     this.isVerified = row.isVerified ? 'true' : 'false';
     this.selectedPaymentType = this.listPaymentType.find(x => x.id === row.paymentTypeId);
     this.selectedAuditPaymentType = this.listAuditPaymentType.find(x => x.id === row.auditPaymentId);
     this.selectedPaymentOperation = this.listPaymentOperation.find(x => x.id === row.paymentOperationId);
+    this.selectedEnrollData = this.listEnrollData.find(x => x.id == row.enrolledChildrenId);
     this.form.setValue({
       id: row.id,
       observations: row.observations,
       amount: row.amount,
       description: row.description,
-      numberBill: row.numberBill
+      numberBill: row.numberBill,
+      dateToPay: new Date(row.dateToPay),
     });
     this.liveDemoVisible = !this.liveDemoVisible;
     this.changeTab(1);
@@ -300,6 +300,7 @@ export class PaymentsComponent extends GeneralComponent implements OnInit {
     this.saveDto.description = this.form.get("description").value;
     let numberBill = this.form.get("numberBill").value;
     this.saveDto.numberBill = numberBill === null ||  numberBill === undefined ? '' : numberBill;
+    this.saveDto.dateToPay = this.form.get("dateToPay").value;
 
     if (this.actionRow === 0) {
       this.paymentService.create(this.saveDto).subscribe({
