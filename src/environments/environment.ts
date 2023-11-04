@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  Auth: 'https://localhost:44360/api/',
-  Services: 'https://localhost:44360/api/',
+  Auth: 'http://192.168.1.119:3000/api/',
+  Services: 'http://192.168.1.119:3000/api/',
 };
 
 /*
