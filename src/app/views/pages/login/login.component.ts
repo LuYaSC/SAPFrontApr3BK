@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
             Validators.required,
             Validators.minLength(6),
             Validators.maxLength(50),
-            Validators.email
+            //Validators.email
           ]
         ],
         //email: ['', [Validators.required, Validators.email]],
