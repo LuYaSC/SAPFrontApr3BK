@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit {
             this.visible = true;
           }
         },
-        error: (error) => {
+        error: (error: any) => {
           this.message = 'Not Available Service: ' + error.message;
           this.visible = true;
         }
