@@ -17,7 +17,7 @@ import { DirectivesModule } from 'src/app/helpers/directives/directives.module';
     LoginComponent,
     RegisterComponent,
     Page404Component,
-    Page500Component,
+    Page500Component
   ],
   imports: [
     CommonModule,
@@ -33,7 +33,8 @@ import { DirectivesModule } from 'src/app/helpers/directives/directives.module';
     ToastModule,
     ProgressModule,
     SharedComModule,
-    DirectivesModule
+    DirectivesModule,
+    ReactiveFormsModule
   ],
 })
 export class PagesModule {
